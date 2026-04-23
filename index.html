@@ -633,7 +633,7 @@ Structure exacte :
 Génère exactement ${nb} personnages incluant 1 victime et 1 coupable (clairement identifié dans la revelation). Chaque personnage a un secret indépendant du meurtre. Sois dramatique, cohérent et original.`;
 
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const response = await fetch('/api/generate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
