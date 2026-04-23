@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MysteryForge — Générateur de Scénarios</title>
+    <title>MysteryForge — Forgez vos enquêtes criminelles</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,267 +28,209 @@
             color: var(--texte);
             font-family: var(--font-body);
             margin: 0;
-            padding: 0;
+            overflow-x: hidden;
         }
 
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
 
-        header {
-            text-align: center;
-            padding: 4rem 0;
+        /* --- NAVIGATION --- */
+        nav {
+            padding: 1.5rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             border-bottom: 1px solid var(--bordure);
         }
-
-        .logo {
-            font-family: var(--font-serif);
-            font-size: 2.5rem;
-            color: var(--parchemin);
-        }
-
+        .logo { font-family: var(--font-serif); font-size: 1.5rem; color: var(--parchemin); text-decoration: none; }
         .logo span { color: var(--or); }
 
-        /* Configuration Slider */
-        .config-panel {
-            background: rgba(255,255,255,0.02);
-            padding: 2rem;
-            border: 1px solid var(--bordure);
-            margin: 2rem 0;
+        /* --- HERO SECTION --- */
+        .hero {
+            padding: 8rem 0;
             text-align: center;
+            background: radial-gradient(circle at center, rgba(201,168,76,0.05) 0%, transparent 70%);
         }
+        h1 { font-family: var(--font-serif); font-size: 3.5rem; color: var(--parchemin); margin-bottom: 1rem; }
+        .hero p { font-size: 1.2rem; color: var(--texte-muted); max-width: 600px; margin: 0 auto 2.5rem; }
 
-        input[type="range"] { width: 100%; accent-color: var(--or); }
-
-        button#btn-generate {
+        .btn-gold {
             background: var(--or);
             color: var(--noir);
-            border: none;
             padding: 1rem 2rem;
+            border: none;
             font-weight: bold;
-            cursor: pointer;
-            font-family: var(--font-body);
             text-transform: uppercase;
-            transition: 0.3s;
-        }
-
-        button#btn-generate:hover { background: var(--or-pale); }
-
-        /* Scénario Output Styles */
-        .scenario-header {
-            text-align: center;
-            margin-bottom: 2.5rem;
-        }
-
-        .scenario-title {
-            font-family: var(--font-serif);
-            font-size: 2.2rem;
-            color: var(--or);
-            margin-bottom: 0.5rem;
-        }
-
-        .section-box {
-            background: rgba(255,255,255,0.02);
-            border: 1px solid var(--bordure);
-            padding: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .suspects-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
-        }
-
-        .suspect-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid var(--bordure);
-            padding: 1.25rem;
-            transition: 0.3s;
-        }
-
-        .suspect-card:hover { border-color: var(--or); }
-
-        .tag {
-            font-size: 0.7rem;
-            color: var(--or);
-            border: 1px solid var(--or);
-            padding: 2px 6px;
-            text-transform: uppercase;
-        }
-
-        .indices-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-        }
-
-        .index-item {
-            background: rgba(255,255,255,0.02);
-            border: 1px solid var(--bordure);
-            padding: 1rem;
-        }
-
-        .index-type { color: var(--or); font-size: 0.8rem; font-weight: bold; }
-
-        .revelation-box {
-            background: rgba(139, 28, 28, 0.1);
-            border: 1px solid var(--rouge);
-            padding: 2rem;
-            margin-top: 3rem;
-        }
-
-        .revelation-warning { color: var(--rouge); font-weight: bold; letter-spacing: 2px; text-align: center; margin-bottom: 1rem; }
-
-        .output-actions { display: flex; gap: 1rem; margin-top: 2rem; justify-content: center; }
-
-        .btn-action {
-            background: transparent;
-            border: 1px solid var(--bordure);
-            color: var(--parchemin);
-            padding: 0.8rem 1.5rem;
             cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            display: inline-block;
         }
+        .btn-gold:hover { background: var(--or-pale); transform: translateY(-2px); }
 
-        #output-loading { display: none; text-align: center; padding: 2rem; color: var(--or); }
-        
-        footer { text-align: center; padding: 4rem 0; color: var(--texte-muted); font-size: 0.9rem; }
+        /* --- FEATURES --- */
+        .features { padding: 5rem 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; }
+        .feature-card { padding: 2rem; border: 1px solid var(--bordure); background: rgba(255,255,255,0.01); }
+        .feature-card h3 { color: var(--or); font-family: var(--font-serif); }
+
+        /* --- PRICING --- */
+        #pricing { padding: 5rem 0; text-align: center; }
+        .pricing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 3rem; }
+        .pricing-card { padding: 3rem 2rem; border: 1px solid var(--bordure); position: relative; }
+        .pricing-card.featured { border-color: var(--or); background: rgba(201,168,76,0.03); }
+        .price { font-size: 2.5rem; color: var(--parchemin); margin: 1rem 0; }
+        .price span { font-size: 1rem; color: var(--texte-muted); }
+
+        /* --- MODAL GENERATEUR --- */
+        #modal-generator {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
+            overflow-y: auto;
+            padding: 2rem 0;
+        }
+        .modal-content { background: var(--noir); border: 1px solid var(--or); padding: 2rem; position: relative; }
+        .close-modal { position: absolute; top: 1rem; right: 1rem; color: var(--or); font-size: 2rem; cursor: pointer; }
+
+        /* Styles Internes du Générateur */
+        .config-panel { text-align: center; margin-bottom: 3rem; padding: 2rem; border-bottom: 1px solid var(--bordure); }
+        .scenario-title { font-family: var(--font-serif); font-size: 2rem; color: var(--or); text-align: center; }
+        .section-box { background: rgba(255,255,255,0.02); border: 1px solid var(--bordure); padding: 1.5rem; margin: 1.5rem 0; }
+        .suspects-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+        .suspect-card { border-left: 4px solid var(--or); padding: 1rem; background: rgba(255,255,255,0.02); }
+        .revelation-box { border: 1px solid var(--rouge); background: rgba(139,28,28,0.1); padding: 2rem; margin-top: 2rem; }
+
+        footer { padding: 4rem 0; border-top: 1px solid var(--bordure); text-align: center; color: var(--texte-muted); }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <header>
-        <div class="logo">Mystery<span>Forge</span></div>
-        <p>Forgez des enquêtes criminelles uniques en un clic.</p>
-    </header>
+    <div class="container">
+        <nav>
+            <a href="#" class="logo">Mystery<span>Forge</span></a>
+            <button class="btn-gold" onclick="openGenerator()">Forger un scénario</button>
+        </nav>
 
-    <div class="config-panel">
-        <label>Nombre de suspects : <span id="nb-joueurs-val">6</span></label><br><br>
-        <input type="range" id="nb-joueurs" min="4" max="12" value="6"><br><br>
-        <button id="btn-generate" onclick="generateScenario()">⚡ Forger le mystère</button>
+        <section class="hero">
+            <h1>L'art du crime, <br>à portée de clic.</h1>
+            <p>Générez des intrigues complexes, des suspects profonds et des indices cryptiques pour vos soirées Murder Party.</p>
+            <button class="btn-gold" onclick="openGenerator()">Commencer l'enquête</button>
+        </section>
+
+        <section class="features">
+            <div class="feature-card">
+                <h3>Cohérence Totale</h3>
+                <p>Chaque mobile et indice est lié mathématiquement pour une déduction logique.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Personnalisable</h3>
+                <p>Ajustez le nombre de joueurs et le niveau de complexité instantanément.</p>
+            </div>
+            <div class="feature-card">
+                <h3>Prêt à Jouer</h3>
+                <p>Exportez vos fiches personnages et indices en un format clair.</p>
+            </div>
+        </section>
+
+        <section id="pricing">
+            <h2>Nos Forfaits</h2>
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3>Apprenti</h3>
+                    <div class="price">0€ <span>/mois</span></div>
+                    <p>3 générations / jour</p>
+                    <button class="btn-gold" onclick="openGenerator()">Essayer</button>
+                </div>
+                <div class="pricing-card featured">
+                    <h3>Détective</h3>
+                    <div class="price">9€ <span>/mois</span></div>
+                    <p>Générations illimitées + PDF</p>
+                    <button class="btn-gold">S'abonner</button>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <p>© 2026 MysteryForge · contact@mysteryforge.fr</p>
+        </footer>
     </div>
 
-    <div id="output-loading">⏳ Analyse des preuves en cours...</div>
-    <div id="output-placeholder" style="text-align: center; color: var(--texte-muted);">
-        Réglez le nombre de joueurs et lancez la forge pour générer votre scénario.
+    <div id="modal-generator">
+        <div class="container">
+            <div class="modal-content">
+                <span class="close-modal" onclick="closeGenerator()">&times;</span>
+                
+                <div class="config-panel">
+                    <h2 style="font-family: var(--font-serif); color: var(--parchemin);">Configuration de l'enquête</h2>
+                    <label>Nombre de suspects : <span id="nb-joueurs-val">6</span></label><br><br>
+                    <input type="range" id="nb-joueurs" min="4" max="12" value="6" style="width:100%; accent-color:var(--or);"><br><br>
+                    <button class="btn-gold" onclick="runGeneration()">⚡ Lancer la Forge</button>
+                </div>
+
+                <div id="output-loading" style="display:none; text-align:center; color:var(--or);">⏳ Analyse des dossiers secrets...</div>
+                <div id="output-result"></div>
+            </div>
+        </div>
     </div>
 
-    <div id="output-result"></div>
+    <script>
+        const nbSlider = document.getElementById('nb-joueurs');
+        const nbVal = document.getElementById('nb-joueurs-val');
+        nbSlider.addEventListener('input', () => { nbVal.textContent = nbSlider.value; });
 
-    <footer>
-        <p>© 2026 MysteryForge · Tous droits réservés · contact@mysteryforge.fr</p>
-    </footer>
-</div>
+        function openGenerator() { document.getElementById('modal-generator').style.display = 'block'; document.body.style.overflow = 'hidden'; }
+        function closeGenerator() { document.getElementById('modal-generator').style.display = 'none'; document.body.style.overflow = 'auto'; }
 
-<script>
-const nbJoueurs = document.getElementById('nb-joueurs');
-const nbJoueursVal = document.getElementById('nb-joueurs-val');
-nbJoueurs.addEventListener('input', () => { nbJoueursVal.textContent = nbJoueurs.value; });
+        function getData() {
+            return {
+                titles: ['Le Testament des Ombres', 'Minuit au Palace', 'Les Cendres de Grimaldi', 'La Valse des Masques'],
+                settings: ['un manoir enneigé', 'un train de luxe immobilisé', 'un yacht privé'],
+                names: ['Victor', 'Camille', 'Jules', 'Ariane', 'Éléonore', 'Bastien', 'Nora', 'Gaspard', 'Mila', 'Théo'],
+                roles: ['Héritier', 'Notaire', 'Médecin', 'Actrice', 'Chauffeur', 'Journaliste'],
+                motives: ['un héritage contesté', 'un chantage', 'une vengeance ancienne'],
+                murders: [{desc: 'Empoisonnement', loc: 'la bibliothèque', item: 'un verre brisé'}]
+            };
+        }
 
-function getData() {
-    return {
-        titles: ['Les Cendres du Manoir Grimaldi', 'Minuit sur le Transcontinental', 'La Valse des Masques Brisés', 'Le Testament des Ombres', 'L\'Affaire du Salon Pourpre'],
-        settings: [{nom: 'un manoir en Bretagne'}, {nom: 'un palace dans les Alpes'}, {nom: 'un train de luxe'}, {nom: 'une villa Art déco'}],
-        names: ['Camille Delaunay', 'Victor Marceau', 'Éléonore Vasseur', 'Jules Mercier', 'Ariane Bellamy', 'Noah Delcourt', 'Inès Rochefort', 'Bastien Morin', 'Salomé Vernier', 'Raphaël Dargent', 'Nora Salvi', 'Théo Lavigne'],
-        roles: ['Avocat', 'Journaliste', 'Médecin', 'Héritier', 'Actrice', 'Chef privé', 'Banquier', 'Historienne'],
-        traits: ['charismatique mais nerveux', 'glacial et méthodique', 'souriant, trop confiant', 'réservée, observatrice'],
-        secrets: ['a falsifié un diplôme', 'détourne de l’argent', 'cache une condamnation ancienne', 'est lourdement endetté'],
-        alibis: ['était en appel vidéo', 'dormait dans sa suite', 'discutait en cuisine', 'lisait à la bibliothèque'],
-        motives: ['un chantage financier', 'un scandale familial', 'une vengeance professionnelle', 'une ruine imminente'],
-        murders: [
-            { description: 'empoisonnement', indice: 'poudre rare', lieu: 'la cave à vin' },
-            { description: 'traumatisme crânien', indice: 'éclats de cristal', lieu: 'le hall' },
-            { description: 'asphyxie', indice: 'fibres de velours', lieu: 'le salon' }
-        ]
-    };
-}
+        function runGeneration() {
+            const res = document.getElementById('output-result');
+            const loader = document.getElementById('output-loading');
+            res.innerHTML = '';
+            loader.style.display = 'block';
 
-function generateScenario() {
-    const btn = document.getElementById('btn-generate');
-    const result = document.getElementById('output-result');
-    const loading = document.getElementById('output-loading');
-    const placeholder = document.getElementById('output-placeholder');
+            setTimeout(() => {
+                const data = getData();
+                const nb = parseInt(nbSlider.value);
+                const suspects = data.names.slice(0, nb).map(n => ({
+                    nom: n, role: data.roles[Math.floor(Math.random()*data.roles.length)]
+                }));
+                const coupable = suspects[Math.floor(Math.random()*suspects.length)];
 
-    btn.disabled = true;
-    placeholder.style.display = 'none';
-    result.style.display = 'none';
-    loading.style.display = 'block';
-
-    setTimeout(() => {
-        const nb = parseInt(nbJoueurs.value);
-        const data = getData();
-        const usedNames = shuffle([...data.names]).slice(0, nb);
-        
-        const personnages = usedNames.map(name => ({
-            nom: name,
-            role: random(data.roles),
-            trait: random(data.traits),
-            secret: random(data.secrets),
-            alibi: random(data.alibis),
-            suspicion: 0
-        }));
-
-        const victime = random(personnages);
-        const suspects = personnages.filter(p => p !== victime);
-        const coupable = random(suspects);
-        const fauxCoupable = random(suspects.filter(s => s !== coupable));
-        
-        coupable.suspicion = 5;
-        fauxCoupable.suspicion = 3;
-
-        const meurtre = random(data.murders);
-        const mobile = random(data.motives);
-
-        result.innerHTML = `
-            <div class="scenario-header">
-                <div class="scenario-title">"${random(data.titles)}"</div>
-                <div class="scenario-lieu">📍 Lieu : ${random(data.settings).nom}</div>
-            </div>
-
-            <div class="section-box">
-                <h3>📁 Rapport de Scène de Crime</h3>
-                <p>Le corps de <strong>${victime.nom}</strong> (${victime.role}) a été découvert dans <strong>${meurtre.lieu}</strong>. Cause : ${meurtre.description}.</p>
-            </div>
-
-            <h3>👥 Dossier des Suspects</h3>
-            <div class="suspects-container">
-                ${suspects.map(p => `
-                    <div class="suspect-card" style="border-left: 5px solid ${p.suspicion >= 5 ? '#e74c3c' : (p.suspicion >= 3 ? '#f1c40f' : '#3498db')}">
-                        <div class="suspect-header"><strong>${p.nom}</strong> <span class="tag">${p.role}</span></div>
-                        <p>🎭 <em>${p.trait}</em></p>
-                        <p>🕒 Alibi : ${p.alibi}</p>
-                        <p>🤫 Secret : ${p.secret}</p>
+                res.innerHTML = `
+                    <div class="scenario-title">"${data.titles[0]}"</div>
+                    <div class="section-box">
+                        <h3>📁 Dossier de l'Enquête</h3>
+                        <p>Lieu : ${data.settings[0]}</p>
+                        <p>Crime : ${data.murders[0].desc} dans ${data.murders[0].loc}.</p>
                     </div>
-                `).join('')}
-            </div>
-
-            <h3>🔍 Indices</h3>
-            <div class="indices-grid">
-                <div class="index-item"><span class="index-type">Physique</span><p>Trace de ${meurtre.indice} à proximité.</p></div>
-                <div class="index-item"><span class="index-type">Mobile</span><p>Lien avec ${mobile} détecté chez ${coupable.nom}.</p></div>
-                <div class="index-item"><span class="index-type">Témoignage</span><p>L'alibi de ${coupable.nom} semble incohérent.</p></div>
-            </div>
-
-            <div class="revelation-box">
-                <div class="revelation-warning">⚠ RÉVÉLATION (MAÎTRE DE JEU) ⚠</div>
-                <p>Coupable : <strong>${coupable.nom}</strong></p>
-                <p>Mobile : ${mobile} | Arme : ${meurtre.description}</p>
-            </div>
-        `;
-
-        loading.style.display = 'none';
-        result.style.display = 'block';
-        btn.disabled = false;
-    }, 800);
-}
-
-function random(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
-function shuffle(array) { return [...array].sort(() => Math.random() - 0.5); }
-</script>
-
+                    <div class="suspects-container">
+                        ${suspects.map(s => `
+                            <div class="suspect-card">
+                                <strong>${s.nom}</strong> — ${s.role}
+                                <p style="font-size:0.8rem; color:var(--texte-muted);">Alibi : Présent au moment des faits.</p>
+                            </div>
+                        `).join('')}
+                    </div>
+                    <div class="revelation-box">
+                        <div style="color:var(--rouge); font-weight:bold; text-align:center;">⚠ DOSSIER CONFIDENTIEL ⚠</div>
+                        <p>Coupable : <strong>${coupable.nom}</strong></p>
+                        <p>Mobile : ${data.motives[0]}</p>
+                    </div>
+                `;
+                loader.style.display = 'none';
+            }, 1000);
+        }
+    </script>
 </body>
 </html>
