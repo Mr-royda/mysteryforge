@@ -241,6 +241,51 @@ input[type="range"]::-webkit-slider-thumb:hover{transform:scale(1.2);}
   background:rgba(139,28,28,0.08);border:1px solid rgba(139,28,28,0.35);
   padding:1.75rem;margin-bottom:2rem;
 }
+.section-box{
+  background:rgba(255,255,255,0.02);
+  border:1px solid var(--bordure);
+  padding:1.25rem;
+  margin-bottom:2rem;
+}
+.section-box h3{font-family:var(--font-serif);margin-bottom:0.6rem;color:var(--parchemin);}
+.section-box p{color:var(--texte-muted);}
+.suspects-container{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+  gap:1rem;
+  margin-bottom:2rem;
+}
+.suspect-card{
+  background:rgba(255,255,255,0.018);
+  border:1px solid var(--bordure);
+  padding:1rem;
+}
+.suspect-header{display:flex;justify-content:space-between;align-items:center;gap:0.5rem;margin-bottom:0.6rem;}
+.tag{
+  font-size:0.72rem;
+  color:var(--or);
+  border:1px solid rgba(201,168,76,0.4);
+  padding:0.15rem 0.45rem;
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+}
+.indices-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:0.8rem;
+  margin-bottom:2rem;
+}
+.index-item{
+  background:rgba(255,255,255,0.02);
+  border:1px solid var(--bordure);
+  padding:0.9rem;
+}
+.index-type{
+  color:var(--or);
+  font-size:0.72rem;
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+}
 .revelation-warning{color:var(--rouge);font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;margin-bottom:1rem;}
 .revelation-text{font-size:0.97rem;color:var(--texte);line-height:1.85;}
 .mobile-text{margin-top:0.75rem;font-size:0.9rem;color:var(--texte-muted);font-style:italic;}
@@ -578,90 +623,178 @@ const nbJoueurs = document.getElementById('nb-joueurs');
 const nbJoueursVal = document.getElementById('nb-joueurs-val');
 nbJoueurs.addEventListener('input', () => { nbJoueursVal.textContent = nbJoueurs.value; });
 
-async function generateScenario() {
+function getData() {
+  return {
+    titles: [
+      'Les Cendres du Manoir Grimaldi', 'Minuit sur le Transcontinental',
+      'La Valse des Masques Brisés', 'Le Testament des Ombres',
+      'L\'Affaire du Salon Pourpre', 'Le Dernier Toast de la Comtesse'
+    ],
+    settings: [
+      { nom: 'un manoir isolé en Bretagne' },
+      { nom: 'un palace enneigé dans les Alpes' },
+      { nom: 'un train de luxe immobilisé de nuit' },
+      { nom: 'une villa Art déco sur la Côte d’Azur' },
+      { nom: 'un château viticole en Bourgogne' }
+    ],
+    names: [
+      'Camille Delaunay', 'Victor Marceau', 'Éléonore Vasseur', 'Jules Mercier',
+      'Ariane Bellamy', 'Noah Delcourt', 'Inès Rochefort', 'Bastien Morin',
+      'Salomé Vernier', 'Raphaël Dargent', 'Nora Salvi', 'Théo Lavigne',
+      'Mila Caron', 'Gaspard Duval'
+    ],
+    roles: [
+      'Avocat renommé', 'Journaliste d’investigation', 'Médecin légiste',
+      'Héritier discret', 'Ancienne actrice', 'Galeriste influent',
+      'Chef privé', 'Banquier d’affaires', 'Historienne', 'Notaire de famille'
+    ],
+    traits: [
+      'charismatique mais nerveux', 'glacial et méthodique', 'souriant, trop confiant',
+      'réservée, observatrice', 'élégant, constamment sur la défensive',
+      'brillant mais impulsif', 'calme, presque inquiétant'
+    ],
+    secrets: [
+      'a falsifié un diplôme prestigieux',
+      'entretient une liaison secrète avec un rival',
+      'détourne de l’argent depuis plusieurs mois',
+      'cache une condamnation ancienne sous une fausse identité',
+      'est endetté auprès de prêteurs dangereux',
+      'a vendu anonymement une œuvre volée'
+    ],
+    alibis: [
+      'prétendait être en appel vidéo avec un client',
+      'affirme avoir dormi profondément dans sa suite',
+      'discutait avec le personnel en cuisine',
+      'jouait au piano dans le grand salon',
+      'prenait l’air seul sur la terrasse',
+      'rangeait des archives dans la bibliothèque'
+    ],
+    motives: [
+      'un chantage financier lié à un héritage',
+      'la révélation imminente d’un scandale familial',
+      'une vengeance après une trahison professionnelle',
+      'la peur d’être publiquement ruiné',
+      'un secret compromettant sur une disparition ancienne'
+    ],
+    murders: [
+      { description: 'empoisonnement progressif', indice: 'poudre toxique rare', lieu: 'la cave à vin' },
+      { description: 'traumatisme crânien précis', indice: 'éclats de cristal', lieu: 'la verrière du hall' },
+      { description: 'asphyxie soigneusement maquillée', indice: 'fibres de velours noir', lieu: 'le salon privé' },
+      { description: 'injection létale discrète', indice: 'micro-aiguille médicale', lieu: 'la suite impériale' }
+    ]
+  };
+}
+
+function generateScenario() {
   const btn = document.getElementById('btn-generate');
   const placeholder = document.getElementById('output-placeholder');
   const loading = document.getElementById('output-loading');
   const result = document.getElementById('output-result');
 
   btn.disabled = true;
-  btn.textContent = '⏳ Génération en cours…';
+  btn.textContent = '⏳ Génération...';
   placeholder.style.display = 'none';
   result.style.display = 'none';
   loading.style.display = 'block';
 
-  const nb = document.getElementById('nb-joueurs').value;
-  const themeEl = document.getElementById('theme');
-  const themeTxt = themeEl.options[themeEl.selectedIndex].text;
-  const diffEl = document.getElementById('difficulte');
-  const diffTxt = diffEl.options[diffEl.selectedIndex].text;
-  const romance = document.getElementById('opt-romance').checked;
-  const humour = document.getElementById('opt-humour').checked;
-  const twist = document.getElementById('opt-twist').checked;
-  const opts = [romance && 'sous-intrigues romantiques', humour && 'ton légèrement humoristique', twist && 'twist final inattendu'].filter(Boolean).join(', ') || 'standard';
-
-  const prompt = `Tu es un auteur expert en soirées murder mystery. Génère un scénario complet pour ${nb} joueurs.
-Cadre : ${themeTxt}. Difficulté : ${diffTxt}. Options : ${opts}.
-
-Réponds UNIQUEMENT avec un objet JSON valide, sans backticks, sans commentaires, sans texte avant ou après.
-Structure exacte :
-{
-  "titre": "titre dramatique du scénario",
-  "lieu": "lieu précis et évocateur",
-  "epoque": "période exacte",
-  "synopsis": "résumé captivant en 3 phrases, sans révéler le coupable",
-  "victime": "Prénom Nom — titre/fonction",
-  "personnages": [
-    {
-      "nom": "Prénom Nom",
-      "titre": "fonction ou titre social",
-      "description": "2 phrases : apparence et personnalité distinctives",
-      "secret": "secret compromettant que ce personnage cache (totalement indépendant du meurtre)"
-    }
-  ],
-  "indices": [
-    "indice 1 — concret, trouvable dans le lieu",
-    "indice 2 — implique un personnage",
-    "indice 3 — contredit un alibi",
-    "indice 4 — objet ou document",
-    "indice 5 — le plus troublant, pointe vers le coupable"
-  ],
-  "revelation": "Révélation complète : nom du meurtrier, mobile précis, méthode du crime, et comment les indices menaient à lui. 4 phrases.",
-  "mobile": "mobile principal en une phrase percutante"
-}
-
-Génère exactement ${nb} personnages incluant 1 victime et 1 coupable (clairement identifié dans la revelation). Chaque personnage a un secret indépendant du meurtre. Sois dramatique, cohérent et original.`;
-
   try {
-    const response = await fetch('/api/generate', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 3000,
-        messages: [{ role: 'user', content: prompt }]
-      })
-    });
+    const nb = parseInt(document.getElementById('nb-joueurs').value, 10) || 6;
+    const data = getData();
 
-    const data = await response.json();
-    if (!data.content || !data.content[0]) throw new Error('Réponse API invalide');
+    if (nb < 4 || nb > data.names.length) throw new Error(`Le nombre de joueurs doit être entre 4 et ${data.names.length}.`);
 
-    let text = data.content[0].text;
-    let scenario;
-    try {
-      text = text.replace(/```json|```/g, '').trim();
-      scenario = JSON.parse(text);
-    } catch(e) {
-      const match = text.match(/\{[\s\S]*\}/);
-      if (match) scenario = JSON.parse(match[0]);
-      else throw new Error('Format JSON invalide');
+    const setting = random(data.settings);
+    const hourOfCrime = random(['22h00', '23h30', '01h15', '03h00']);
+
+    const personnages = [];
+    const usedNames = shuffle([...data.names]).slice(0, nb);
+    for (let i = 0; i < nb; i++) {
+      personnages.push({
+        nom: usedNames[i],
+        role: random(data.roles),
+        trait: random(data.traits),
+        secret: random(data.secrets),
+        alibi: random(data.alibis),
+        suspicion: 0
+      });
     }
 
-    renderScenario(scenario);
-  } catch(err) {
+    const victime = random(personnages);
+    const suspects = personnages.filter((p) => p !== victime);
+    const coupable = random(suspects);
+    const fauxCoupable = random(suspects.filter((s) => s !== coupable));
+    coupable.suspicion += 5;
+    fauxCoupable.suspicion += 3;
+
+    const mobile = random(data.motives);
+    const meurtre = random(data.murders);
+
+    const indices = [
+      { type: 'Physique', desc: `Une trace de ${meurtre.indice} est retrouvée dans ${meurtre.lieu}.` },
+      { type: 'Timing', desc: `${coupable.nom} n’a pas d’alibi solide pour le créneau de ${hourOfCrime}.` },
+      { type: 'Objet', desc: `Un objet personnel appartenant à ${coupable.nom} a été découvert près du corps.` },
+      { type: 'Fausse piste', desc: `Des empreintes appartenant à ${fauxCoupable.nom} ont été trouvées, mais elles semblent trop évidentes pour être honnêtes.` },
+      { type: 'Mobile', desc: `Un document secret révèle que la victime menaçait ${coupable.nom} à propos de : ${mobile}.` }
+    ];
+
+    result.innerHTML = `
+      <div class="scenario-header">
+        <div class="scenario-title">"${random(data.titles)}"</div>
+        <div class="scenario-lieu">📍 Lieu : ${setting.nom || setting} | 🕒 Crime estimé : ${hourOfCrime}</div>
+      </div>
+
+      <div class="section-box">
+        <h3>📁 Rapport de Scène de Crime</h3>
+        <p>Le corps de <strong>${victime.nom}</strong> (${victime.role}) a été découvert dans <strong>${meurtre.lieu}</strong>.
+        L'autopsie révèle un(e) <em>${meurtre.description}</em>.</p>
+      </div>
+
+      <div class="sub-title">👥 Dossier des Suspects</div>
+      <div class="suspects-container">
+        ${suspects.map((p) => `
+          <div class="suspect-card" style="border-left: 5px solid ${p.suspicion >= 5 ? '#e74c3c' : (p.suspicion >= 3 ? '#f1c40f' : '#3498db')}">
+            <div class="suspect-header">
+              <strong>${p.nom}</strong> <span class="tag">${p.role}</span>
+            </div>
+            <p>🎭 <em>${p.trait}</em></p>
+            <p>🕒 <strong>Alibi :</strong> ${p.alibi}</p>
+            <p>🤫 <strong>Secret :</strong> ${p.secret}</p>
+          </div>
+        `).join('')}
+      </div>
+
+      <div class="sub-title">🔍 Indices et preuves collectées</div>
+      <div class="indices-grid">
+        ${indices.map((ind) => `
+          <div class="index-item">
+            <span class="index-type">${ind.type}</span>
+            <p>${ind.desc}</p>
+          </div>
+        `).join('')}
+      </div>
+
+      <div class="revelation-box">
+        <div class="revelation-warning">⚠ Réservé au maître de jeu — Ne pas lire avant la fin ⚠</div>
+        <p class="revelation-text">Après recoupement, le niveau de suspicion maximal désigne : <strong style="color:var(--rouge)">${coupable.nom}</strong>.</p>
+        <p class="mobile-text"><strong>Mobile :</strong> ${mobile}</p>
+        <p class="mobile-text"><strong>Modus Operandi :</strong> ${meurtre.description}</p>
+        <p class="mobile-text">Note : ${fauxCoupable.nom} était la distraction parfaite pour masquer la culpabilité de ${coupable.nom}.</p>
+      </div>
+
+      <div class="output-actions">
+        <button class="btn-action btn-action-gold" onclick="paywall()">⬇ Télécharger le PDF complet — 6€</button>
+        <button class="btn-action" onclick="generateScenario()">↺ Nouvelle variante</button>
+        <button class="btn-action" onclick="copyScenario()">⎘ Copier le texte</button>
+      </div>
+    `;
+
+    loading.style.display = 'none';
+    result.style.display = 'block';
+    result.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  } catch (err) {
     loading.style.display = 'none';
     placeholder.style.display = 'flex';
-    placeholder.innerHTML = `<div class="placeholder-icon">⚠</div><p style="color:var(--rouge)">Une erreur est survenue</p><p style="font-size:0.85rem;color:var(--texte-muted)">${err.message}</p><p style="font-size:0.85rem;color:var(--texte-muted);margin-top:0.5rem">Vérifiez votre connexion et réessayez.</p>`;
+    placeholder.innerHTML = `<div class="placeholder-icon">⚠</div><p style="color:var(--rouge)">Erreur de génération</p><p style="font-size:0.9rem;color:var(--texte-muted)">${err.message}</p>`;
     console.error(err);
   }
 
@@ -669,57 +802,8 @@ Génère exactement ${nb} personnages incluant 1 victime et 1 coupable (claireme
   btn.textContent = '⚡ Forger le mystère';
 }
 
-function renderScenario(s) {
-  document.getElementById('output-loading').style.display = 'none';
-  const result = document.getElementById('output-result');
-
-  const nbVis = (s.personnages || []).length;
-  const cols = nbVis >= 6 ? 'grid-template-columns:1fr 1fr' : 'grid-template-columns:1fr';
-
-  const persoHTML = (s.personnages || []).map(p => `
-    <div class="personnage-card">
-      <div class="personnage-nom">${p.nom || 'Personnage'}</div>
-      <div class="personnage-titre">${p.titre || ''}</div>
-      <div class="personnage-desc">${p.description || ''}</div>
-      ${p.secret ? `<div class="personnage-secret">${p.secret}</div>` : ''}
-    </div>
-  `).join('');
-
-  const indicesHTML = (s.indices || []).map((ind, i) => `
-    <li><span class="indice-num">${i + 1}</span><span>${ind}</span></li>
-  `).join('');
-
-  result.innerHTML = `
-    <div class="scenario-header">
-      <div class="scenario-title">${s.titre || 'Mystère sans titre'}</div>
-      <div class="scenario-lieu">✦ ${s.lieu || ''} · ${s.epoque || ''} ✦</div>
-    </div>
-    ${s.victime ? `<p style="font-size:0.85rem;color:var(--texte-muted);margin-bottom:1.5rem;letter-spacing:0.1em;text-transform:uppercase">Victime : <span style="color:var(--rouge)">${s.victime}</span></p>` : ''}
-    <div class="scenario-synopsis">${s.synopsis || ''}</div>
-
-    <div class="sub-title">Les Suspects</div>
-    <div class="personnages-grid" style="${cols}">${persoHTML}</div>
-
-    <div class="sub-title">Indices à découvrir</div>
-    <ul class="indices-list">${indicesHTML}</ul>
-
-    <div class="sub-title">Révélation finale</div>
-    <div class="revelation-box">
-      <div class="revelation-warning">⚠ Réservé au maître de jeu — Ne pas lire avant la fin ⚠</div>
-      <p class="revelation-text">${s.revelation || ''}</p>
-      ${s.mobile ? `<p class="mobile-text">Mobile : ${s.mobile}</p>` : ''}
-    </div>
-
-    <div class="output-actions">
-      <button class="btn-action btn-action-gold" onclick="paywall()">⬇ Télécharger le PDF complet — 6€</button>
-      <button class="btn-action" onclick="generateScenario()">↺ Nouvelle variante</button>
-      <button class="btn-action" onclick="copyScenario()">⎘ Copier le texte</button>
-    </div>
-  `;
-
-  result.style.display = 'block';
-  setTimeout(() => result.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
-}
+function random(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+function shuffle(array) { return [...array].sort(() => Math.random() - 0.5); }
 
 function paywall() {
   alert('Fonctionnalité payante — Achetez ce scénario pour 6€ et recevez le PDF complet avec fiches personnages imprimables, guide du maître de jeu et cartes indices.');
