@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Générateur — MysteryForge</title>
+  <meta name="description" content="Configurez et générez votre scénario de murder mystery par IA en 30 secondes.">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* === PAGE GÉNÉRATEUR === */
+    .gen-layout {
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: 3rem;
+      align-items: start;
+      padding-top: 2rem;
+    }
+    .gen-form-panel {
+      position: sticky;
+      top: 90px;
+      border: 1px solid var(--bordure);
+      background: rgba(255,255,255,0.014);
+    }
+    .form-header {
+      padding: 1.5rem 1.75rem;
+      border-bottom: 1px solid var(--bordure);
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      color: var(--or);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .form-body { padding: 1.75rem; }
+    .section-divider {
+      height: 1px;
+      background: var(--bordure);
+      margin: 1.5rem 0;
+    }
+    .form-section-title {
+      font-size: 0.68rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--texte-muted);
+      margin-bottom: 1rem;
+    }
+    .gen-output-panel { min-height: 480px; }
+    .output-empty {
+      border: 1px dashed rgba(201,168,76,0.18);
+      padding: 6rem 2rem;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      min-height: 480px;
+      justify-content: center;
+    }
+    .empty-icon { font-size: 3rem; opacity: 0.18; }
+    .empty-txt  { font-family: var(--serif); font-size: 1.2rem; color: var(--texte-muted); font-style: italic; }
+    .empty-sub  { font-size: 0.88rem; color: var(--texte-muted); opacity: 0.7; }
+    .progress-wrap { margin-bottom: 2rem; }
+
+    @media(max-width:960px){
+      .gen-layout { grid-template-columns: 1fr; }
+      .gen-form-panel { position: static; }
+    }
+
+    /* Print styles */
+    @media print {
+      #nav, .gen-form-panel, .output-actions, .progress-wrap { display: none !important; }
+      .gen-layout { display: block; }
+      body { background: white; color: black; }
+      .gen-output-panel { padding: 0; }
+      .scenario-nom, .section-title { color: #111; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Mystery<em>Forge</em></a>
+    <ul class="nav-links">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="generator.html" class="active">Générateur</a></li>
+      <li><a href="pricing.html">Tarifs</a></li>
+      <li><a href="generator.html" class="nav-cta">Créer un scénario →</a></li>
+    </ul>
+    <button class="nav-burger" aria-label="Menu" aria-expanded="false">☰</button>
+  </div>
+</nav>
+
+<!-- HERO COMPACT -->
+<div style="padding:8rem 0 3rem;text-align:center;border-bottom:1px solid var(--bordure);background:radial-gradient(ellipse at 50% 0%,rgba(139,28,28,0.1) 0%,transparent 65%)">
+  <div class="container--narrow">
+    <span class="section-eyebrow">✦ Moteur IA ✦</span>
+    <h1 style="font-family:var(--serif);font-size:clamp(2rem,5vw,3.2rem);font-weight:900;color:var(--parchemin);line-height:1.15;margin-bottom:0.75rem">
+      Forgez votre <em style="color:var(--or);font-style:italic">Murder Mystery</em>
+    </h1>
+    <p style="color:var(--texte-muted);font-size:1rem;font-family:var(--crimson)">Configurez les paramètres ci-dessous et laissez l'IA créer une intrigue unique, cohérente et immédiatement jouable.</p>
+  </div>
+</div>
+
+<!-- MAIN -->
+<main style="padding:3rem 0 8rem">
+  <div class="container">
+
+    <!-- PROGRESS -->
+    <div class="progress-wrap">
+      <div class="progress-steps">
+        <div class="progress-step active" id="step-1">1 · Configuration</div>
+        <div class="progress-step"        id="step-2">2 · Génération IA</div>
+        <div class="progress-step"        id="step-3">3 · Votre scénario</div>
+      </div>
+    </div>
+
+    <div class="gen-layout">
+
+      <!-- FORMULAIRE -->
+      <aside class="gen-form-panel">
+        <div class="form-header">⚙ Paramètres</div>
+        <div class="form-body">
+
+          <!-- Joueurs -->
+          <div class="form-group">
+            <label class="form-label">Nombre de joueurs</label>
+            <div class="range-row">
+              <span style="font-size:0.75rem;color:var(--texte-muted)">4</span>
+              <input type="range" id="nb-joueurs" min="4" max="12" value="6" step="1">
+              <span class="range-val" id="nb-joueurs-val">6</span>
+              <span style="font-size:0.75rem;color:var(--texte-muted)">12</span>
+            </div>
+            <div class="range-bounds"><span>Petit groupe</span><span>Grande tablée</span></div>
+          </div>
+
+          <!-- Univers -->
+          <div class="form-group">
+            <label class="form-label" for="univers">Univers & Époque</label>
+            <select class="form-select" id="univers">
+              <option value="Manoir anglais, Angleterre victorienne, années 1880">Manoir anglais — Angleterre victorienne (1880)</option>
+              <option value="Villa Art Déco, Côte d'Azur, années 1920">Villa Art Déco — Côte d'Azur (1920)</option>
+              <option value="Orient Express, Europe centrale, hiver 1934" selected>Orient Express — Hiver 1934</option>
+              <option value="Château bourguignon, France, années 1930">Château bourguignon — France (1930)</option>
+              <option value="Hollywood doré, Los Angeles, années 1950">Hollywood doré — Los Angeles (1950)</option>
+              <option value="Yacht de luxe, Méditerranée, été 1965">Yacht de luxe — Méditerranée (1965)</option>
+              <option value="Chalet alpin suisse isolé, hiver contemporain">Chalet alpin — Hiver contemporain</option>
+              <option value="Manoir écossais sous la tempête, contemporain">Manoir écossais — Contemporain</option>
+              <option value="Château médiéval, Europe, XVe siècle">Château médiéval — XVe siècle</option>
+              <option value="Hôtel de luxe parisien, Paris, Belle Époque 1900">Hôtel de luxe — Paris, Belle Époque (1900)</option>
+              <option value="Croisière transatlantique, Atlantique Nord, 1938">Croisière transatlantique — 1938</option>
+            </select>
+          </div>
+
+          <!-- Difficulté -->
+          <div class="form-group">
+            <label class="form-label" for="difficulte">Difficulté</label>
+            <select class="form-select" id="difficulte">
+              <option value="Débutant : indices directs, 1 fausse piste, mobiles clairs, ambiance légère">Débutant — Soirée décontractée</option>
+              <option value="Intermédiaire : 2-3 fausses pistes, alibis contradictoires, indices ambigus" selected>Intermédiaire — Quelques pièges</option>
+              <option value="Expert : intrigues croisées, alibi du coupable presque parfait, twist final, red herrings multiples">Expert — Enquête complexe & twist</option>
+            </select>
+          </div>
+
+          <!-- Durée -->
+          <div class="form-group">
+            <label class="form-label" for="duree">Durée de jeu</label>
+            <select class="form-select" id="duree">
+              <option value="2 heures — format rapide, idéal pour une première soirée">2h — Format rapide</option>
+              <option value="3 heures — format standard, équilibre exploration et enquête" selected>3h — Format standard</option>
+              <option value="4h+ — format long, nombreuses sous-intrigues et rebondissements">4h+ — Soirée complète</option>
+            </select>
+          </div>
+
+          <!-- Ton -->
+          <div class="form-group">
+            <label class="form-label" for="ton">Ton de la soirée</label>
+            <select class="form-select" id="ton">
+              <option value="Dramatique et sombre, style roman noir">Dramatique & Sombre</option>
+              <option value="Élégant et romantique, style Agatha Christie" selected>Élégant & Romantique</option>
+              <option value="Légèrement humoristique, ambiance comédie policière">Humoristique & Décalé</option>
+              <option value="Mystérieux et atmosphérique, avec rumeurs surnaturelles">Mystérieux & Atmosphérique</option>
+            </select>
+          </div>
+
+          <div class="section-divider"></div>
+          <div class="form-section-title">Éléments narratifs (optionnels)</div>
+
+          <!-- Tags extras -->
+          <div class="tag-row" id="extras">
+            <span class="tag" data-value="Twist final inattendu">Twist final</span>
+            <span class="tag active" data-value="Sous-intrigue romantique entre suspects">Romance</span>
+            <span class="tag" data-value="Intrigue politique ou financière en arrière-plan">Politique</span>
+            <span class="tag" data-value="Rumeurs de surnaturel ou de malédiction (jamais confirmées)">Surnaturel</span>
+            <span class="tag active" data-value="Secrets de famille révélés en cours d'enquête">Secrets familiaux</span>
+            <span class="tag" data-value="Alibi du coupable soutenu par un complice involontaire">Faux témoignage</span>
+          </div>
+
+          <div class="section-divider"></div>
+
+          <button class="btn btn--rouge btn--full" id="btn-generate" style="padding:1.1rem;font-size:1rem;letter-spacing:0.1em">
+            ⚡ Forger le mystère
+          </button>
+          <p style="font-size:0.78rem;color:var(--texte-muted);text-align:center;margin-top:0.75rem">
+            Génération IA · ~20 secondes
+          </p>
+        </div>
+      </aside>
+
+      <!-- SORTIE -->
+      <div class="gen-output-panel" id="output-panel">
+        <div class="output-empty">
+          <div class="empty-icon">🔍</div>
+          <div class="empty-txt">L'enquête commence ici</div>
+          <div class="empty-sub">Configurez les paramètres à gauche et cliquez sur « Forger le mystère »</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <a href="index.html" class="footer-logo">Mystery<em>Forge</em></a>
+    <div class="footer-links">
+      <a href="index.html">Accueil</a>
+      <a href="pricing.html">Tarifs</a>
+      <a href="#">Contact</a>
+    </div>
+    <p class="footer-copy">© 2026 MysteryForge · contact@mysteryforge.fr</p>
+  </div>
+</footer>
+
+<script src="js/app.js"></script>
+<script src="js/generator.js"></script>
+</body>
+</html>
