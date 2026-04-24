@@ -1,590 +1,335 @@
-/* ============================================
-   MYSTERYFORGE — Feuille de style partagée
-   ============================================ */
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MysteryForge — Générateur de Murder Mystery</title>
+<meta name="description" content="Créez des soirées murder mystery uniques en 30 secondes. Personnages, indices, révélation — tout est prêt à jouer.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+:root{
+  --noir:#09080a;--encre:#0f0d12;--surface:#161320;--surface2:#1e1b27;
+  --or:#c9a84c;--or2:#e8d5a0;--rouge:#8b1c1c;--rouge2:#c42b2b;
+  --texte:#ddd6cc;--muted:#7a7068;--bordure:rgba(201,168,76,0.15);
+  --bordure2:rgba(201,168,76,0.4);
+  --serif:'Playfair Display',Georgia,serif;
+  --sans:'Inter',system-ui,sans-serif;
+}
+body{background:var(--noir);color:var(--texte);font-family:var(--sans);line-height:1.7;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%}
+.container{max-width:1100px;margin:0 auto;padding:0 1.5rem}
+.narrow{max-width:720px;margin:0 auto;padding:0 1.5rem}
 
-/* === VARIABLES === */
-:root {
-  --noir:        #09080a;
-  --encre:       #141118;
-  --encre-light: #1c1823;
-  --parchemin:   #f0e8d5;
-  --parchemin-dim:#bfb49e;
-  --or:          #c9a84c;
-  --or-pale:     #e8d5a0;
-  --or-dim:      rgba(201,168,76,0.18);
-  --rouge:       #8b1c1c;
-  --rouge-vif:   #c42b2b;
-  --texte:       #e2d8cc;
-  --texte-muted: #8a7f72;
-  --bordure:     rgba(201,168,76,0.18);
-  --bordure-forte:rgba(201,168,76,0.45);
-  --serif:       'Playfair Display', Georgia, serif;
-  --body:        'EB Garamond', Georgia, serif;
-  --crimson:     'Crimson Pro', Georgia, serif;
-}
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:.9rem 0;
+  background:rgba(9,8,10,.92);border-bottom:1px solid var(--bordure);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.nav-inner{display:flex;justify-content:space-between;align-items:center;max-width:1100px;margin:0 auto;padding:0 1.5rem}
+.logo{font-family:var(--serif);font-size:1.4rem;font-weight:900;color:#f0e8d5;letter-spacing:.04em}
+.logo span{color:var(--or)}
+.nav-links{display:flex;align-items:center;gap:2rem;list-style:none}
+.nav-links a{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);transition:color .2s}
+.nav-links a:hover{color:var(--or)}
+.nav-cta{background:var(--or)!important;color:var(--noir)!important;padding:.5rem 1.3rem;font-weight:600;border-radius:0;transition:background .2s!important}
+.nav-cta:hover{background:var(--or2)!important}
+.nav-burger{display:none;background:none;border:none;color:var(--texte);font-size:1.4rem;cursor:pointer;padding:.2rem}
 
-/* === RESET === */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; font-size: 17px; }
-body {
-  background: var(--noir);
-  color: var(--texte);
-  font-family: var(--body);
-  line-height: 1.75;
-  overflow-x: hidden;
-}
-img { max-width: 100%; display: block; }
-a { color: inherit; text-decoration: none; }
+/* HERO */
+.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;padding:8rem 1.5rem 5rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(139,28,28,.18) 0%,transparent 65%),
+  radial-gradient(ellipse 40% 40% at 10% 90%,rgba(201,168,76,.07) 0%,transparent 60%)}
+.hero-badge{display:inline-block;border:1px solid rgba(201,168,76,.45);color:var(--or);
+  font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;padding:.4rem 1.6rem;margin-bottom:2rem;
+  animation:fadeUp .6s ease both}
+h1.hero-title{font-family:var(--serif);font-size:clamp(2.8rem,7vw,5.5rem);font-weight:900;
+  color:#f0e8d5;line-height:1.08;max-width:900px;margin:0 auto 1.5rem;
+  animation:fadeUp .6s ease .15s both}
+h1.hero-title em{font-style:italic;color:var(--or)}
+.hero-sub{font-size:1.1rem;color:var(--muted);max-width:540px;margin:0 auto 3rem;
+  animation:fadeUp .6s ease .3s both;line-height:1.8}
+.hero-cta-row{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;
+  animation:fadeUp .6s ease .45s both}
+.btn{display:inline-block;font-family:var(--sans);font-size:.82rem;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;padding:.9rem 2rem;cursor:pointer;
+  border:none;transition:all .25s;text-align:center}
+.btn-gold{background:var(--or);color:var(--noir)}
+.btn-gold:hover{background:var(--or2);transform:translateY(-2px);box-shadow:0 8px 28px rgba(201,168,76,.2)}
+.btn-outline{background:transparent;color:var(--texte);border:1px solid rgba(255,255,255,.15)}
+.btn-outline:hover{border-color:var(--or);color:var(--or)}
+.btn-lg{padding:1.05rem 2.5rem;font-size:.88rem}
 
-/* === UTILITAIRES === */
-.container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
-.container--narrow { max-width: 780px; margin: 0 auto; padding: 0 2rem; }
-.section-pad { padding: 7rem 0; }
-.gold { color: var(--or); }
-.muted { color: var(--texte-muted); }
-.sr-only { position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0); }
+/* STATS */
+.stats-row{display:flex;gap:3rem;flex-wrap:wrap;justify-content:center;
+  margin-top:4rem;padding-top:3rem;border-top:1px solid var(--bordure);
+  animation:fadeUp .6s ease .6s both}
+.stat-val{font-family:var(--serif);font-size:2.2rem;color:var(--or);display:block;line-height:1;margin-bottom:.3rem}
+.stat-lbl{font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
 
-.section-eyebrow {
-  display: inline-block;
-  color: var(--or);
-  font-family: var(--body);
-  font-size: 0.72rem;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  margin-bottom: 1rem;
-}
-.section-title {
-  font-family: var(--serif);
-  font-size: clamp(1.9rem, 4vw, 3rem);
-  color: var(--parchemin);
-  line-height: 1.15;
-}
-.section-subtitle {
-  font-size: 1.05rem;
-  color: var(--texte-muted);
-  max-width: 560px;
-  margin-top: 0.75rem;
-  line-height: 1.8;
-}
-.divider {
-  width: 48px;
-  height: 1px;
-  background: var(--or);
-  margin: 1.5rem 0;
-}
-.divider--center { margin: 1.5rem auto; }
+/* SECTIONS COMMUNES */
+.section{padding:6rem 0}
+.section-dark{background:var(--encre);border-top:1px solid var(--bordure);border-bottom:1px solid var(--bordure)}
+.eyebrow{display:inline-block;color:var(--or);font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;margin-bottom:.9rem}
+h2.section-title{font-family:var(--serif);font-size:clamp(1.8rem,4vw,2.8rem);color:#f0e8d5;line-height:1.2;margin-bottom:1rem}
+.section-lead{font-size:1rem;color:var(--muted);max-width:520px;margin:0 auto;line-height:1.8}
+.stripe{height:1px;background:linear-gradient(to right,transparent,rgba(201,168,76,.3),transparent)}
 
-/* === BOUTONS === */
-.btn {
-  display: inline-block;
-  font-family: var(--serif);
-  font-size: 0.9rem;
-  letter-spacing: 0.08em;
-  font-weight: 700;
-  text-transform: uppercase;
-  padding: 0.9rem 2rem;
-  cursor: pointer;
-  border: none;
-  transition: all 0.28s;
-  text-align: center;
-}
-.btn--gold {
-  background: var(--or);
-  color: var(--noir);
-}
-.btn--gold:hover {
-  background: var(--or-pale);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 32px rgba(201,168,76,0.22);
-}
-.btn--outline {
-  background: transparent;
-  color: var(--texte);
-  border: 1px solid var(--bordure);
-}
-.btn--outline:hover {
-  border-color: var(--or);
-  color: var(--or);
-}
-.btn--rouge {
-  background: var(--rouge);
-  color: var(--parchemin);
-}
-.btn--rouge:hover {
-  background: var(--rouge-vif);
-  transform: translateY(-1px);
-}
-.btn--full { width: 100%; display: block; }
-.btn--lg { padding: 1.1rem 2.8rem; font-size: 1rem; }
-.btn:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-  transform: none !important;
-  box-shadow: none !important;
-}
+/* FEATURES */
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:4rem}
+.feat{background:var(--surface);border:1px solid var(--bordure);padding:2rem;transition:border-color .3s}
+.feat:hover{border-color:var(--bordure2)}
+.feat-icon{font-size:1.8rem;margin-bottom:1rem;opacity:.85}
+.feat h3{font-family:var(--serif);font-size:1.05rem;color:#f0e8d5;margin-bottom:.6rem}
+.feat p{font-size:.9rem;color:var(--muted);line-height:1.75}
 
-/* === NAVIGATION === */
-#nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
-  padding: 1.1rem 0;
-  background: linear-gradient(to bottom, rgba(9,8,10,0.96) 0%, rgba(9,8,10,0.7) 100%);
-  border-bottom: 1px solid rgba(201,168,76,0.1);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  transition: padding 0.3s;
-}
-.nav-inner {
-  max-width: 1100px; margin: 0 auto; padding: 0 2rem;
-  display: flex; justify-content: space-between; align-items: center; gap: 1.5rem;
-}
-.nav-logo {
-  font-family: var(--serif);
-  font-size: 1.45rem;
-  font-weight: 900;
-  color: var(--parchemin);
-  letter-spacing: 0.06em;
-  white-space: nowrap;
-}
-.nav-logo em { color: var(--or); font-style: normal; }
-.nav-links {
-  display: flex; align-items: center; gap: 2.2rem; list-style: none;
-}
-.nav-links a {
-  font-size: 0.78rem;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--texte-muted);
-  transition: color 0.25s;
-}
-.nav-links a:hover,
-.nav-links a.active { color: var(--or); }
-.nav-cta {
-  background: var(--or);
-  color: var(--noir) !important;
-  padding: 0.55rem 1.4rem;
-  font-family: var(--serif);
-  font-weight: 700;
-  font-size: 0.78rem !important;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  transition: background 0.25s, transform 0.25s !important;
-}
-.nav-cta:hover { background: var(--or-pale) !important; transform: translateY(-1px); }
-.nav-burger {
-  display: none;
-  background: none; border: none; cursor: pointer;
-  color: var(--texte); font-size: 1.4rem;
-}
+/* PROCESS */
+.process-wrap{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--bordure);margin-top:4rem}
+.step{padding:2.5rem 1.75rem;border-right:1px solid var(--bordure);text-align:center}
+.step:last-child{border-right:none}
+.step-n{font-family:var(--serif);font-size:3rem;color:rgba(201,168,76,.12);display:block;line-height:1;margin-bottom:1rem}
+.step h3{font-family:var(--serif);font-size:1rem;color:#f0e8d5;margin-bottom:.6rem}
+.step p{font-size:.85rem;color:var(--muted);line-height:1.7}
 
-/* === HERO COMMUN === */
-.hero {
-  padding: 14rem 0 7rem;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-.hero::before {
-  content: '';
-  position: absolute; inset: 0; pointer-events: none;
-  background:
-    radial-gradient(ellipse 80% 55% at 50% 0%, rgba(139,28,28,0.14) 0%, transparent 65%),
-    radial-gradient(ellipse 50% 40% at 15% 85%, rgba(201,168,76,0.06) 0%, transparent 60%),
-    radial-gradient(ellipse 40% 30% at 85% 75%, rgba(139,28,28,0.05) 0%, transparent 50%);
-}
-.hero-badge {
-  display: inline-block;
-  border: 1px solid rgba(201,168,76,0.45);
-  color: var(--or);
-  font-size: 0.68rem;
-  letter-spacing: 0.32em;
-  text-transform: uppercase;
-  padding: 0.4rem 1.6rem;
-  margin-bottom: 2rem;
-  animation: fadeUp 0.7s ease both;
-}
-.hero h1 {
-  font-family: var(--serif);
-  font-size: clamp(2.8rem, 7vw, 5.4rem);
-  font-weight: 900;
-  color: var(--parchemin);
-  line-height: 1.08;
-  max-width: 960px;
-  margin: 0 auto 1.5rem;
-  animation: fadeUp 0.7s ease 0.15s both;
-}
-.hero h1 em { font-style: italic; color: var(--or); }
-.hero .tagline {
-  font-size: 1.15rem;
-  color: var(--texte-muted);
-  max-width: 580px;
-  margin: 0 auto 3rem;
-  font-family: var(--crimson);
-  animation: fadeUp 0.7s ease 0.3s both;
-}
-.hero-cta {
-  display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
-  animation: fadeUp 0.7s ease 0.45s both;
-}
+/* WHAT YOU GET */
+.get-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-top:4rem;align-items:center}
+.get-list{list-style:none;display:flex;flex-direction:column;gap:1rem}
+.get-list li{display:flex;gap:1rem;align-items:flex-start}
+.get-icon{width:28px;height:28px;min-width:28px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.3);
+  display:flex;align-items:center;justify-content:center;font-size:.8rem;color:var(--or);flex-shrink:0}
+.get-text{font-size:.92rem;color:var(--texte);line-height:1.6}
+.get-text strong{display:block;font-size:.82rem;font-weight:600;color:#f0e8d5;margin-bottom:.1rem}
+.preview-mock{background:var(--surface);border:1px solid var(--bordure);padding:2rem}
+.mock-title{font-family:var(--serif);font-size:1.3rem;color:#f0e8d5;margin-bottom:.3rem}
+.mock-lieu{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--or);margin-bottom:1rem}
+.mock-tag-row{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.2rem}
+.mock-tag{padding:.2rem .65rem;border:1px solid var(--bordure);font-size:.68rem;color:var(--muted);letter-spacing:.08em}
+.mock-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
+.mock-item{background:var(--surface2);border:1px solid var(--bordure);padding:.75rem;font-size:.78rem;color:var(--muted);line-height:1.5}
+.mock-item strong{display:block;font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;color:var(--or);margin-bottom:.2rem}
 
-/* === BANDES DECORATIVES === */
-.stripe {
-  height: 1px;
-  background: linear-gradient(to right, transparent, var(--or), transparent);
-  opacity: 0.35;
-  margin: 0;
-}
+/* TESTIMONIALS */
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:4rem}
+.testi{background:var(--surface);border:1px solid var(--bordure);padding:2rem}
+.stars{color:var(--or);font-size:.8rem;letter-spacing:.2em;margin-bottom:.9rem}
+.testi blockquote{font-style:italic;color:var(--muted);font-size:.9rem;line-height:1.85;margin-bottom:1.2rem;font-family:'Palatino',serif}
+.testi-name{font-family:var(--serif);font-size:.9rem;color:#f0e8d5}
+.testi-role{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
 
-/* === CARDS === */
-.card {
-  background: rgba(255,255,255,0.015);
-  border: 1px solid var(--bordure);
-  padding: 2rem;
-  transition: border-color 0.3s;
-}
-.card:hover { border-color: var(--bordure-forte); }
-.card-icon {
-  font-size: 1.6rem;
-  margin-bottom: 1rem;
-  opacity: 0.8;
-}
-.card h3 {
-  font-family: var(--serif);
-  font-size: 1.1rem;
-  color: var(--parchemin);
-  margin-bottom: 0.6rem;
-}
-.card p { font-size: 0.95rem; color: var(--texte-muted); line-height: 1.75; }
+/* CTA BAND */
+.cta-band{padding:6rem 0;text-align:center;
+  background:linear-gradient(135deg,rgba(139,28,28,.12) 0%,transparent 60%,rgba(201,168,76,.06) 100%);
+  border-top:1px solid var(--bordure)}
+.cta-band h2{font-family:var(--serif);font-size:clamp(1.8rem,4vw,2.8rem);color:#f0e8d5;margin-bottom:1rem}
+.cta-band p{color:var(--muted);margin-bottom:2.5rem}
 
-/* === FORMULAIRES === */
-.form-group { margin-bottom: 1.6rem; }
-.form-label {
-  display: block;
-  font-size: 0.72rem;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--texte-muted);
-  margin-bottom: 0.55rem;
-}
-.form-select {
-  width: 100%;
-  background: rgba(255,255,255,0.035);
-  border: 1px solid var(--bordure);
-  color: var(--texte);
-  padding: 0.85rem 2.5rem 0.85rem 1rem;
-  font-family: var(--body);
-  font-size: 1rem;
-  cursor: pointer;
-  appearance: none;
-  -webkit-appearance: none;
-  outline: none;
-  transition: border-color 0.25s;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c9a84c' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 1rem center;
-}
-.form-select:hover,
-.form-select:focus { border-color: var(--or); }
-.form-select option { background: #141118; color: var(--texte); }
-.range-row { display: flex; align-items: center; gap: 1rem; }
-.range-val {
-  font-family: var(--serif);
-  font-size: 2.2rem;
-  color: var(--or);
-  min-width: 2.5rem;
-  text-align: center;
-}
-input[type="range"] {
-  flex: 1;
-  -webkit-appearance: none;
-  appearance: none;
-  height: 2px;
-  background: rgba(201,168,76,0.2);
-  cursor: pointer;
-  outline: none;
-  border: none;
-}
-input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 18px; height: 18px;
-  border-radius: 50%;
-  background: var(--or);
-  cursor: pointer;
-  transition: transform 0.2s;
-}
-input[type="range"]::-webkit-slider-thumb:hover { transform: scale(1.25); }
-.range-bounds { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--texte-muted); margin-top: 0.3rem; }
-.check-group { display: flex; flex-direction: column; gap: 0.65rem; }
-.check-item {
-  display: flex; align-items: center; gap: 0.8rem;
-  cursor: pointer; font-size: 1rem; color: var(--texte);
-}
-.check-item input[type="checkbox"] {
-  appearance: none; -webkit-appearance: none;
-  width: 19px; height: 19px; min-width: 19px;
-  border: 1px solid var(--bordure);
-  background: transparent; cursor: pointer; position: relative;
-  transition: all 0.2s;
-}
-.check-item input:checked { background: var(--or); border-color: var(--or); }
-.check-item input:checked::after {
-  content: '✓'; position: absolute;
-  top: 50%; left: 50%; transform: translate(-50%, -50%);
-  color: var(--noir); font-size: 11px; font-weight: bold; line-height: 1;
-}
-.tag-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
-.tag {
-  padding: 0.35rem 1rem;
-  border: 1px solid var(--bordure);
-  font-size: 0.8rem;
-  color: var(--texte-muted);
-  cursor: pointer;
-  transition: all 0.2s;
-  user-select: none;
-}
-.tag.active, .tag:hover { border-color: var(--or); color: var(--or); background: var(--or-dim); }
+/* FOOTER */
+footer{border-top:1px solid var(--bordure);padding:3rem 0;text-align:center}
+.footer-logo{font-family:var(--serif);font-size:1.3rem;color:#f0e8d5;display:block;margin-bottom:1.2rem}
+.footer-logo span{color:var(--or)}
+.footer-links{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.2rem}
+.footer-links a{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);transition:color .2s}
+.footer-links a:hover{color:var(--or)}
+.footer-copy{font-size:.8rem;color:var(--muted)}
 
-/* === LOADING SPINNER === */
-.spinner {
-  width: 42px; height: 42px;
-  border: 2px solid rgba(201,168,76,0.15);
-  border-top-color: var(--or);
-  border-radius: 50%;
-  animation: spin 0.9s linear infinite;
-  margin: 2rem auto;
-}
-.loading-text {
-  font-family: var(--serif);
-  font-size: 1.1rem;
-  color: var(--or);
-  text-align: center;
-  animation: pulse 2s ease infinite;
-}
-.loading-sub { font-size: 0.88rem; color: var(--texte-muted); text-align: center; margin-top: 0.5rem; }
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
-/* === SCENARIO OUTPUT === */
-.scenario-out { animation: fadeUp 0.6s ease both; }
-.scenario-masthead {
-  text-align: center;
-  padding-bottom: 2rem;
-  margin-bottom: 2rem;
-  border-bottom: 1px solid var(--bordure);
+/* RESPONSIVE */
+@media(max-width:900px){
+  .nav-links{display:none}
+  .nav-links.open{display:flex;flex-direction:column;position:fixed;inset:0;top:58px;
+    background:rgba(9,8,10,.97);z-index:99;justify-content:center;align-items:center;gap:2.5rem}
+  .nav-burger{display:block}
+  .process-wrap{grid-template-columns:1fr 1fr}
+  .step{border-bottom:1px solid var(--bordure)}
+  .step:nth-child(2n){border-right:none}
+  .get-grid{grid-template-columns:1fr}
+  .testi-grid{grid-template-columns:1fr}
+  .stats-row{gap:2rem}
 }
-.scenario-nom {
-  font-family: var(--serif);
-  font-size: clamp(1.7rem, 4vw, 2.4rem);
-  color: var(--parchemin);
-  line-height: 1.2;
-  margin-bottom: 0.5rem;
+@media(max-width:600px){
+  .section{padding:4rem 0}
+  .process-wrap{grid-template-columns:1fr}
+  .step{border-right:none}
+  .mock-grid{grid-template-columns:1fr}
 }
-.scenario-lieu {
-  font-size: 0.75rem;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--or);
-  margin-bottom: 1.5rem;
-}
-.scenario-synopsis {
-  font-size: 1.05rem;
-  color: var(--texte-muted);
-  line-height: 1.9;
-  font-style: italic;
-  font-family: var(--crimson);
-  max-width: 680px;
-  margin: 0 auto;
-  padding: 1.5rem;
-  border-left: 3px solid var(--or);
-  background: rgba(201,168,76,0.03);
-  text-align: left;
-}
-.output-block { margin-bottom: 2.5rem; }
-.output-label {
-  font-size: 0.72rem;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  color: var(--or);
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  margin-bottom: 1.2rem;
-}
-.output-label::after { content: ''; flex: 1; height: 1px; background: var(--bordure); }
-.crime-box {
-  background: rgba(139,28,28,0.07);
-  border: 1px solid rgba(139,28,28,0.3);
-  padding: 1.5rem;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-}
-.crime-item { font-size: 0.92rem; }
-.crime-item strong { display: block; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--rouge-vif); margin-bottom: 0.25rem; font-family: var(--body); }
-.crime-item span { color: var(--texte); }
-.perso-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1rem;
-}
-.perso-card {
-  border: 1px solid var(--bordure);
-  padding: 1.4rem;
-  background: rgba(255,255,255,0.015);
-  transition: border-color 0.25s;
-  position: relative;
-}
-.perso-card:hover { border-color: var(--bordure-forte); }
-.perso-card.victime { border-color: rgba(139,28,28,0.45); background: rgba(139,28,28,0.04); }
-.perso-card.coupable { border-color: rgba(201,168,76,0.45); background: rgba(201,168,76,0.04); }
-.perso-badge {
-  position: absolute; top: -1px; right: 1.2rem;
-  font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
-  padding: 0.25rem 0.75rem; font-weight: 700;
-}
-.perso-badge.victime { background: var(--rouge); color: var(--parchemin); }
-.perso-badge.coupable { background: var(--or); color: var(--noir); }
-.perso-nom { font-family: var(--serif); font-size: 1.05rem; color: var(--parchemin); margin-bottom: 0.2rem; }
-.perso-role { font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--or); margin-bottom: 0.75rem; }
-.perso-desc { font-size: 0.9rem; color: var(--texte-muted); line-height: 1.7; margin-bottom: 0.75rem; }
-.perso-section { font-size: 0.82rem; margin-bottom: 0.4rem; color: var(--texte); }
-.perso-section strong { color: var(--texte-muted); font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em; display: block; margin-bottom: 0.2rem; font-family: var(--body); }
-.perso-secret {
-  margin-top: 0.75rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid rgba(139,28,28,0.2);
-  font-size: 0.82rem;
-  color: #d46060;
-  font-style: italic;
-}
-.perso-secret::before { content: '⚠ Secret personnel : '; font-style: normal; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--rouge-vif); display: block; margin-bottom: 0.2rem; }
-.timeline-list { list-style: none; display: flex; flex-direction: column; gap: 0; position: relative; }
-.timeline-list::before { content: ''; position: absolute; left: 3.5rem; top: 0; bottom: 0; width: 1px; background: var(--bordure); }
-.timeline-item { display: flex; gap: 1.5rem; padding: 1rem 0; position: relative; align-items: flex-start; }
-.timeline-heure {
-  min-width: 3rem; text-align: right;
-  font-family: var(--serif); font-size: 0.9rem; color: var(--or); padding-top: 0.1rem;
-  position: relative; z-index: 1;
-}
-.timeline-dot {
-  width: 9px; height: 9px; border-radius: 50%;
-  background: var(--or); flex-shrink: 0; margin-top: 0.45rem;
-  position: relative; z-index: 1; border: 2px solid var(--encre);
-  box-shadow: 0 0 0 3px rgba(201,168,76,0.15);
-}
-.timeline-txt { font-size: 0.92rem; color: var(--texte-muted); line-height: 1.7; }
-.indices-list { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; }
-.indice-item {
-  display: flex; gap: 1rem; align-items: flex-start;
-  padding: 1rem 1.25rem;
-  border: 1px solid var(--bordure);
-  background: rgba(255,255,255,0.018);
-  transition: border-color 0.25s;
-}
-.indice-item:hover { border-color: var(--bordure-forte); }
-.indice-item.red-herring { border-color: rgba(139,28,28,0.2); opacity: 0.75; }
-.indice-num { font-family: var(--serif); font-size: 1.4rem; color: var(--or); flex-shrink: 0; line-height: 1.3; font-weight: 700; }
-.indice-body { flex: 1; }
-.indice-titre { font-size: 0.95rem; color: var(--parchemin); margin-bottom: 0.2rem; }
-.indice-lieu { font-size: 0.72rem; color: var(--texte-muted); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 0.35rem; }
-.indice-desc { font-size: 0.88rem; color: var(--texte-muted); line-height: 1.65; }
-.indice-gm { font-size: 0.82rem; color: rgba(201,168,76,0.7); font-style: italic; margin-top: 0.35rem; }
-.revelation-wrap {
-  background: rgba(139,28,28,0.07);
-  border: 1px solid rgba(139,28,28,0.35);
-  padding: 2rem;
-}
-.revelation-warn {
-  text-align: center;
-  font-size: 0.68rem;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--rouge-vif);
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid rgba(139,28,28,0.25);
-}
-.revelation-txt { font-size: 0.97rem; color: var(--texte); line-height: 1.9; }
-.revelation-mobile { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(139,28,28,0.2); font-size: 0.88rem; color: var(--texte-muted); font-style: italic; }
-.output-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 2rem; }
-.btn-act {
-  display: flex; align-items: center; gap: 0.5rem;
-  background: transparent; border: 1px solid var(--bordure);
-  color: var(--texte-muted); padding: 0.7rem 1.2rem;
-  font-family: var(--body); font-size: 0.92rem;
-  cursor: pointer; transition: all 0.25s;
-}
-.btn-act:hover { border-color: var(--or); color: var(--or); }
-.btn-act-gold { background: var(--or) !important; border-color: var(--or) !important; color: var(--noir) !important; font-weight: 700; }
-.btn-act-gold:hover { background: var(--or-pale) !important; }
+</style>
+</head>
+<body>
 
-/* === STATS === */
-.stats-row {
-  display: flex; gap: 3rem; flex-wrap: wrap; justify-content: center;
-  padding-top: 3rem; margin-top: 3rem;
-  border-top: 1px solid var(--bordure);
-}
-.stat-item { text-align: center; }
-.stat-num {
-  font-family: var(--serif);
-  font-size: 2.4rem;
-  color: var(--or);
-  display: block; line-height: 1;
-  margin-bottom: 0.35rem;
-}
-.stat-lbl { font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--texte-muted); }
+<nav>
+  <div class="nav-inner">
+    <a href="index.html" class="logo">Mystery<span>Forge</span></a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#comment">Comment ça marche</a></li>
+      <li><a href="#inclus">Ce qui est inclus</a></li>
+      <li><a href="pricing.html">Tarifs</a></li>
+      <li><a href="generator.html" class="nav-cta">Essayer gratuitement</a></li>
+    </ul>
+    <button class="nav-burger" id="burger" aria-label="Menu">☰</button>
+  </div>
+</nav>
 
-/* === ANIMATIONS === */
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(22px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-@keyframes pulse { 0%,100%{opacity:0.65}50%{opacity:1} }
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">✦ 100% autonome · Aucune IA externe · Prêt en 30 secondes ✦</div>
+  <h1 class="hero-title">Votre soirée <em>Murder Mystery</em><br>en trente secondes</h1>
+  <p class="hero-sub">Scénarios complets et uniques générés instantanément. Personnages avec secrets, indices cohérents, chronologie, révélation finale — tout prêt à imprimer et jouer.</p>
+  <div class="hero-cta-row">
+    <a href="generator.html" class="btn btn-gold btn-lg">Créer mon scénario gratuit →</a>
+    <a href="#comment" class="btn btn-outline btn-lg">Comment ça marche</a>
+  </div>
+  <div class="stats-row">
+    <div class="stat-item"><span class="stat-val">∞</span><span class="stat-lbl">Combinaisons uniques</span></div>
+    <div class="stat-item"><span class="stat-val">11</span><span class="stat-lbl">Univers & époques</span></div>
+    <div class="stat-item"><span class="stat-val">4–12</span><span class="stat-lbl">Joueurs supportés</span></div>
+    <div class="stat-item"><span class="stat-val">4.9★</span><span class="stat-lbl">Note moyenne</span></div>
+  </div>
+</section>
 
-/* === PROGRESS BAR === */
-.progress-steps {
-  display: flex; gap: 0; margin-bottom: 2.5rem; border: 1px solid var(--bordure);
-}
-.progress-step {
-  flex: 1; padding: 0.75rem 1rem; text-align: center;
-  font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase;
-  color: var(--texte-muted); border-right: 1px solid var(--bordure);
-  transition: all 0.3s; cursor: default;
-}
-.progress-step:last-child { border-right: none; }
-.progress-step.active { background: var(--or-dim); color: var(--or); }
-.progress-step.done { color: rgba(201,168,76,0.5); }
+<div class="stripe"></div>
 
-/* === FOOTER === */
-.footer {
-  border-top: 1px solid var(--bordure);
-  padding: 3rem 0;
-  text-align: center;
-}
-.footer-logo { font-family: var(--serif); font-size: 1.3rem; color: var(--parchemin); margin-bottom: 1.25rem; display: block; }
-.footer-logo em { color: var(--or); font-style: normal; }
-.footer-links { display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.25rem; }
-.footer-links a { font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--texte-muted); transition: color 0.25s; }
-.footer-links a:hover { color: var(--or); }
-.footer-copy { font-size: 0.82rem; color: var(--texte-muted); }
+<!-- FEATURES -->
+<section class="section">
+  <div class="container">
+    <div style="text-align:center">
+      <span class="eyebrow">✦ Pourquoi MysteryForge ✦</span>
+      <h2 class="section-title">Tout ce qu'il faut pour une soirée parfaite</h2>
+    </div>
+    <div class="features-grid">
+      <div class="feat"><div class="feat-icon">🎭</div><h3>Personnages vivants</h3><p>Chaque suspect a un portrait physique, une personnalité distincte, un mobile crédible, un alibi vérifiable et un secret personnel. Pas des silhouettes — de vrais personnages à incarner.</p></div>
+      <div class="feat"><div class="feat-icon">🔍</div><h3>Indices cohérents</h3><p>Des indices concrets placés dans des lieux précis, avec leur signification cachée pour le Maître de Jeu. Vraies pistes et fausses pistes soigneusement mêlées selon la difficulté choisie.</p></div>
+      <div class="feat"><div class="feat-icon">⏱</div><h3>Chronologie précise</h3><p>Une timeline complète de la soirée : qui était où, à quelle heure, avec quel alibi. Chaque moment est cohérent avec les autres pour une enquête logique et jouable.</p></div>
+      <div class="feat"><div class="feat-icon">📜</div><h3>Révélation logique</h3><p>La solution découle des indices. Le chemin de déduction est expliqué étape par étape pour que le Maître de Jeu puisse guider les joueurs vers la vérité.</p></div>
+      <div class="feat"><div class="feat-icon">🌍</div><h3>11 univers uniques</h3><p>Orient Express, manoir victorien, villa Art Déco, yacht méditerranéen, Hollywood des années 50, château médiéval… Chaque univers a son ambiance, ses lieux et ses codes narratifs.</p></div>
+      <div class="feat"><div class="feat-icon">⚡</div><h3>Instantané & autonome</h3><p>Aucune connexion externe requise. Le moteur de génération fonctionne entièrement dans votre navigateur. 30 secondes et votre scénario est prêt.</p></div>
+    </div>
+  </div>
+</section>
 
-/* === RESPONSIVE === */
-@media (max-width: 900px) {
-  .nav-links { display: none; }
-  .nav-links.open {
-    display: flex; flex-direction: column;
-    position: fixed; inset: 0; top: 60px;
-    background: rgba(9,8,10,0.98);
-    justify-content: center; align-items: center;
-    gap: 2.5rem; z-index: 190;
-  }
-  .nav-burger { display: block; }
-  .hero { padding: 10rem 0 5rem; }
-  .perso-grid { grid-template-columns: 1fr; }
-  .crime-box { grid-template-columns: 1fr; }
-  .stats-row { gap: 2rem; }
-  .output-actions { flex-direction: column; }
-}
-@media (max-width: 600px) {
-  .section-pad { padding: 5rem 0; }
-  .hero h1 { font-size: 2.5rem; }
-  .btn--lg { padding: 0.9rem 1.8rem; }
-}
+<div class="stripe"></div>
+
+<!-- COMMENT ÇA MARCHE -->
+<section class="section section-dark" id="comment">
+  <div class="container">
+    <div style="text-align:center">
+      <span class="eyebrow">✦ Le processus ✦</span>
+      <h2 class="section-title">Quatre étapes, une soirée inoubliable</h2>
+    </div>
+    <div class="process-wrap">
+      <div class="step"><span class="step-n">01</span><h3>Configurez</h3><p>Univers, nombre de joueurs, difficulté, durée, ton et options narratives. Chaque paramètre façonne une intrigue différente.</p></div>
+      <div class="step"><span class="step-n">02</span><h3>Générez</h3><p>Notre moteur crée instantanément un scénario unique : personnages, alibis, indices, chronologie et révélation finale — jamais le même.</p></div>
+      <div class="step"><span class="step-n">03</span><h3>Téléchargez</h3><p>Exportez le PDF complet avec fiches personnages format A5, cartes indices à découper et guide du Maître de Jeu. Prêt à imprimer.</p></div>
+      <div class="step"><span class="step-n">04</span><h3>Jouez</h3><p>Distribuez les rôles, plongez dans l'intrigue et laissez vos invités mener l'enquête jusqu'à la révélation finale.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CE QUI EST INCLUS -->
+<section class="section" id="inclus">
+  <div class="container">
+    <div style="text-align:center;margin-bottom:0">
+      <span class="eyebrow">✦ Le contenu complet ✦</span>
+      <h2 class="section-title">Ce que vous recevez avec chaque scénario</h2>
+    </div>
+    <div class="get-grid">
+      <ul class="get-list">
+        <li><div class="get-icon">🎭</div><div class="get-text"><strong>Fiches personnages complètes</strong>Portrait, personnalité, mobile, alibi déclaré, secret personnel et objet distinctif — une fiche par joueur, format A5 imprimable.</div></li>
+        <li><div class="get-icon">🔍</div><div class="get-text"><strong>Cartes indices à découper</strong>Chaque indice sur une carte séparée avec son lieu de découverte. Les joueurs manipulent de vrais objets.</div></li>
+        <li><div class="get-icon">⏱</div><div class="get-text"><strong>Chronologie de la soirée</strong>Timeline complète pour le Maître de Jeu : qui était où, à quelle heure, avec la vérité derrière chaque alibi.</div></li>
+        <li><div class="get-icon">📋</div><div class="get-text"><strong>Guide du Maître de Jeu</strong>Révélation complète, chemin de déduction, conseils d'animation et scène d'aveu du coupable.</div></li>
+        <li><div class="get-icon">🎨</div><div class="get-text"><strong>Ambiance & synopsis narratif</strong>Texte d'introduction à lire aux joueurs pour poser l'atmosphère dès le début de la soirée.</div></li>
+        <li><div class="get-icon">🔀</div><div class="get-text"><strong>Sous-intrigues parallèles</strong>Des tensions secondaires entre personnages pour enrichir l'enquête et éviter les temps morts.</div></li>
+      </ul>
+      <div class="preview-mock">
+        <div class="mock-lieu">✦ Orient Express · Décembre 1934 ✦</div>
+        <div class="mock-title">"Le Testament des Ombres"</div>
+        <div class="mock-tag-row">
+          <span class="mock-tag">8 joueurs</span>
+          <span class="mock-tag">Expert</span>
+          <span class="mock-tag">3h de jeu</span>
+          <span class="mock-tag">Twist final</span>
+        </div>
+        <div class="mock-grid">
+          <div class="mock-item"><strong>Victime</strong>Édouard de Montaigne<br>Baron, 64 ans</div>
+          <div class="mock-item"><strong>Méthode</strong>Empoisonnement au cyanure dans le cognac du wagon-restaurant</div>
+          <div class="mock-item"><strong>Indices</strong>11 indices dont 3 fausses pistes soigneusement placés</div>
+          <div class="mock-item"><strong>Suspects</strong>7 personnages avec mobiles, secrets et alibis distincts</div>
+        </div>
+        <div style="margin-top:1rem;padding:.75rem;background:rgba(139,28,28,.08);border:1px solid rgba(139,28,28,.25);font-size:.8rem;color:var(--muted);font-style:italic">
+          ⚠ Dossier MJ confidentiel — Révélation et chemin de déduction inclus
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="stripe"></div>
+
+<!-- TÉMOIGNAGES -->
+<section class="section section-dark">
+  <div class="container">
+    <div style="text-align:center">
+      <span class="eyebrow">✦ Ils ont joué ✦</span>
+      <h2 class="section-title">Ce que disent nos détectives</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi"><div class="stars">★★★★★</div><blockquote>Incroyable. En dix minutes j'avais un scénario complet pour 8 personnes. Nos invités ont joué pendant 3h, personne n'avait trouvé le coupable. La chronologie était parfaitement cohérente.</blockquote><div class="testi-name">Camille R.</div><div class="testi-role">Organisatrice d'événements · Lyon</div></div>
+      <div class="testi"><div class="stars">★★★★★</div><blockquote>On l'utilise pour nos team buildings. Chaque scénario est différent, les équipes adorent. Le niveau Expert pousse vraiment à la réflexion collective — c'est bluffant.</blockquote><div class="testi-name">Thomas M.</div><div class="testi-role">DRH · Entreprise tech · Paris</div></div>
+      <div class="testi"><div class="stars">★★★★☆</div><blockquote>Les personnages sont vraiment bien écrits. Leurs secrets et mobiles sont crédibles. Le scénario Orient Express était digne d'un vrai roman policier. On rejoue ce week-end !</blockquote><div class="testi-name">Sophie & Antoine</div><div class="testi-role">Passionnés de jeux de rôle · Bordeaux</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-band">
+  <div class="narrow" style="text-align:center">
+    <span class="eyebrow">✦ Commencez maintenant ✦</span>
+    <h2 class="section-title">Votre premier scénario est gratuit</h2>
+    <p style="color:var(--muted);margin-bottom:2.5rem">Aucune inscription. Aucune carte bancaire. Configurez, générez, jouez.</p>
+    <a href="generator.html" class="btn btn-gold btn-lg">Forger mon mystère →</a>
+    <p style="margin-top:1.5rem;font-size:.82rem;color:var(--muted)">Besoin de plus ? <a href="pricing.html" style="color:var(--or)">Voir les abonnements</a></p>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <a href="index.html" class="footer-logo">Mystery<span>Forge</span></a>
+    <div class="footer-links">
+      <a href="index.html">Accueil</a>
+      <a href="generator.html">Générateur</a>
+      <a href="pricing.html">Tarifs</a>
+      <a href="#">Contact</a>
+      <a href="#">CGU</a>
+      <a href="#">Confidentialité</a>
+    </div>
+    <p class="footer-copy">© 2025 MysteryForge · Tous droits réservés · contact@mysteryforge.fr</p>
+  </div>
+</footer>
+
+<script>
+const burger = document.getElementById('burger');
+const navLinks = document.getElementById('nav-links');
+burger.addEventListener('click', () => {
+  const open = navLinks.classList.toggle('open');
+  burger.textContent = open ? '✕' : '☰';
+});
+navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+  navLinks.classList.remove('open'); burger.textContent = '☰';
+}));
+// Reveal on scroll
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.style.animation='fadeUp .5s ease both'; observer.unobserve(e.target); } });
+}, {threshold:.1});
+document.querySelectorAll('.feat,.step,.testi,.get-list li,.mock-item').forEach(el => {
+  el.style.opacity='0'; observer.observe(el);
+});
+</script>
+</body>
+</html>
