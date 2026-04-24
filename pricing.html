@@ -11,7 +11,310 @@
   <link rel="stylesheet" href="css/style.css">
   <style>
     /* === PAGE GÉNÉRATEUR === */
-    .gen-layout {
+    .gen-layout {<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tarifs — MysteryForge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{font-size:16px;scroll-behavior:smooth}
+:root{
+  --noir:#09080a;--encre:#0f0d12;--surface:#161320;--surface2:#1e1b27;
+  --or:#c9a84c;--or2:#e8d5a0;--rouge:#8b1c1c;--rouge2:#c42b2b;
+  --texte:#ddd6cc;--muted:#7a7068;
+  --bordure:rgba(201,168,76,0.15);--bordure2:rgba(201,168,76,0.4);
+  --serif:'Playfair Display',Georgia,serif;--sans:'Inter',system-ui,sans-serif;
+}
+body{background:var(--noir);color:var(--texte);font-family:var(--sans);line-height:1.7;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+.container{max-width:1100px;margin:0 auto;padding:0 1.5rem}
+.narrow{max-width:720px;margin:0 auto;padding:0 1.5rem}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:.9rem 1.5rem;
+  background:rgba(9,8,10,.95);border-bottom:1px solid var(--bordure);
+  backdrop-filter:blur(12px);display:flex;justify-content:space-between;align-items:center}
+.logo{font-family:var(--serif);font-size:1.3rem;font-weight:900;color:#f0e8d5}
+.logo span{color:var(--or)}
+.nav-r{display:flex;align-items:center;gap:1.5rem}
+.nav-r a{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);transition:color .2s}
+.nav-r a:hover{color:var(--or)}
+.nav-cta{background:var(--or)!important;color:var(--noir)!important;padding:.45rem 1.2rem;font-weight:600}
+.nav-cta:hover{background:var(--or2)!important}
+
+.page{padding:8rem 1.5rem 5rem}
+.eyebrow{display:block;text-align:center;color:var(--or);font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;margin-bottom:.8rem}
+h1.page-title{font-family:var(--serif);font-size:clamp(2rem,4vw,3rem);font-weight:900;color:#f0e8d5;text-align:center;line-height:1.15;margin-bottom:1rem}
+.page-sub{font-size:.95rem;color:var(--muted);text-align:center;max-width:500px;margin:0 auto 4rem}
+.stripe{height:1px;background:linear-gradient(to right,transparent,rgba(201,168,76,.3),transparent);margin:4rem 0}
+.section{padding:4rem 0}
+
+/* PRICING CARDS */
+.plans{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:960px;margin:0 auto}
+.plan{background:var(--surface);border:1px solid var(--bordure);display:flex;flex-direction:column;position:relative;transition:border-color .3s}
+.plan:hover{border-color:var(--bordure2)}
+.plan.featured{border-color:var(--or);background:linear-gradient(to bottom,rgba(201,168,76,.04),var(--surface));transform:translateY(-6px);box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.plan-badge{position:absolute;top:-1px;left:50%;transform:translateX(-50%);
+  background:var(--or);color:var(--noir);font-size:.62rem;letter-spacing:.2em;
+  text-transform:uppercase;padding:.25rem 1.2rem;font-weight:700;white-space:nowrap}
+.plan-top{padding:2rem 1.75rem 1.5rem;border-bottom:1px solid var(--bordure)}
+.plan-name{font-family:var(--serif);font-size:1.15rem;color:#f0e8d5;margin-bottom:.4rem}
+.plan-price{font-family:var(--serif);font-size:2.6rem;color:var(--or);line-height:1;margin:.6rem 0 .2rem}
+.plan-price sub{font-size:1rem;color:var(--muted);font-family:var(--sans);font-weight:400}
+.plan-period{font-size:.75rem;color:var(--muted)}
+.plan-desc{font-size:.83rem;color:var(--muted);margin-top:.6rem;line-height:1.6}
+.plan-body{padding:1.5rem 1.75rem;flex:1;display:flex;flex-direction:column}
+.plan-feats{list-style:none;flex:1;display:flex;flex-direction:column;gap:.55rem;margin-bottom:1.5rem}
+.plan-feats li{font-size:.83rem;color:var(--texte);display:flex;gap:.5rem;align-items:flex-start;line-height:1.5}
+.plan-feats li::before{content:'✓';color:var(--or);font-weight:700;flex-shrink:0}
+.plan-feats li.off{color:var(--muted);opacity:.5}
+.plan-feats li.off::before{content:'—';color:var(--muted)}
+.plan-btn{width:100%;padding:.9rem;font-family:var(--serif);font-size:.85rem;letter-spacing:.1em;
+  text-transform:uppercase;cursor:pointer;transition:all .25s;
+  background:transparent;border:1px solid var(--bordure);color:var(--texte)}
+.plan-btn:hover{border-color:var(--or);color:var(--or)}
+.plan.featured .plan-btn{background:var(--or);border-color:var(--or);color:var(--noir);font-weight:700}
+.plan.featured .plan-btn:hover{background:var(--or2)}
+
+/* COMPARE TABLE */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:.85rem}
+th,td{padding:.8rem 1.1rem;border-bottom:1px solid var(--bordure);text-align:left}
+th{color:var(--or);font-family:var(--serif);font-weight:400;font-size:.82rem}
+th:first-child,td:first-child{color:var(--muted);font-size:.8rem}
+tr:hover td{background:rgba(255,255,255,.01)}
+.yes{color:var(--or);font-weight:700}
+.no{color:var(--muted);opacity:.4}
+
+/* FAQ */
+.faq{max-width:700px;margin:0 auto}
+.fq{border-bottom:1px solid var(--bordure)}
+.fq-q{display:flex;justify-content:space-between;align-items:center;gap:1rem;
+  padding:1.3rem 0;cursor:pointer;font-family:var(--serif);font-size:1rem;color:#f0e8d5}
+.fq-q:hover{color:var(--or)}
+.fq-arr{color:var(--or);transition:transform .25s;flex-shrink:0}
+.fq-a{display:none;padding:0 0 1.3rem;font-size:.88rem;color:var(--muted);line-height:1.85}
+.fq.open .fq-a{display:block}
+.fq.open .fq-arr{transform:rotate(180deg)}
+
+/* CTA */
+.cta-band{padding:5rem 0;text-align:center;background:linear-gradient(135deg,rgba(139,28,28,.1) 0%,transparent 60%);border-top:1px solid var(--bordure)}
+.btn-lg{display:inline-block;background:var(--or);color:var(--noir);padding:1rem 2.5rem;font-family:var(--serif);font-size:.9rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .25s;border:none}
+.btn-lg:hover{background:var(--or2);transform:translateY(-2px)}
+
+footer{border-top:1px solid var(--bordure);padding:2.5rem 0;text-align:center}
+.fl{font-family:var(--serif);font-size:1.2rem;color:#f0e8d5;display:block;margin-bottom:1rem}
+.fl span{color:var(--or)}
+.flinks{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;margin-bottom:1rem}
+.flinks a{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);transition:color .2s}
+.flinks a:hover{color:var(--or)}
+.fcopy{font-size:.78rem;color:var(--muted)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:840px){.plans{grid-template-columns:1fr;max-width:420px}.plan.featured{transform:none}}
+@media(max-width:600px){.page{padding:6rem 1rem 4rem}.plan-feats li{font-size:.8rem}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">Mystery<span>Forge</span></a>
+  <div class="nav-r">
+    <a href="index.html">Accueil</a>
+    <a href="generator.html">Générateur</a>
+    <a href="generator.html" class="nav-cta">Essayer →</a>
+  </div>
+</nav>
+
+<div class="page">
+  <span class="eyebrow">✦ Nos formules ✦</span>
+  <h1 class="page-title">Choisissez votre niveau d'enquête</h1>
+  <p class="page-sub">De la découverte gratuite à l'abonnement professionnel. Sans engagement, annulable à tout moment.</p>
+
+  <!-- PLANS -->
+  <div class="plans">
+
+    <div class="plan">
+      <div class="plan-top">
+        <div class="plan-name">Curieux</div>
+        <div class="plan-price">0<sub>€</sub></div>
+        <div class="plan-period">Pour toujours</div>
+        <div class="plan-desc">Testez le générateur une fois, sans carte bancaire.</div>
+      </div>
+      <div class="plan-body">
+        <ul class="plan-feats">
+          <li>1 génération unique</li>
+          <li>Aperçu complet en ligne</li>
+          <li>4 à 6 joueurs</li>
+          <li>3 univers disponibles</li>
+          <li class="off">Téléchargement PDF</li>
+          <li class="off">Fiches imprimables</li>
+          <li class="off">Générations illimitées</li>
+        </ul>
+        <a href="generator.html" class="plan-btn" style="text-align:center;display:block">Commencer gratuitement</a>
+      </div>
+    </div>
+
+    <div class="plan featured">
+      <div class="plan-badge">Le plus populaire</div>
+      <div class="plan-top">
+        <div class="plan-name">Détective</div>
+        <div class="plan-price">14<sub>€/mois</sub></div>
+        <div class="plan-period">ou 6€ le scénario à l'unité</div>
+        <div class="plan-desc">La formule complète pour des soirées régulières.</div>
+      </div>
+      <div class="plan-body">
+        <ul class="plan-feats">
+          <li>Générations illimitées</li>
+          <li>Tous les univers & époques</li>
+          <li>4 à 12 joueurs</li>
+          <li>3 niveaux de difficulté</li>
+          <li>PDF haute qualité complet</li>
+          <li>Fiches personnages A5</li>
+          <li>Cartes indices à découper</li>
+          <li>Guide du Maître de Jeu</li>
+          <li class="off">PDF marque blanche</li>
+        </ul>
+        <button class="plan-btn" onclick="alert('Paiement Stripe à intégrer')">Essayer 7 jours gratuit</button>
+      </div>
+    </div>
+
+    <div class="plan">
+      <div class="plan-top">
+        <div class="plan-name">Organisateur</div>
+        <div class="plan-price">29<sub>€/mois</sub></div>
+        <div class="plan-period">Facturation annuelle — 2 mois offerts</div>
+        <div class="plan-desc">Pour les pros de l'événementiel et escape games.</div>
+      </div>
+      <div class="plan-body">
+        <ul class="plan-feats">
+          <li>Tout du plan Détective</li>
+          <li>PDF marque blanche (votre logo)</li>
+          <li>Éditeur de personnages</li>
+          <li>Historique & bibliothèque</li>
+          <li>Jusqu'à 20 joueurs</li>
+          <li>Export Word & impression pro</li>
+          <li>Support prioritaire 24h</li>
+          <li>API REST disponible</li>
+        </ul>
+        <button class="plan-btn" onclick="alert('Contactez contact@mysteryforge.fr')">Contacter l'équipe</button>
+      </div>
+    </div>
+
+  </div>
+
+  <p style="text-align:center;margin-top:2rem;font-size:.8rem;color:var(--muted)">Paiement sécurisé · TVA incluse · Sans engagement · Annulation en un clic</p>
+
+  <div class="stripe"></div>
+
+  <!-- TABLEAU COMPARATIF -->
+  <div class="section">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:2.5rem">
+        <span class="eyebrow">✦ Comparatif ✦</span>
+        <h2 style="font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.2rem);color:#f0e8d5">Ce que comprend chaque plan</h2>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead>
+            <tr><th>Fonctionnalité</th><th>Curieux</th><th>Détective</th><th>Organisateur</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Générations</td><td>1</td><td>Illimitées</td><td>Illimitées</td></tr>
+            <tr><td>Joueurs</td><td>4–6</td><td>4–12</td><td>4–20</td></tr>
+            <tr><td>Univers</td><td>3</td><td>11+</td><td>11+ personnalisé</td></tr>
+            <tr><td>Aperçu en ligne</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+            <tr><td>PDF téléchargeable</td><td><span class="no">✗</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+            <tr><td>Fiches personnages A5</td><td><span class="no">✗</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+            <tr><td>Guide Maître de Jeu</td><td><span class="no">✗</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+            <tr><td>Marque blanche</td><td><span class="no">✗</span></td><td><span class="no">✗</span></td><td><span class="yes">✓</span></td></tr>
+            <tr><td>API REST</td><td><span class="no">✗</span></td><td><span class="no">✗</span></td><td><span class="yes">✓</span></td></tr>
+            <tr><td>Support</td><td>Email</td><td>Email + Chat</td><td>Prioritaire 24h</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="stripe"></div>
+
+  <!-- FAQ -->
+  <div class="section">
+    <div class="container">
+      <div style="text-align:center;margin-bottom:2.5rem">
+        <span class="eyebrow">✦ Questions fréquentes ✦</span>
+        <h2 style="font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.2rem);color:#f0e8d5">Tout ce que vous voulez savoir</h2>
+      </div>
+      <div class="faq">
+        <div class="fq">
+          <div class="fq-q" onclick="toggleFaq(this)">Les scénarios sont-ils vraiment uniques ?<span class="fq-arr">▼</span></div>
+          <div class="fq-a">Oui. Notre moteur génère les personnages, leurs secrets, leurs alibis, les indices et la solution en combinant des milliers de variables. Même en choisissant les mêmes paramètres, vous obtiendrez un scénario différent à chaque fois.</div>
+        </div>
+        <div class="fq">
+          <div class="fq-q" onclick="toggleFaq(this)">L'IA a-t-elle besoin d'une connexion internet ?<span class="fq-arr">▼</span></div>
+          <div class="fq-a">Non. Le moteur de génération fonctionne entièrement dans votre navigateur, sans aucun appel à une API externe. Une connexion est uniquement nécessaire pour charger la page la première fois (Google Fonts).</div>
+        </div>
+        <div class="fq">
+          <div class="fq-q" onclick="toggleFaq(this)">Que contient exactement le PDF ?<span class="fq-arr">▼</span></div>
+          <div class="fq-a">Le PDF comprend : le texte d'introduction narratif, une fiche A5 par personnage (portrait, personnalité, mobile, alibi, secret, objet distinctif), les cartes indices à découper, la chronologie visuelle, et le guide complet du Maître de Jeu avec la révélation et le chemin de déduction.</div>
+        </div>
+        <div class="fq">
+          <div class="fq-q" onclick="toggleFaq(this)">Puis-je utiliser MysteryForge pour des événements commerciaux ?<span class="fq-arr">▼</span></div>
+          <div class="fq-a">Le plan Organisateur est fait pour ça. Il inclut l'export marque blanche (votre logo sur les PDF), des tarifs dégressifs pour les volumes et une API pour intégrer le générateur à votre propre plateforme.</div>
+        </div>
+        <div class="fq">
+          <div class="fq-q" onclick="toggleFaq(this)">Comment annuler mon abonnement ?<span class="fq-arr">▼</span></div>
+          <div class="fq-a">L'annulation se fait en un clic depuis votre espace client. Aucun préavis requis. Vous conservez l'accès jusqu'à la fin de la période déjà payée.</div>
+        </div>
+        <div class="fq">
+          <div class="fq-q" onclick="toggleFaq(this)">Puis-je modifier le scénario après génération ?<span class="fq-arr">▼</span></div>
+          <div class="fq-a">Dans la version gratuite et Détective, vous pouvez copier le texte et le modifier librement. Le plan Organisateur inclut un éditeur intégré pour modifier noms, descriptions et indices directement avant l'export PDF.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- CTA -->
+<section class="cta-band">
+  <div class="narrow" style="text-align:center">
+    <span class="eyebrow">✦ Prêt à jouer ? ✦</span>
+    <h2 style="font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.2rem);color:#f0e8d5;margin:.6rem 0 1rem">Votre premier scénario est gratuit</h2>
+    <p style="color:var(--muted);margin-bottom:2rem">Aucune inscription. Aucune carte bancaire.</p>
+    <a href="generator.html" class="btn-lg">Créer mon scénario →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="container">
+    <a href="index.html" class="fl">Mystery<span>Forge</span></a>
+    <div class="flinks">
+      <a href="index.html">Accueil</a>
+      <a href="generator.html">Générateur</a>
+      <a href="pricing.html">Tarifs</a>
+      <a href="#">Contact</a>
+      <a href="#">CGU</a>
+    </div>
+    <p class="fcopy">© 2025 MysteryForge · contact@mysteryforge.fr</p>
+  </div>
+</footer>
+
+<script>
+function toggleFaq(el){
+  const item=el.closest('.fq');
+  const was=item.classList.contains('open');
+  document.querySelectorAll('.fq').forEach(f=>f.classList.remove('open'));
+  if(!was) item.classList.add('open');
+}
+</script>
+</body>
+</html>
+
       display: grid;
       grid-template-columns: 360px 1fr;
       gap: 3rem;
