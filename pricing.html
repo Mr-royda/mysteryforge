@@ -4,704 +4,647 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Tarifs — MysteryForge</title>
-<meta name="description" content="Choisissez votre formule MysteryForge. Scénario à l'unité 6€ ou abonnement illimité à partir de 14€/mois.">
+<meta name="description" content="Choisissez votre formule MysteryForge. De la soirée gratuite à l'abonnement professionnel.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<!-- Stripe.js -->
-<script src="https://js.stripe.com/v3/"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,900;1,600;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 :root{
-  --noir:#08070a;--surface:#12101a;--surface2:#1a1825;
-  --or:#c9a84c;--or2:#e8d195;--rouge:#8b1c1c;--rouge2:#bf3333;
-  --texte:#ddd5c8;--muted:#7d7369;
-  --bord:rgba(201,168,76,.14);--bord2:rgba(201,168,76,.38);
+  --noir:#08070a;--encre:#0d0b10;--s1:#131019;--s2:#1a1724;
+  --or:#c9a84c;--or2:#e8d5a0;--or3:rgba(201,168,76,.1);
+  --rouge:#8b1c1c;--rouge2:#c42b2b;--vert:#1a6b3c;
+  --texte:#ddd6cc;--muted:#7d7168;--muted2:#5a5250;
+  --b1:rgba(201,168,76,.13);--b2:rgba(201,168,76,.38);
   --serif:'Playfair Display',Georgia,serif;
   --sans:'Inter',system-ui,sans-serif;
 }
 body{background:var(--noir);color:var(--texte);font-family:var(--sans);line-height:1.7;overflow-x:hidden}
-a{text-decoration:none;color:inherit}
-.wrap{max-width:1080px;margin:0 auto;padding:0 1.5rem}
-.narrow{max-width:740px;margin:0 auto;padding:0 1.5rem}
+a{color:inherit;text-decoration:none}
+.wrap{max-width:1100px;margin:0 auto;padding:0 1.5rem}
+.narrow{max-width:700px;margin:0 auto;padding:0 1.5rem}
 
-nav{position:fixed;inset:0 0 auto;z-index:200;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:.85rem 2rem;background:rgba(8,7,10,.9);
-  border-bottom:1px solid var(--bord);backdrop-filter:blur(16px)}
-.logo{font-family:var(--serif);font-size:1.35rem;font-weight:900;color:#ede5d5}
+/* NAV */
+#nav{position:fixed;top:0;left:0;right:0;z-index:200}
+.nav-inner{max-width:1100px;margin:0 auto;padding:1rem 1.5rem;
+  display:flex;justify-content:space-between;align-items:center;
+  background:rgba(8,7,10,.92);backdrop-filter:blur(16px);border-bottom:1px solid var(--b1)}
+.logo{font-family:var(--serif);font-size:1.4rem;font-weight:900;color:#f0e8d5}
 .logo b{color:var(--or)}
-.nav-r{display:flex;align-items:center;gap:1.8rem}
-.nav-r a{font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);transition:color .2s}
+.nav-r{display:flex;align-items:center;gap:1.5rem}
+.nav-r a{font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);transition:color .2s}
 .nav-r a:hover{color:var(--or)}
-.nav-cta{background:var(--or)!important;color:var(--noir)!important;padding:.48rem 1.3rem;font-weight:600}
-.nav-cta:hover{background:var(--or2)!important}
+.nav-btn{background:var(--or)!important;color:var(--noir)!important;padding:.5rem 1.3rem;font-weight:600}
+.nav-btn:hover{background:var(--or2)!important}
+.burger{display:none;background:none;border:none;color:var(--texte);font-size:1.3rem;cursor:pointer}
 
-.page{padding:8rem 1.5rem 5rem}
-.stripe{height:1px;background:linear-gradient(to right,transparent,rgba(201,168,76,.25),transparent);margin:4rem 0}
-.eye{display:block;color:var(--or);font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;margin-bottom:.8rem}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
-  font-family:var(--sans);font-size:.8rem;font-weight:600;letter-spacing:.12em;
-  text-transform:uppercase;padding:.9rem 2rem;cursor:pointer;border:none;transition:all .25s}
-.btn-gold{background:var(--or);color:var(--noir)}
-.btn-gold:hover{background:var(--or2);transform:translateY(-1px);box-shadow:0 6px 20px rgba(201,168,76,.2)}
-.btn-outline{background:transparent;color:var(--texte);border:1px solid var(--bord)}
-.btn-outline:hover{border-color:var(--or);color:var(--or)}
+/* PAGE HEADER */
+.page-hero{padding:9rem 1.5rem 5rem;text-align:center;position:relative;overflow:hidden}
+.page-hero::before{content:'';position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(201,168,76,.08) 0%,transparent 65%)}
+.eyebrow{display:block;color:var(--or);font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;margin-bottom:.8rem}
+h1.ptitle{font-family:var(--serif);font-size:clamp(2.2rem,5vw,3.8rem);font-weight:900;color:#f0e8d5;line-height:1.1;margin-bottom:1rem}
+h1.ptitle em{font-style:italic;color:var(--or)}
+.psub{font-size:1rem;color:var(--muted);max-width:500px;margin:0 auto 2rem;line-height:1.85}
+.stripe{height:1px;background:linear-gradient(to right,transparent,rgba(201,168,76,.25),transparent)}
 
-/* ═══ HERO COMPACT ═══ */
-.pricing-hero{padding:7rem 0 4rem;text-align:center;
-  background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(139,28,28,.15) 0%,transparent 60%)}
-.pricing-hero h1{font-family:var(--serif);font-size:clamp(2.2rem,5vw,3.8rem);font-weight:900;color:#ede5d5;line-height:1.12;margin-bottom:1rem}
-.pricing-hero h1 em{font-style:italic;color:var(--or)}
-.pricing-hero p{font-size:.97rem;color:var(--muted);max-width:520px;margin:0 auto;line-height:1.8}
+/* TRUST BADGES */
+.trust-bar{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;padding:1.5rem 0;
+  border-top:1px solid var(--b1);border-bottom:1px solid var(--b1);margin-bottom:3rem}
+.trust-item{display:flex;align-items:center;gap:.55rem;font-size:.78rem;color:var(--muted)}
+.trust-item span{color:var(--or);font-size:1rem}
 
-/* ═══ TOGGLE BILLING ═══ */
-.toggle-wrap{display:flex;align-items:center;justify-content:center;gap:1rem;margin:2.5rem 0}
-.toggle-lbl{font-size:.8rem;color:var(--muted)}
-.toggle{position:relative;width:48px;height:26px;cursor:pointer}
-.toggle input{opacity:0;width:0;height:0}
-.toggle-slider{position:absolute;inset:0;background:rgba(201,168,76,.2);border:1px solid var(--bord2);border-radius:26px;transition:.3s}
-.toggle-slider::before{content:'';position:absolute;height:18px;width:18px;left:3px;bottom:3px;
-  background:var(--or);border-radius:50%;transition:.3s}
-.toggle input:checked+.toggle-slider{background:rgba(201,168,76,.15)}
-.toggle input:checked+.toggle-slider::before{transform:translateX(22px)}
-.save-chip{background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.3);
-  color:var(--or);font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;
-  padding:.22rem .75rem;border-radius:20px}
-
-/* ═══ PLANS ═══ */
-.plans-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:1000px;margin:0 auto}
-.plan{background:var(--surface);border:1px solid var(--bord);display:flex;flex-direction:column;
-  position:relative;transition:border-color .3s,transform .3s}
-.plan:hover{border-color:var(--bord2);transform:translateY(-3px)}
-.plan.featured{border-color:var(--or);background:linear-gradient(160deg,rgba(201,168,76,.06),var(--surface));
-  transform:translateY(-8px);box-shadow:0 24px 60px rgba(0,0,0,.5),0 0 0 1px rgba(201,168,76,.3)}
-.plan.featured:hover{transform:translateY(-11px)}
+/* PLANS */
+.plans-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:980px;margin:0 auto}
+.plan{background:var(--s1);border:1px solid var(--b1);display:flex;flex-direction:column;position:relative;transition:border-color .3s,transform .3s}
+.plan:hover{border-color:var(--b2)}
+.plan.featured{border-color:var(--or);background:linear-gradient(160deg,rgba(201,168,76,.06) 0%,var(--s1) 50%);
+  transform:translateY(-8px);box-shadow:0 24px 70px rgba(0,0,0,.5),0 0 0 1px rgba(201,168,76,.2)}
 .plan-badge{position:absolute;top:-1px;left:50%;transform:translateX(-50%);
-  background:var(--or);color:var(--noir);font-size:.62rem;letter-spacing:.18em;
-  text-transform:uppercase;padding:.24rem 1.2rem;font-weight:700;white-space:nowrap}
-.plan-top{padding:2rem 1.75rem 1.5rem;border-bottom:1px solid var(--bord)}
-.plan-icon{font-size:1.6rem;margin-bottom:.8rem}
-.plan-name{font-family:var(--serif);font-size:1.15rem;color:#ede5d5;margin-bottom:.3rem}
-.plan-tagline{font-size:.78rem;color:var(--muted);margin-bottom:1.2rem;line-height:1.5}
-.plan-price-wrap{display:flex;align-items:flex-end;gap:.4rem;margin-bottom:.25rem}
-.plan-price{font-family:var(--serif);font-size:2.8rem;color:var(--or);line-height:1}
-.plan-price-details{line-height:1.3;padding-bottom:.2rem}
-.plan-price-per{font-size:.75rem;color:var(--muted);display:block}
-.plan-price-alt{font-size:.72rem;color:rgba(201,168,76,.6);margin-top:.2rem}
-.plan-body{padding:1.5rem 1.75rem;flex:1;display:flex;flex-direction:column}
-.plan-feats{list-style:none;flex:1;margin-bottom:1.5rem;display:flex;flex-direction:column;gap:.6rem}
-.plan-feats li{font-size:.82rem;color:var(--texte);display:flex;gap:.6rem;align-items:flex-start;line-height:1.55}
-.plan-feats li .check{color:var(--or);font-weight:700;flex-shrink:0;margin-top:.05rem}
-.plan-feats li.off{color:var(--muted);opacity:.5}
-.plan-feats li.off .check{color:var(--muted)}
-.plan-separator{height:1px;background:var(--bord);margin:.4rem 0}
-.plan-btn{width:100%;padding:1rem;font-family:var(--serif);font-size:.88rem;font-weight:700;
-  letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .25s;border:none}
-.plan-btn-outline{background:transparent;color:var(--texte);border:1px solid var(--bord);cursor:pointer;
-  width:100%;padding:1rem;font-family:var(--serif);font-size:.88rem;letter-spacing:.1em;
-  text-transform:uppercase;transition:all .25s}
-.plan-btn-outline:hover{border-color:var(--or);color:var(--or)}
-.plan.featured .plan-btn{background:var(--or);color:var(--noir)}
-.plan.featured .plan-btn:hover{background:var(--or2)}
+  background:var(--or);color:var(--noir);font-size:.6rem;letter-spacing:.22em;
+  text-transform:uppercase;padding:.25rem 1.2rem;font-weight:700;white-space:nowrap}
+.plan-top{padding:2.2rem 2rem 1.75rem;border-bottom:1px solid var(--b1)}
+.plan-name{font-family:var(--serif);font-size:1.2rem;color:#f0e8d5;margin-bottom:.4rem}
+.plan-tagline{font-size:.78rem;color:var(--muted);line-height:1.5;margin-bottom:1.25rem;min-height:2.5rem}
+.plan-price{display:flex;align-items:baseline;gap:.3rem;margin-bottom:.2rem}
+.price-val{font-family:var(--serif);font-size:3rem;color:var(--or);line-height:1}
+.price-cur{font-family:var(--serif);font-size:1.3rem;color:var(--or);align-self:flex-start;margin-top:.4rem}
+.price-per{font-size:.78rem;color:var(--muted);align-self:flex-end;padding-bottom:.2rem}
+.plan-alt{font-size:.75rem;color:var(--muted2);margin-top:.3rem;min-height:1.2rem}
+.plan-body{padding:1.75rem 2rem;flex:1;display:flex;flex-direction:column}
+.plan-features{list-style:none;flex:1;display:flex;flex-direction:column;gap:.6rem;margin-bottom:1.75rem}
+.plan-features li{font-size:.84rem;color:var(--texte);display:flex;gap:.65rem;align-items:flex-start;line-height:1.5}
+.plan-features li::before{content:'✓';color:var(--or);font-weight:700;flex-shrink:0;margin-top:.1rem}
+.plan-features li.off{color:var(--muted2)}
+.plan-features li.off::before{content:'—';color:var(--muted2);font-weight:400}
+.plan-cta{width:100%;padding:1rem;font-family:var(--serif);font-size:.88rem;
+  letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .28s;
+  border:1px solid var(--b1);background:transparent;color:var(--texte)}
+.plan-cta:hover{border-color:var(--or);color:var(--or)}
+.plan.featured .plan-cta{background:var(--or);border-color:var(--or);color:var(--noir);font-weight:700}
+.plan.featured .plan-cta:hover{background:var(--or2)}
+.plan-cta:disabled{opacity:.5;cursor:not-allowed}
+.plan-loading{display:none;text-align:center;font-size:.8rem;color:var(--or);padding:.5rem}
 
-/* Loading state on buttons */
-.plan-btn.loading,.plan-btn-outline.loading{opacity:.6;cursor:wait}
+/* ONE-SHOT BOX */
+.oneshot-box{max-width:980px;margin:2rem auto 0;background:var(--s1);border:1px solid var(--b1);padding:2rem;
+  display:flex;justify-content:space-between;align-items:center;gap:2rem;flex-wrap:wrap}
+.ob-left h3{font-family:var(--serif);font-size:1.1rem;color:#f0e8d5;margin-bottom:.3rem}
+.ob-left p{font-size:.85rem;color:var(--muted);max-width:500px;line-height:1.65}
+.ob-right{text-align:center;flex-shrink:0}
+.ob-price{font-family:var(--serif);font-size:2rem;color:var(--or);line-height:1;display:block}
+.ob-sub{font-size:.72rem;color:var(--muted);display:block;margin-bottom:.9rem}
+.btn-oneshot{background:var(--or);color:var(--noir);border:none;padding:.8rem 2rem;
+  font-family:var(--serif);font-size:.85rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;cursor:pointer;transition:all .25s;white-space:nowrap}
+.btn-oneshot:hover{background:var(--or2);transform:translateY(-1px)}
 
-/* ═══ SOCIAL PROOF ═══ */
-.proof-bar{display:flex;gap:3rem;justify-content:center;flex-wrap:wrap;
-  padding:2.5rem 0;border-top:1px solid var(--bord);border-bottom:1px solid var(--bord);
-  margin:0 auto;max-width:900px}
-.proof-item{display:flex;align-items:center;gap:.75rem}
-.proof-icon{font-size:1.3rem}
-.proof-text strong{display:block;font-size:.9rem;color:#ede5d5;font-weight:600}
-.proof-text span{font-size:.75rem;color:var(--muted)}
+/* WHAT HAPPENS AFTER PAYMENT */
+.journey{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:4rem;
+  border:1px solid var(--b1)}
+.journey-step{padding:2rem 1.5rem;border-right:1px solid var(--b1);text-align:center}
+.journey-step:last-child{border-right:none}
+.js-n{width:36px;height:36px;border-radius:50%;background:var(--or3);border:1px solid var(--b2);
+  display:flex;align-items:center;justify-content:center;font-family:var(--serif);
+  font-size:1rem;color:var(--or);margin:0 auto .9rem}
+.js-title{font-family:var(--serif);font-size:.92rem;color:#f0e8d5;margin-bottom:.45rem}
+.js-desc{font-size:.8rem;color:var(--muted);line-height:1.65}
 
-/* ═══ GARANTIE ═══ */
-.garantie{background:var(--surface);border:1px solid var(--bord);padding:2.5rem;max-width:700px;margin:3rem auto;display:flex;gap:1.5rem;align-items:flex-start}
-.garantie-ico{font-size:2.5rem;flex-shrink:0}
-.garantie h3{font-family:var(--serif);font-size:1.1rem;color:#ede5d5;margin-bottom:.5rem}
-.garantie p{font-size:.88rem;color:var(--muted);line-height:1.75}
+/* SECTION */
+.section{padding:6rem 0}
+.section-dark{background:var(--encre);border-top:1px solid var(--b1);border-bottom:1px solid var(--b1)}
+.stitle{font-family:var(--serif);font-size:clamp(1.7rem,3.5vw,2.5rem);color:#f0e8d5;text-align:center;margin-bottom:1rem;line-height:1.2}
 
-/* ═══ COMPARE ═══ */
-.compare-section{padding:5rem 0}
-.compare-section h2{font-family:var(--serif);font-size:clamp(1.7rem,3.5vw,2.5rem);color:#ede5d5;text-align:center;margin-bottom:3rem}
-.tbl-wrap{overflow-x:auto;border:1px solid var(--bord)}
-table{width:100%;border-collapse:collapse;font-size:.83rem}
-thead tr{background:var(--surface2)}
-th{padding:1rem 1.2rem;text-align:left;font-family:var(--serif);font-weight:400;color:var(--or);font-size:.8rem;border-bottom:1px solid var(--bord)}
-th:first-child{color:var(--muted);font-family:var(--sans);font-size:.75rem;text-transform:uppercase;letter-spacing:.1em}
-td{padding:.85rem 1.2rem;border-bottom:1px solid rgba(201,168,76,.07);color:var(--texte)}
+/* COMPARE TABLE */
+.tbl-wrap{overflow-x:auto;margin-top:3rem}
+table{width:100%;border-collapse:collapse}
+th,td{padding:.85rem 1.25rem;border-bottom:1px solid var(--b1);font-size:.84rem;text-align:left;line-height:1.4}
+thead th{color:var(--or);font-family:var(--serif);font-weight:600;font-size:.88rem;background:var(--encre)}
+thead th:first-child{color:var(--muted);font-size:.78rem;font-family:var(--sans)}
 td:first-child{color:var(--muted);font-size:.8rem}
-tbody tr:hover td{background:rgba(255,255,255,.015)}
-tbody tr:last-child td{border-bottom:none}
-.yes{color:var(--or);font-size:1rem}
-.no{color:rgba(255,255,255,.15);font-size:1rem}
-.partial{color:var(--muted);font-size:.78rem}
+tr:hover td{background:rgba(255,255,255,.012)}
+.yes{color:var(--or);font-weight:700}
+.no{color:var(--muted2);opacity:.4}
+.tbl-note{font-size:.78rem;color:var(--muted2);margin-top:1rem;text-align:center}
 
-/* ═══ FAQ ═══ */
-.faq-section{padding:5rem 0}
-.faq-section h2{font-family:var(--serif);font-size:clamp(1.7rem,3.5vw,2.5rem);color:#ede5d5;text-align:center;margin-bottom:3rem}
-.faq{max-width:720px;margin:0 auto}
-.fq{border-bottom:1px solid var(--bord)}
+/* SCREENSHOT / DELIVERABLE PREVIEWS */
+.deliverables{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin-top:3.5rem}
+.deliverable{background:var(--s1);border:1px solid var(--b1);overflow:hidden}
+.del-header{background:var(--encre);border-bottom:1px solid var(--b1);padding:1rem 1.25rem;
+  display:flex;align-items:center;gap:.6rem}
+.del-dot{width:7px;height:7px;border-radius:50%;background:var(--or);opacity:.6}
+.del-name{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--or)}
+.del-body{padding:1.25rem}
+.del-body p{font-size:.82rem;color:var(--muted);line-height:1.7;margin-bottom:.75rem}
+.del-preview{background:var(--s2);border:1px solid var(--b1);padding:.85rem;font-size:.78rem;color:var(--muted);line-height:1.65}
+.del-preview strong{color:#f0e8d5;font-size:.72rem;text-transform:uppercase;letter-spacing:.1em;display:block;margin-bottom:.35rem}
+
+/* FAQ */
+.faq-list{display:flex;flex-direction:column;max-width:700px;margin:3rem auto 0}
+.fq{border-bottom:1px solid var(--b1)}
 .fq-q{display:flex;justify-content:space-between;align-items:center;gap:1rem;
-  padding:1.3rem 0;cursor:pointer;font-size:.97rem;color:#ede5d5;font-weight:500;transition:color .2s}
+  padding:1.35rem 0;cursor:pointer;font-family:var(--serif);font-size:1rem;color:#f0e8d5;transition:color .2s}
 .fq-q:hover{color:var(--or)}
 .fq-arr{color:var(--or);font-size:.8rem;transition:transform .25s;flex-shrink:0}
-.fq-a{display:none;padding:0 0 1.3rem;font-size:.88rem;color:var(--muted);line-height:1.85}
-.fq-a a{color:var(--or);border-bottom:1px solid rgba(201,168,76,.3)}
+.fq-a{display:none;padding:0 0 1.35rem;font-size:.88rem;color:var(--muted);line-height:1.88}
 .fq.open .fq-a{display:block}
 .fq.open .fq-arr{transform:rotate(180deg)}
 
-/* ═══ CTA BOTTOM ═══ */
-.cta-bottom{padding:6rem 0;text-align:center;
-  background:linear-gradient(to bottom,rgba(139,28,28,.1),transparent);
-  border-top:1px solid var(--bord)}
-.cta-bottom h2{font-family:var(--serif);font-size:clamp(1.8rem,4vw,3rem);color:#ede5d5;margin-bottom:1rem}
-.cta-bottom p{color:var(--muted);margin-bottom:2.5rem;font-size:.97rem}
-.trust-items{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;margin-top:1.8rem}
-.trust-item{font-size:.75rem;color:var(--muted);display:flex;align-items:center;gap:.4rem}
-.trust-item::before{content:'✓';color:var(--or);font-weight:700}
+/* GARANTIE */
+.garantie{background:var(--or3);border:1px solid var(--b2);padding:2rem;text-align:center;max-width:680px;margin:3rem auto 0}
+.garantie h3{font-family:var(--serif);font-size:1.2rem;color:#f0e8d5;margin-bottom:.5rem}
+.garantie p{font-size:.88rem;color:var(--muted);line-height:1.75}
 
-footer{border-top:1px solid var(--bord);padding:2.5rem 0}
-.fi{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.5rem}
-.fl{font-family:var(--serif);font-size:1.1rem;color:#ede5d5}
-.fl b{color:var(--or)}
-.flinks{display:flex;gap:1.8rem;flex-wrap:wrap}
-.flinks a{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);transition:color .2s}
-.flinks a:hover{color:var(--or)}
-.fcopy{font-size:.73rem;color:var(--muted);text-align:right}
+/* CTA */
+.cta-band{padding:6rem 0;text-align:center;background:linear-gradient(135deg,rgba(139,28,28,.1) 0%,transparent 60%);border-top:1px solid var(--b1)}
+.btn-lg{display:inline-block;background:var(--or);color:var(--noir);padding:1.05rem 2.8rem;
+  font-family:var(--serif);font-size:.9rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  cursor:pointer;transition:all .25s;border:none}
+.btn-lg:hover{background:var(--or2);transform:translateY(-2px)}
 
-/* ═══ MODAL PAIEMENT ═══ */
-.modal-overlay{display:none;position:fixed;inset:0;z-index:1000;
-  background:rgba(0,0,0,.85);backdrop-filter:blur(6px);
-  align-items:center;justify-content:center;padding:1.5rem}
-.modal-overlay.open{display:flex}
-.modal{background:var(--surface);border:1px solid var(--bord2);
-  width:100%;max-width:500px;max-height:90vh;overflow-y:auto;position:relative}
-.modal-close{position:absolute;top:1rem;right:1rem;background:none;border:none;
-  color:var(--muted);font-size:1.4rem;cursor:pointer;line-height:1;transition:color .2s;z-index:1}
-.modal-close:hover{color:var(--or)}
-.modal-head{padding:2rem 2rem 1.5rem;border-bottom:1px solid var(--bord)}
-.modal-plan-name{font-family:var(--serif);font-size:1.4rem;color:#ede5d5;margin-bottom:.3rem}
-.modal-plan-price{font-size:.88rem;color:var(--muted)}
-.modal-body{padding:2rem}
-.modal-includes{margin-bottom:1.75rem}
-.modal-includes h4{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--or);margin-bottom:.8rem}
-.modal-include-list{list-style:none;display:flex;flex-direction:column;gap:.45rem}
-.modal-include-list li{font-size:.83rem;color:var(--texte);display:flex;gap:.5rem;align-items:center}
-.modal-include-list li::before{content:'✓';color:var(--or);font-weight:700;flex-shrink:0}
-.modal-divider{height:1px;background:var(--bord);margin:1.5rem 0}
-.field-group{margin-bottom:1.2rem}
-.field-label{display:block;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;
-  color:var(--muted);margin-bottom:.45rem}
-.field-input{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--bord);
-  color:var(--texte);padding:.75rem 1rem;font-family:var(--sans);font-size:.92rem;
-  outline:none;transition:border-color .2s}
-.field-input:focus{border-color:var(--or)}
-.field-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
-.card-element-wrap{background:rgba(255,255,255,.04);border:1px solid var(--bord);
-  padding:.85rem 1rem;transition:border-color .2s}
-.card-element-wrap.focused{border-color:var(--or)}
-#card-errors{color:var(--rouge2);font-size:.8rem;margin-top:.5rem;min-height:1.2rem}
-.modal-total{display:flex;justify-content:space-between;align-items:center;
-  padding:1rem;background:rgba(201,168,76,.05);border:1px solid rgba(201,168,76,.2);margin-bottom:1.2rem}
-.modal-total span{font-size:.88rem;color:var(--muted)}
-.modal-total strong{font-family:var(--serif);font-size:1.4rem;color:var(--or)}
-.btn-pay{width:100%;background:var(--or);color:var(--noir);border:none;
-  padding:1.1rem;font-family:var(--serif);font-size:.95rem;font-weight:700;
-  letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:all .3s}
-.btn-pay:hover:not(:disabled){background:var(--or2);transform:translateY(-1px)}
-.btn-pay:disabled{opacity:.5;cursor:wait}
-.modal-secure{display:flex;align-items:center;justify-content:center;gap:.5rem;
-  margin-top:.9rem;font-size:.72rem;color:var(--muted)}
-.modal-secure svg{opacity:.5}
-.payment-success{text-align:center;padding:2rem}
-.success-ico{font-size:3rem;margin-bottom:1rem}
-.success-title{font-family:var(--serif);font-size:1.4rem;color:#ede5d5;margin-bottom:.7rem}
-.success-txt{font-size:.9rem;color:var(--muted);line-height:1.7;margin-bottom:1.5rem}
+/* FOOTER */
+footer{border-top:1px solid var(--b1);padding:2.5rem 0;text-align:center}
+.f-logo{font-family:var(--serif);font-size:1.25rem;color:#f0e8d5;display:block;margin-bottom:1rem}
+.f-logo b{color:var(--or)}
+.f-links{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;margin-bottom:1rem}
+.f-links a{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted2);transition:color .2s}
+.f-links a:hover{color:var(--or)}
+.f-copy{font-size:.76rem;color:var(--muted2)}
 
-@keyframes up{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
-@media(max-width:900px){
-  .plans-grid{grid-template-columns:1fr;max-width:460px;margin:0 auto}
+/* STRIPE LOADING OVERLAY */
+.stripe-overlay{display:none;position:fixed;inset:0;background:rgba(8,7,10,.9);
+  z-index:1000;justify-content:center;align-items:center;flex-direction:column;gap:1.2rem}
+.stripe-overlay.active{display:flex}
+.s-spinner{width:44px;height:44px;border:2px solid rgba(201,168,76,.15);border-top-color:var(--or);
+  border-radius:50%;animation:spin .85s linear infinite}
+.s-txt{font-family:var(--serif);font-size:1.1rem;color:var(--or)}
+.s-sub{font-size:.82rem;color:var(--muted)}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease}
+.reveal.visible{opacity:1;transform:none}
+
+@media(max-width:860px){
+  .plans-grid{grid-template-columns:1fr;max-width:480px}
   .plan.featured{transform:none}
-  .plan.featured:hover{transform:translateY(-3px)}
-  .proof-bar{gap:1.5rem}
-  .fi{flex-direction:column;text-align:center}.fcopy{text-align:center}
+  .journey{grid-template-columns:1fr 1fr}
+  .journey-step{border-bottom:1px solid var(--b1)}
+  .journey-step:nth-child(2n){border-right:none}
+  .deliverables{grid-template-columns:1fr}
+  .oneshot-box{flex-direction:column;text-align:center}
+  .ob-right{width:100%}
+  .burger{display:block}
 }
 @media(max-width:600px){
-  .field-row{grid-template-columns:1fr}
-  .modal-body{padding:1.5rem}
-  .proof-bar{flex-direction:column;gap:1.2rem;align-items:flex-start;padding-left:1.5rem}
+  .journey{grid-template-columns:1fr}
+  .journey-step{border-right:none}
+  h1.ptitle{font-size:2.2rem}
 }
 </style>
 </head>
 <body>
 
-<nav>
-  <a href="index.html" class="logo">Mystery<b>Forge</b></a>
-  <div class="nav-r">
-    <a href="index.html">Accueil</a>
-    <a href="generator.html">Générateur</a>
-    <a href="pricing.html" style="color:var(--or)">Tarifs</a>
-    <a href="generator.html" class="nav-cta">Essayer gratuit</a>
-  </div>
-</nav>
+<!-- STRIPE LOADING OVERLAY -->
+<div class="stripe-overlay" id="stripe-overlay">
+  <div class="s-spinner"></div>
+  <p class="s-txt">Redirection vers le paiement sécurisé…</p>
+  <p class="s-sub">Powered by Stripe · Connexion chiffrée SSL</p>
+</div>
 
-<!-- HERO -->
-<div class="pricing-hero">
-  <div class="wrap">
-    <span class="eye">✦ Tarifs simples et transparents ✦</span>
-    <h1>Choisissez votre<br><em>niveau d'enquête</em></h1>
-    <p>Un seul scénario ou des générations illimitées — sans engagement, annulable à tout moment.</p>
+<!-- NAV -->
+<div id="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="logo">Mystery<b>Forge</b></a>
+    <div class="nav-r">
+      <a href="index.html">Accueil</a>
+      <a href="generator.html">Générateur</a>
+      <a href="generator.html" class="nav-btn">Essayer gratuitement</a>
+    </div>
+    <button class="burger" id="burger">☰</button>
   </div>
 </div>
 
-<!-- TOGGLE -->
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <span class="eyebrow">✦ Tarifs & Formules ✦</span>
+  <h1 class="ptitle">Simple, transparent,<br><em>sans mauvaise surprise</em></h1>
+  <p class="psub">Commencez gratuitement. Payez uniquement si vous souhaitez télécharger le PDF complet et accéder à toutes les fonctionnalités.</p>
+</div>
+
 <div class="wrap">
-  <div class="toggle-wrap">
-    <span class="toggle-lbl" id="lbl-month" style="color:#ede5d5;font-weight:500">Mensuel</span>
-    <label class="toggle">
-      <input type="checkbox" id="billing-toggle">
-      <span class="toggle-slider"></span>
-    </label>
-    <span class="toggle-lbl" id="lbl-year">Annuel</span>
-    <span class="save-chip" id="save-chip">2 mois offerts</span>
+  <!-- TRUST -->
+  <div class="trust-bar reveal">
+    <div class="trust-item"><span>🔒</span> Paiement 100% sécurisé via Stripe</div>
+    <div class="trust-item"><span>↩</span> Remboursement sous 24h si non satisfait</div>
+    <div class="trust-item"><span>⚡</span> Livraison PDF immédiate</div>
+    <div class="trust-item"><span>🚫</span> Sans engagement · Annulation en 1 clic</div>
   </div>
 
   <!-- PLANS -->
-  <div class="plans-grid">
+  <div class="plans-grid reveal">
 
     <!-- GRATUIT -->
     <div class="plan">
       <div class="plan-top">
-        <div class="plan-icon">🔍</div>
         <div class="plan-name">Curieux</div>
-        <div class="plan-tagline">Testez sans engagement. Découvrez ce que MysteryForge peut créer pour vous.</div>
-        <div class="plan-price-wrap">
-          <div class="plan-price">0€</div>
+        <div class="plan-tagline">Pour découvrir MysteryForge sans risque</div>
+        <div class="plan-price">
+          <span class="price-cur">€</span>
+          <span class="price-val">0</span>
         </div>
-        <div class="plan-price-alt">Pour toujours gratuit</div>
+        <div class="plan-alt">Pour toujours</div>
       </div>
       <div class="plan-body">
-        <ul class="plan-feats">
-          <li><span class="check">✓</span>1 scénario complet en ligne</li>
-          <li><span class="check">✓</span>4 à 6 joueurs</li>
-          <li><span class="check">✓</span>3 univers disponibles</li>
-          <li><span class="check">✓</span>Aperçu personnages & indices</li>
-          <li class="separator"></li>
-          <li class="off"><span class="check">—</span>Téléchargement PDF</li>
-          <li class="off"><span class="check">—</span>Fiches imprimables A5</li>
-          <li class="off"><span class="check">—</span>Générations illimitées</li>
+        <ul class="plan-features">
+          <li>1 génération complète</li>
+          <li>Aperçu du scénario en ligne</li>
+          <li>4 à 6 joueurs</li>
+          <li>Tous les personnages, indices, révélation</li>
+          <li class="off">Téléchargement PDF</li>
+          <li class="off">Fiches personnages imprimables</li>
+          <li class="off">Générations illimitées</li>
+          <li class="off">Cartes indices à découper</li>
         </ul>
-        <a href="generator.html" class="plan-btn-outline" style="text-align:center;display:block">Commencer gratuitement</a>
+        <a href="generator.html" class="plan-cta" style="text-align:center;display:block">Commencer gratuitement →</a>
       </div>
     </div>
 
     <!-- DÉTECTIVE (featured) -->
     <div class="plan featured">
-      <div class="plan-badge">✦ Le plus populaire</div>
+      <div class="plan-badge">⭐ Le plus populaire</div>
       <div class="plan-top">
-        <div class="plan-icon">🕵</div>
         <div class="plan-name">Détective</div>
-        <div class="plan-tagline">Tout ce qu'il faut pour des soirées régulières. PDF prêt à imprimer, illimité.</div>
-        <div class="plan-price-wrap">
-          <div class="plan-price" id="price-detective">14€</div>
-          <div class="plan-price-details">
-            <span class="plan-price-per" id="per-detective">/mois</span>
-          </div>
+        <div class="plan-tagline">La formule complète pour des soirées régulières</div>
+        <div class="plan-price">
+          <span class="price-cur">€</span>
+          <span class="price-val">14</span>
+          <span class="price-per">/mois</span>
         </div>
-        <div class="plan-price-alt" id="alt-detective">ou 6€ le scénario à l'unité</div>
+        <div class="plan-alt">ou <strong style="color:var(--or)">6€</strong> le scénario à l'unité</div>
       </div>
       <div class="plan-body">
-        <ul class="plan-feats">
-          <li><span class="check">✓</span>Générations illimitées</li>
-          <li><span class="check">✓</span>Tous les univers & époques (11+)</li>
-          <li><span class="check">✓</span>4 à 12 joueurs</li>
-          <li><span class="check">✓</span>3 niveaux de difficulté</li>
-          <li><span class="check">✓</span><strong>PDF haute qualité complet</strong></li>
-          <li><span class="check">✓</span>Fiches personnages A5 imprimables</li>
-          <li><span class="check">✓</span>Cartes indices à découper</li>
-          <li><span class="check">✓</span>Guide du Maître de Jeu</li>
-          <li><span class="check">✓</span>Sous-intrigues & twists</li>
-          <li class="off"><span class="check">—</span>PDF marque blanche</li>
+        <ul class="plan-features">
+          <li>Générations illimitées</li>
+          <li>Tous les univers & époques (11+)</li>
+          <li>4 à 12 joueurs</li>
+          <li>3 niveaux de difficulté</li>
+          <li><strong style="color:#f0e8d5">PDF haute qualité complet</strong></li>
+          <li><strong style="color:#f0e8d5">Fiches personnages A5 imprimables</strong></li>
+          <li><strong style="color:#f0e8d5">Cartes indices à découper</strong></li>
+          <li>Guide complet du Maître de Jeu</li>
+          <li>Twist final & sous-intrigues</li>
+          <li class="off">PDF marque blanche</li>
         </ul>
-        <button class="plan-btn" onclick="openPayment('detective')" id="btn-detective">
-          Essayer 7 jours gratuit →
-        </button>
-        <p style="font-size:.7rem;color:var(--muted);text-align:center;margin-top:.6rem">Puis <span id="then-detective">14€/mois</span> · Annulable à tout moment</p>
+        <button class="plan-cta" id="btn-monthly" onclick="startPayment('monthly')">Essayer 7 jours gratuit →</button>
+        <div class="plan-loading" id="loading-monthly">Connexion à Stripe…</div>
       </div>
     </div>
 
     <!-- ORGANISATEUR -->
     <div class="plan">
       <div class="plan-top">
-        <div class="plan-icon">🎭</div>
-        <div class="plan-name">Organisateur Pro</div>
-        <div class="plan-tagline">Pour les professionnels de l'événementiel. Marque blanche & API incluses.</div>
-        <div class="plan-price-wrap">
-          <div class="plan-price" id="price-pro">29€</div>
-          <div class="plan-price-details">
-            <span class="plan-price-per" id="per-pro">/mois</span>
-          </div>
+        <div class="plan-name">Organisateur</div>
+        <div class="plan-tagline">Pour les pros de l'événementiel et escape games</div>
+        <div class="plan-price">
+          <span class="price-cur">€</span>
+          <span class="price-val">29</span>
+          <span class="price-per">/mois</span>
         </div>
-        <div class="plan-price-alt" id="alt-pro">Facturation mensuelle</div>
+        <div class="plan-alt">Facturation annuelle — 2 mois offerts</div>
       </div>
       <div class="plan-body">
-        <ul class="plan-feats">
-          <li><span class="check">✓</span>Tout du plan Détective</li>
-          <li><span class="check">✓</span><strong>PDF marque blanche</strong> (votre logo)</li>
-          <li><span class="check">✓</span>Éditeur de personnages avancé</li>
-          <li><span class="check">✓</span>Jusqu'à 20 joueurs</li>
-          <li><span class="check">✓</span>Historique & bibliothèque</li>
-          <li><span class="check">✓</span>Export Word & impression pro</li>
-          <li><span class="check">✓</span>Support prioritaire 24h</li>
-          <li><span class="check">✓</span>API REST disponible</li>
+        <ul class="plan-features">
+          <li>Tout du plan Détective</li>
+          <li><strong style="color:#f0e8d5">PDF marque blanche (votre logo)</strong></li>
+          <li>Jusqu'à 20 joueurs par scénario</li>
+          <li>Éditeur de personnages intégré</li>
+          <li>Historique & bibliothèque de scénarios</li>
+          <li>Export Word & impression professionnelle</li>
+          <li>Support prioritaire sous 24h</li>
+          <li>API REST disponible</li>
         </ul>
-        <button class="plan-btn-outline" onclick="openPayment('pro')" id="btn-pro">
-          Démarrer l'essai gratuit
-        </button>
-        <p style="font-size:.7rem;color:var(--muted);text-align:center;margin-top:.6rem">14 jours gratuits · <span id="then-pro">29€/mois</span> ensuite</p>
+        <button class="plan-cta" id="btn-pro" onclick="startPayment('pro')">Contacter l'équipe →</button>
+        <div class="plan-loading" id="loading-pro">Connexion…</div>
       </div>
     </div>
 
-  </div><!-- /plans-grid -->
+  </div>
 
-  <!-- SINGLE PURCHASE -->
-  <div style="margin:2rem auto;max-width:600px;background:var(--surface);border:1px solid var(--bord);padding:1.5rem 2rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
-    <div>
-      <div style="font-family:var(--serif);font-size:1.05rem;color:#ede5d5;margin-bottom:.3rem">Une seule soirée ? Achetez un scénario à l'unité</div>
-      <div style="font-size:.82rem;color:var(--muted)">Réception immédiate par email · PDF complet · Sans abonnement</div>
+  <!-- ONE-SHOT -->
+  <div class="oneshot-box reveal">
+    <div class="ob-left">
+      <h3>Pas d'abonnement ? Achetez un scénario à l'unité</h3>
+      <p>Vous avez une soirée ponctuelle à organiser ? Payez uniquement pour le scénario que vous venez de générer — PDF complet livré immédiatement par email. Aucun engagement.</p>
     </div>
-    <div style="display:flex;align-items:center;gap:1.2rem;flex-shrink:0">
-      <span style="font-family:var(--serif);font-size:1.8rem;color:var(--or)">6€</span>
-      <button class="btn btn-gold" onclick="openPayment('single')">Acheter ce scénario</button>
+    <div class="ob-right">
+      <span class="ob-price">6€</span>
+      <span class="ob-sub">un seul scénario · livraison immédiate</span>
+      <button class="btn-oneshot" id="btn-oneshot" onclick="startPayment('oneshot')">Acheter ce scénario →</button>
     </div>
   </div>
 
-  <!-- SOCIAL PROOF -->
-  <div class="proof-bar">
-    <div class="proof-item">
-      <div class="proof-icon">⭐</div>
-      <div class="proof-text"><strong>4.9/5</strong><span>Note moyenne</span></div>
-    </div>
-    <div class="proof-item">
-      <div class="proof-icon">🔒</div>
-      <div class="proof-text"><strong>Paiement sécurisé</strong><span>Chiffrement SSL · Stripe</span></div>
-    </div>
-    <div class="proof-item">
-      <div class="proof-icon">↩️</div>
-      <div class="proof-text"><strong>Satisfait ou remboursé</strong><span>7 jours sans question</span></div>
-    </div>
-    <div class="proof-item">
-      <div class="proof-icon">❌</div>
-      <div class="proof-text"><strong>Annulation facile</strong><span>En un clic, sans préavis</span></div>
+  <p style="text-align:center;margin-top:1.25rem;font-size:.78rem;color:var(--muted2)">
+    TVA incluse · Paiement sécurisé Stripe · CB, Visa, Mastercard, Apple Pay, Google Pay
+  </p>
+</div>
+
+<div class="stripe" style="margin:4rem 0"></div>
+
+<!-- CE QUI ARRIVE APRÈS LE PAIEMENT -->
+<section class="section">
+  <div class="wrap">
+    <span class="eyebrow">✦ Après votre achat ✦</span>
+    <h2 class="stitle">Ce qui se passe une fois le paiement effectué</h2>
+    <p style="text-align:center;font-size:.9rem;color:var(--muted);max-width:500px;margin:0 auto 0">Pas d'attente, pas de formulaire. Votre scénario est prêt en quelques secondes.</p>
+    <div class="journey reveal">
+      <div class="journey-step">
+        <div class="js-n">1</div>
+        <div class="js-title">Paiement confirmé</div>
+        <div class="js-desc">Stripe traite votre paiement en quelques secondes. Reçu envoyé immédiatement par email.</div>
+      </div>
+      <div class="journey-step">
+        <div class="js-n">2</div>
+        <div class="js-title">PDF généré</div>
+        <div class="js-desc">Votre scénario est mis en forme automatiquement dans un PDF haute qualité prêt à imprimer.</div>
+      </div>
+      <div class="journey-step">
+        <div class="js-n">3</div>
+        <div class="js-title">Livraison email</div>
+        <div class="js-desc">Lien de téléchargement envoyé à votre adresse email. Disponible pendant 7 jours.</div>
+      </div>
+      <div class="journey-step">
+        <div class="js-n">4</div>
+        <div class="js-title">Vous imprimez & jouez</div>
+        <div class="js-desc">Fiches A5, cartes indices, guide hôte. Découpez, distribuez, et lancez l'enquête.</div>
+      </div>
     </div>
   </div>
-
-  <!-- GARANTIE -->
-  <div class="garantie">
-    <div class="garantie-ico">🛡️</div>
-    <div>
-      <h3>Garantie satisfait ou remboursé — 7 jours</h3>
-      <p>Si vous n'êtes pas satisfait de votre scénario pour quelque raison que ce soit, nous vous remboursons intégralement dans les 7 jours suivant l'achat. Aucune question posée. Envoyez un email à <a href="mailto:contact@mysteryforge.fr" style="color:var(--or)">contact@mysteryforge.fr</a>.</p>
-    </div>
-  </div>
-
-</div><!-- /wrap -->
+</section>
 
 <div class="stripe"></div>
 
-<!-- COMPARE TABLE -->
-<section class="compare-section">
+<!-- LES LIVRABLES EN DÉTAIL -->
+<section class="section section-dark">
   <div class="wrap">
-    <h2>Comparatif complet des formules</h2>
-    <div class="tbl-wrap">
+    <span class="eyebrow">✦ Ce que vous recevez ✦</span>
+    <h2 class="stitle">Le contenu exact de votre PDF</h2>
+    <p style="text-align:center;font-size:.9rem;color:var(--muted);max-width:500px;margin:.5rem auto 0">Chaque élément est pensé pour que votre soirée soit réussie sans effort de préparation.</p>
+    <div class="deliverables reveal">
+      <div class="deliverable">
+        <div class="del-header"><div class="del-dot"></div><span class="del-name">Fiche personnage A5</span></div>
+        <div class="del-body">
+          <p>Une fiche par joueur. Format A5, pliable, avec tout ce dont le joueur a besoin pour incarner son rôle toute la soirée.</p>
+          <div class="del-preview">
+            <strong>Exemple — Victor Lacroix, Notaire · 47 ans</strong>
+            Portrait : "Silhouette élégante, cheveux grisonnants. Ses gestes mesurés suggèrent une patience calculée."<br>
+            Personnalité : Froid et méthodique. Observe plus qu'il ne parle.<br>
+            Lien avec la victime : Notaire de la famille, au courant de tous les secrets.<br>
+            <span style="color:var(--rouge2)">Secret à garder : Vend des informations confidentielles à un concurrent depuis 6 mois.</span>
+          </div>
+        </div>
+      </div>
+      <div class="deliverable">
+        <div class="del-header"><div class="del-dot"></div><span class="del-name">Cartes indices à découper</span></div>
+        <div class="del-body">
+          <p>8 à 12 cartes indices selon la difficulté. Chaque carte indique où l'indice est trouvé et sa description. Certains sont des fausses pistes.</p>
+          <div class="del-preview">
+            <strong>Indice 02 — Verre soigneusement essuyé</strong>
+            📍 Trouvé sur : le plateau du bar — le salon<br>
+            "Un seul verre parmi tous a été essuyé. Les autres portent des empreintes."<br>
+            <span style="color:var(--rouge2)">Indice 07 [Fausse piste] — Couteau manquant dans la vitrine</span>
+          </div>
+        </div>
+      </div>
+      <div class="deliverable">
+        <div class="del-header"><div class="del-dot"></div><span class="del-name">Guide du Maître de Jeu</span></div>
+        <div class="del-body">
+          <p>Tout ce que l'hôte doit savoir : la vérité derrière chaque alibi, le chemin de déduction, la révélation finale et les conseils d'animation.</p>
+          <div class="del-preview">
+            <strong>Révélation finale — confidentiel</strong>
+            Coupable : Marguerite Beaumont<br>
+            Méthode : Empoisonnement au cyanure dans le cognac<br>
+            Chemin de déduction : 1. Le verre essuyé… 2. Le gant trouvé… 3. L'alibi qui s'effondre…<br>
+            <span style="color:var(--or)">Aveu possible · Twist final · 3 conseils d'animation</span>
+          </div>
+        </div>
+      </div>
+      <div class="deliverable">
+        <div class="del-header"><div class="del-dot"></div><span class="del-name">Synopsis & Chronologie</span></div>
+        <div class="del-body">
+          <p>Un texte narratif à lire aux invités pour lancer l'ambiance, plus une timeline de la soirée avec qui était où et à quelle heure.</p>
+          <div class="del-preview">
+            <strong>Texte d'introduction (extrait)</strong>
+            "Orient Express, décembre 1934. Le train filait dans la nuit mitteleuropéenne quand on a découvert le corps du baron de Montaigne…"<br>
+            <br>
+            <strong>Chronologie</strong>
+            19:00 — Arrivée des invités · 20:00 — Dîner · 21:45 — Le crime · 22:45 — Découverte du corps…
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARATIF -->
+<section class="section">
+  <div class="wrap">
+    <span class="eyebrow">✦ Comparatif ✦</span>
+    <h2 class="stitle">Ce que comprend chaque formule</h2>
+    <div class="tbl-wrap reveal">
       <table>
         <thead>
           <tr>
             <th>Fonctionnalité</th>
-            <th>Curieux<br><small style="font-size:.65rem;font-weight:400;color:var(--muted)">Gratuit</small></th>
-            <th>Détective<br><small style="font-size:.65rem;font-weight:400;color:rgba(201,168,76,.7)">6€ ou 14€/mois</small></th>
-            <th>Organisateur Pro<br><small style="font-size:.65rem;font-weight:400;color:var(--muted)">29€/mois</small></th>
+            <th>Curieux · Gratuit</th>
+            <th>Détective · 6€ / 14€/mois</th>
+            <th>Organisateur · 29€/mois</th>
           </tr>
         </thead>
         <tbody>
           <tr><td>Générations de scénarios</td><td>1</td><td>Illimitées</td><td>Illimitées</td></tr>
-          <tr><td>Nombre de joueurs</td><td>4–6</td><td>4–12</td><td>4–20</td></tr>
-          <tr><td>Univers disponibles</td><td>3 univers</td><td>11+ univers</td><td>11+ + personnalisé</td></tr>
+          <tr><td>Aperçu en ligne</td><td><span class="yes">✓ Complet</span></td><td><span class="yes">✓ Complet</span></td><td><span class="yes">✓ Complet</span></td></tr>
+          <tr><td>Nombre de joueurs</td><td>4 à 6</td><td>4 à 12</td><td>4 à 20</td></tr>
+          <tr><td>Univers disponibles</td><td>3 univers</td><td>11 univers</td><td>11+ (personnalisable)</td></tr>
           <tr><td>Niveaux de difficulté</td><td>2</td><td>3</td><td>3 + Expert+</td></tr>
-          <tr><td>Aperçu complet en ligne</td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
-          <tr><td>Téléchargement PDF complet</td><td><span class="no">✗</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
-          <tr><td>Fiches personnages A5 imprimables</td><td><span class="no">✗</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+          <tr><td>PDF haute qualité</td><td><span class="no">✗</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+          <tr><td>Fiches personnages A5</td><td><span class="no">✗</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
           <tr><td>Cartes indices à découper</td><td><span class="no">✗</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
-          <tr><td>Guide complet du Maître de Jeu</td><td><span class="no">✗</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
-          <tr><td>Sous-intrigues & twists narratifs</td><td><span class="no">✗</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
+          <tr><td>Guide du Maître de Jeu</td><td><span class="no">✗</span></td><td><span class="yes">✓</span></td><td><span class="yes">✓</span></td></tr>
           <tr><td>PDF marque blanche (votre logo)</td><td><span class="no">✗</span></td><td><span class="no">✗</span></td><td><span class="yes">✓</span></td></tr>
           <tr><td>Éditeur de personnages</td><td><span class="no">✗</span></td><td><span class="no">✗</span></td><td><span class="yes">✓</span></td></tr>
-          <tr><td>API REST développeur</td><td><span class="no">✗</span></td><td><span class="no">✗</span></td><td><span class="yes">✓</span></td></tr>
-          <tr><td>Historique & bibliothèque</td><td><span class="no">✗</span></td><td><span class="no">✗</span></td><td><span class="yes">✓</span></td></tr>
-          <tr><td>Essai gratuit</td><td>—</td><td class="yes" style="font-size:.82rem">7 jours</td><td class="yes" style="font-size:.82rem">14 jours</td></tr>
-          <tr><td>Support client</td><td>Email</td><td>Email + Chat</td><td>Prioritaire 24h</td></tr>
+          <tr><td>API REST</td><td><span class="no">✗</span></td><td><span class="no">✗</span></td><td><span class="yes">✓</span></td></tr>
+          <tr><td>Support</td><td>Email</td><td>Email + Chat</td><td>Prioritaire 24h</td></tr>
         </tbody>
       </table>
     </div>
+    <p class="tbl-note">* Le plan Détective à 6€ correspond à un achat unique d'un scénario généré. L'abonnement à 14€/mois donne accès à des générations illimitées.</p>
   </div>
 </section>
 
 <div class="stripe"></div>
 
-<!-- FAQ -->
-<section class="faq-section">
+<!-- GARANTIE -->
+<section class="section section-dark" style="padding:4rem 0">
   <div class="wrap">
-    <h2>Questions fréquentes</h2>
-    <div class="faq">
+    <div class="garantie reveal">
+      <div style="font-size:2.2rem;margin-bottom:.75rem">🛡️</div>
+      <h3>Satisfait ou remboursé sous 24h</h3>
+      <p>Si votre PDF ne correspond pas à vos attentes, contactez-nous dans les 24h suivant l'achat. Nous remboursons sans question. Notre priorité, c'est que votre soirée soit réussie.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section">
+  <div class="wrap">
+    <span class="eyebrow">✦ Questions fréquentes ✦</span>
+    <h2 class="stitle">Tout ce que vous voulez savoir</h2>
+    <div class="faq-list reveal">
       <div class="fq">
-        <div class="fq-q" onclick="tFaq(this)">C'est quoi exactement une soirée murder mystery ?<span class="fq-arr">▼</span></div>
-        <div class="fq-a">Un jeu d'enquête en immersion où chaque invité joue un personnage. Un crime fictif a eu lieu — tout le monde interroge, accuse, démasque. À la fin, le Maître de Jeu révèle la vérité. C'est un croisement entre jeu de rôle, escape game et soirée déguisée. Aucune expérience préalable nécessaire — le scénario guide tout le monde.</div>
+        <div class="fq-q" onclick="toggleFaq(this)">Est-ce que je dois avoir joué à ce genre de soirée avant ? <span class="fq-arr">▼</span></div>
+        <div class="fq-a">Non. MysteryForge est conçu pour des débutants complets. Le guide de l'hôte explique tout étape par étape, et les fiches personnages donnent à chaque joueur tout ce dont il a besoin. Si vos invités savent poser des questions et garder un secret, c'est suffisant.</div>
       </div>
       <div class="fq">
-        <div class="fq-q" onclick="tFaq(this)">Dois-je avoir des compétences pour organiser la soirée ?<span class="fq-arr">▼</span></div>
-        <div class="fq-a">Non. Le guide du Maître de Jeu explique tout : comment introduire le crime, quand distribuer les indices, comment relancer l'enquête si elle s'embourbe, et comment conduire la révélation finale. Même si c'est votre première fois, vous êtes guidé étape par étape.</div>
+        <div class="fq-q" onclick="toggleFaq(this)">Les scénarios sont-ils vraiment différents à chaque fois ? <span class="fq-arr">▼</span></div>
+        <div class="fq-a">Oui. Notre moteur combine des milliers de variables — prénoms, personnalités, mobiles, méthodes de meurtre, emplacements d'indices, alibis. Même en choisissant les mêmes paramètres, vous obtiendrez un scénario différent à chaque génération. Il n'y a aucune base de données fixe de scénarios.</div>
       </div>
       <div class="fq">
-        <div class="fq-q" onclick="tFaq(this)">Les scénarios sont-ils vraiment uniques à chaque génération ?<span class="fq-arr">▼</span></div>
-        <div class="fq-a">Oui. Notre moteur combine des milliers de variables : noms, portraits, personnalités, mobiles, alibis, méthodes de meurtre, indices, fausses pistes. Même en choisissant exactement les mêmes paramètres, vous obtiendrez un scénario différent à chaque fois. Aucune API externe n'est utilisée — tout se génère dans votre navigateur.</div>
+        <div class="fq-q" onclick="toggleFaq(this)">Combien de personnes peuvent jouer ? <span class="fq-arr">▼</span></div>
+        <div class="fq-a">Le plan gratuit supporte 4 à 6 joueurs. Les plans payants supportent 4 à 12 joueurs (Détective) ou 4 à 20 joueurs (Organisateur). Le scénario génère exactement le bon nombre de personnages selon votre configuration — ni plus, ni moins.</div>
       </div>
       <div class="fq">
-        <div class="fq-q" onclick="tFaq(this)">Que contient le PDF téléchargeable ?<span class="fq-arr">▼</span></div>
-        <div class="fq-a">Le PDF comprend : le texte d'introduction narratif, une fiche A5 par joueur (portrait, personnalité, mobile, alibi, secret, objet distinctif), les cartes indices à découper, la chronologie visuelle, et le guide complet du Maître de Jeu avec révélation, chemin de déduction et conseils d'animation.</div>
+        <div class="fq-q" onclick="toggleFaq(this)">Combien de temps dure une soirée ? <span class="fq-arr">▼</span></div>
+        <div class="fq-a">Vous choisissez la durée lors de la configuration : 2h (format rapide, idéal pour une première fois), 3h (format standard, le plus joué), ou 4h+ (soirée complète avec de nombreuses sous-intrigues). Le scénario est adapté en conséquence.</div>
       </div>
       <div class="fq">
-        <div class="fq-q" onclick="tFaq(this)">Puis-je annuler à tout moment ?<span class="fq-arr">▼</span></div>
-        <div class="fq-a">Oui, à tout moment depuis votre espace client, en un clic. Aucun préavis requis. Vous conservez l'accès jusqu'à la fin de la période déjà payée. Et si vous n'êtes pas satisfait dans les 7 premiers jours, nous vous remboursons intégralement.</div>
+        <div class="fq-q" onclick="toggleFaq(this)">Le paiement est-il sécurisé ? <span class="fq-arr">▼</span></div>
+        <div class="fq-a">Oui. Tous les paiements sont traités par Stripe, le leader mondial du paiement en ligne. MysteryForge ne voit jamais vos coordonnées bancaires. Connexion SSL, conformité PCI-DSS, Apple Pay et Google Pay acceptés.</div>
       </div>
       <div class="fq">
-        <div class="fq-q" onclick="tFaq(this)">Puis-je utiliser MysteryForge pour des événements professionnels ?<span class="fq-arr">▼</span></div>
-        <div class="fq-a">Le plan Organisateur Pro est fait pour ça : PDF marque blanche avec votre logo, scénarios pour jusqu'à 20 joueurs, éditeur de personnages, API REST pour intégrer à votre propre plateforme. <a href="mailto:contact@mysteryforge.fr">Contactez-nous</a> pour les tarifs sur volume.</div>
+        <div class="fq-q" onclick="toggleFaq(this)">Puis-je annuler mon abonnement à tout moment ? <span class="fq-arr">▼</span></div>
+        <div class="fq-a">Oui, depuis votre espace client, en un clic, sans préavis. Vous conservez l'accès jusqu'à la fin de la période déjà payée. Aucune pénalité, aucun engagement.</div>
       </div>
       <div class="fq">
-        <div class="fq-q" onclick="tFaq(this)">Mon paiement est-il sécurisé ?<span class="fq-arr">▼</span></div>
-        <div class="fq-a">Oui. Les paiements sont traités par <strong style="color:#ede5d5">Stripe</strong>, leader mondial du paiement en ligne (utilisé par Amazon, Google, Airbnb…). Vos coordonnées bancaires ne transitent jamais par nos serveurs. La connexion est chiffrée SSL de bout en bout.</div>
+        <div class="fq-q" onclick="toggleFaq(this)">Puis-je utiliser MysteryForge pour un usage commercial ? <span class="fq-arr">▼</span></div>
+        <div class="fq-a">Le plan Organisateur est fait pour ça. Il inclut l'export marque blanche (PDF avec votre logo), une API REST pour intégrer le générateur à votre propre site, et un support dédié. Contactez-nous à contact@mysteryforge.fr pour un devis personnalisé.</div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CTA BOTTOM -->
-<section class="cta-bottom">
+<!-- CTA FINAL -->
+<section class="cta-band">
   <div class="narrow" style="text-align:center">
-    <span class="eye">✦ Lancez votre enquête ce soir ✦</span>
-    <h2>Votre premier scénario est gratuit</h2>
-    <p>Configurez, générez, découvrez. Aucune carte bancaire requise pour commencer.</p>
-    <a href="generator.html" class="btn btn-gold" style="padding:1.05rem 2.6rem;font-size:.85rem">Créer mon scénario gratuit →</a>
-    <div class="trust-items">
-      <span class="trust-item">Génération instantanée</span>
-      <span class="trust-item">Scénario 100% unique</span>
-      <span class="trust-item">Satisfait ou remboursé 7j</span>
-      <span class="trust-item">Annulation en 1 clic</span>
-    </div>
+    <span class="eyebrow">✦ Prêt à commencer ? ✦</span>
+    <h2 style="font-family:var(--serif);font-size:clamp(1.8rem,4vw,2.8rem);color:#f0e8d5;margin:.7rem 0 1rem;line-height:1.2">Votre premier scénario est gratuit</h2>
+    <p style="color:var(--muted);margin-bottom:2.5rem">Générez, regardez le résultat, puis décidez si vous voulez le PDF.</p>
+    <a href="generator.html" class="btn-lg">Créer mon scénario →</a>
   </div>
 </section>
 
+<!-- FOOTER -->
 <footer>
   <div class="wrap">
-    <div class="fi">
-      <a href="index.html" class="fl">Mystery<b>Forge</b></a>
-      <div class="flinks">
-        <a href="index.html">Accueil</a>
-        <a href="generator.html">Générateur</a>
-        <a href="pricing.html">Tarifs</a>
-        <a href="mailto:contact@mysteryforge.fr">Contact</a>
-        <a href="#">CGU</a>
-        <a href="#">Confidentialité</a>
-      </div>
-      <p class="fcopy">© 2025 MysteryForge<br>contact@mysteryforge.fr</p>
+    <a href="index.html" class="f-logo">Mystery<b>Forge</b></a>
+    <div class="f-links">
+      <a href="index.html">Accueil</a>
+      <a href="generator.html">Générateur</a>
+      <a href="pricing.html">Tarifs</a>
+      <a href="mailto:contact@mysteryforge.fr">Contact</a>
+      <a href="#">CGU</a>
+      <a href="#">Confidentialité</a>
     </div>
+    <p class="f-copy">© 2025 MysteryForge · contact@mysteryforge.fr · Paiements sécurisés par Stripe</p>
   </div>
 </footer>
 
-<!-- MODAL PAIEMENT -->
-<div class="modal-overlay" id="modal-overlay" onclick="closeModal(event)">
-  <div class="modal" id="modal">
-    <button class="modal-close" onclick="closePayment()">✕</button>
-    <div id="modal-content"></div>
-  </div>
-</div>
-
+<!-- STRIPE.JS -->
+<script src="https://js.stripe.com/v3/"></script>
 <script>
-/* ══════════════════════════════════════════
-   STRIPE CONFIGURATION
-   ⚠ Remplacez par votre clé publique Stripe
-   Tableau de bord Stripe → Développeurs → Clés API
-   ══════════════════════════════════════════ */
-const STRIPE_PK = 'pk_test_VOTRE_CLE_PUBLIQUE_STRIPE';
+/* ================================================================
+   CONFIGURATION STRIPE
+   ----------------------------------------------------------------
+   Pour activer les paiements :
+   1. Créez un compte Stripe sur stripe.com
+   2. Remplacez VOTRE_CLE_PUBLIQUE_STRIPE par votre clé publique
+      (commence par pk_live_ en production, pk_test_ en test)
+   3. Dans votre dashboard Stripe, créez vos produits et copiez
+      les Price IDs dans les variables ci-dessous
+   4. Créez une Serverless Function (Netlify/Vercel) pour créer
+      les sessions de checkout (voir README.md)
+   ================================================================ */
+const STRIPE_KEY    = 'pk_test_VOTRE_CLE_PUBLIQUE_STRIPE';
+const PRICE_MONTHLY = 'price_VOTRE_ID_ABONNEMENT_MENSUEL';  // 14€/mois
+const PRICE_PRO     = 'price_VOTRE_ID_ABONNEMENT_PRO';      // 29€/mois
+const PRICE_ONESHOT = 'price_VOTRE_ID_ACHAT_UNITAIRE';      // 6€ one-time
 
-/* ══════════════════════════════════════════
-   STRIPE PAYMENT LINKS
-   Créez ces liens dans votre dashboard Stripe
-   Stripe → Produits → Payment Links
-   ══════════════════════════════════════════ */
-const PAYMENT_LINKS = {
-  single:    'https://buy.stripe.com/VOTRE_LIEN_SINGLE',     // 6€ scénario unique
-  detective: 'https://buy.stripe.com/VOTRE_LIEN_DETECTIVE',  // 14€/mois Détective
-  pro:       'https://buy.stripe.com/VOTRE_LIEN_PRO',        // 29€/mois Pro
-  detective_annual: 'https://buy.stripe.com/VOTRE_LIEN_DETECTIVE_ANNUEL', // 140€/an
-  pro_annual:       'https://buy.stripe.com/VOTRE_LIEN_PRO_ANNUEL',       // 290€/an
-};
+// Pour l'instant, affiche une modal de configuration
+const STRIPE_CONFIGURED = STRIPE_KEY !== 'pk_test_VOTRE_CLE_PUBLIQUE_STRIPE';
 
-const PLANS = {
-  single: {
-    name:'Scénario à l\'unité',
-    price:'6€',
-    period:'paiement unique',
-    desc:'Livraison immédiate par email',
-    includes:['Scénario PDF complet','Fiches personnages A5','Cartes indices à découper','Guide du Maître de Jeu','Accès en ligne permanent'],
-    trial:null
-  },
-  detective:{
-    name:'Plan Détective',
-    price:'14€',
-    period:'/mois',
-    desc:'7 jours d\'essai gratuit',
-    includes:['Générations illimitées','Tous les univers & époques','PDF haute qualité complet','Fiches A5 + cartes indices','Guide Maître de Jeu complet'],
-    trial:'7 jours gratuits, puis 14€/mois'
-  },
-  pro:{
-    name:'Plan Organisateur Pro',
-    price:'29€',
-    period:'/mois',
-    desc:'14 jours d\'essai gratuit',
-    includes:['Tout du plan Détective','PDF marque blanche','Éditeur de personnages','Jusqu\'à 20 joueurs','Support prioritaire 24h','API REST'],
-    trial:'14 jours gratuits, puis 29€/mois'
-  }
-};
-
-// Billing toggle
-let isAnnual = false;
-const toggle = document.getElementById('billing-toggle');
-toggle.addEventListener('change', () => {
-  isAnnual = toggle.checked;
-  document.getElementById('lbl-month').style.color = isAnnual ? 'var(--muted)' : '#ede5d5';
-  document.getElementById('lbl-year').style.color = isAnnual ? '#ede5d5' : 'var(--muted)';
-  if(isAnnual) {
-    document.getElementById('price-detective').textContent = '140€';
-    document.getElementById('per-detective').textContent = '/an';
-    document.getElementById('alt-detective').textContent = 'économisez 28€ · 2 mois offerts';
-    document.getElementById('then-detective').textContent = '140€/an';
-    document.getElementById('price-pro').textContent = '290€';
-    document.getElementById('per-pro').textContent = '/an';
-    document.getElementById('alt-pro').textContent = 'économisez 58€ · 2 mois offerts';
-    document.getElementById('then-pro').textContent = '290€/an';
-  } else {
-    document.getElementById('price-detective').textContent = '14€';
-    document.getElementById('per-detective').textContent = '/mois';
-    document.getElementById('alt-detective').textContent = 'ou 6€ le scénario à l\'unité';
-    document.getElementById('then-detective').textContent = '14€/mois';
-    document.getElementById('price-pro').textContent = '29€';
-    document.getElementById('per-pro').textContent = '/mois';
-    document.getElementById('alt-pro').textContent = 'Facturation mensuelle';
-    document.getElementById('then-pro').textContent = '29€/mois';
-  }
-});
-
-function openPayment(planKey) {
-  const plan = PLANS[planKey];
-  const linkKey = isAnnual && planKey !== 'single'
-    ? planKey + '_annual'
-    : planKey;
-  const link = PAYMENT_LINKS[linkKey];
-  document.getElementById('modal-content').innerHTML = buildModal(plan, link, planKey);
-  document.getElementById('modal-overlay').classList.add('open');
-  document.body.style.overflow = 'hidden';
-}
-
-function buildModal(plan, link, planKey) {
-  return `
-    <div class="modal-head">
-      <div class="modal-plan-name">${plan.name}</div>
-      <div class="modal-plan-price">${plan.price}${plan.period} · ${plan.desc}</div>
-    </div>
-    <div class="modal-body">
-      <div class="modal-includes">
-        <h4>Ce qui est inclus</h4>
-        <ul class="modal-include-list">
-          ${plan.includes.map(i=>`<li>${i}</li>`).join('')}
-        </ul>
-      </div>
-      ${plan.trial ? `<div style="background:rgba(201,168,76,.07);border:1px solid rgba(201,168,76,.25);padding:.85rem 1rem;margin-bottom:1.5rem;font-size:.83rem;color:var(--muted)">🎁 <strong style="color:#ede5d5">${plan.trial}</strong></div>` : ''}
-      <div class="modal-divider"></div>
-
-      <!-- EMAIL FIELD -->
-      <div class="field-group">
-        <label class="field-label" for="modal-email">Adresse email</label>
-        <input type="email" id="modal-email" class="field-input" placeholder="vous@exemple.fr">
-      </div>
-
-      <div class="modal-divider"></div>
-      <div class="modal-total">
-        <span>${plan.trial ? 'Aujourd\'hui (essai gratuit)' : 'Total à payer maintenant'}</span>
-        <strong>${plan.trial ? '0€' : plan.price}</strong>
-      </div>
-
-      <button class="btn-pay" id="btn-pay-modal" onclick="processPayment('${planKey}','${link}')">
-        ${plan.trial ? '🔍 Démarrer l\'essai gratuit' : '🔒 Payer ' + plan.price + ' en toute sécurité'}
-      </button>
-      <div class="modal-secure">
-        <svg width="12" height="15" viewBox="0 0 12 15" fill="none"><rect x="1" y="6" width="10" height="9" rx="1.5" stroke="#7a7068" stroke-width="1.2"/><path d="M3.5 6V4.5a2.5 2.5 0 015 0V6" stroke="#7a7068" stroke-width="1.2" stroke-linecap="round"/></svg>
-        Paiement sécurisé · Chiffrement SSL · Stripe
-      </div>
-    </div>`;
-}
-
-function processPayment(planKey, link) {
-  const email = document.getElementById('modal-email')?.value;
-  if(!email || !email.includes('@')) {
-    document.getElementById('modal-email').style.borderColor = 'var(--rouge2)';
-    document.getElementById('modal-email').focus();
+async function startPayment(plan) {
+  if (!STRIPE_CONFIGURED) {
+    showConfigModal(plan);
     return;
   }
-  const btn = document.getElementById('btn-pay-modal');
-  btn.disabled = true;
-  btn.textContent = '⏳ Redirection vers le paiement sécurisé…';
 
-  // ⚠️ Si les Payment Links Stripe sont configurés, rediriger directement :
-  // window.location.href = link + '?prefilled_email=' + encodeURIComponent(email);
+  const overlay = document.getElementById('stripe-overlay');
+  overlay.classList.add('active');
 
-  // Mode démo (à retirer en production) :
-  setTimeout(() => {
-    document.getElementById('modal-content').innerHTML = `
-      <div class="modal-body">
-        <div class="payment-success">
-          <div class="success-ico">✅</div>
-          <div class="success-title">Commande confirmée !</div>
-          <div class="success-txt">
-            Merci pour votre achat.<br>
-            Vous allez recevoir votre PDF à <strong style="color:#ede5d5">${email}</strong> dans les prochaines minutes.<br><br>
-            <small style="color:var(--muted)">⚠ Mode démo — Configurez vos Payment Links Stripe dans le code pour activer le vrai paiement.</small>
-          </div>
-          <a href="generator.html" class="btn btn-gold" style="margin:0 auto">Générer mon scénario →</a>
-        </div>
-      </div>`;
-  }, 1800);
+  try {
+    const stripe = Stripe(STRIPE_KEY);
+    const priceId = plan === 'monthly' ? PRICE_MONTHLY
+                  : plan === 'pro'     ? PRICE_PRO
+                  : PRICE_ONESHOT;
+    const mode = plan === 'oneshot' ? 'payment' : 'subscription';
+
+    // Appel à votre backend pour créer la session
+    const resp = await fetch('/api/create-checkout', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({priceId, mode})
+    });
+    const {sessionId} = await resp.json();
+    await stripe.redirectToCheckout({sessionId});
+  } catch(err) {
+    overlay.classList.remove('active');
+    alert('Erreur lors de la connexion au paiement. Veuillez réessayer ou contacter contact@mysteryforge.fr');
+    console.error(err);
+  }
 }
 
-function closePayment() {
-  document.getElementById('modal-overlay').classList.remove('open');
-  document.body.style.overflow = '';
+function showConfigModal(plan) {
+  const planNames = {monthly:'Détective — 14€/mois',pro:'Organisateur — 29€/mois',oneshot:'Scénario unique — 6€'};
+  const msg = `💳 Paiement — ${planNames[plan]}\n\n`
+    + `Pour activer les paiements réels :\n`
+    + `1. Créez votre compte sur stripe.com\n`
+    + `2. Copiez votre clé publique dans pricing.html (ligne STRIPE_KEY)\n`
+    + `3. Créez vos produits dans le dashboard Stripe\n`
+    + `4. Ajoutez une Serverless Function /api/create-checkout\n\n`
+    + `📧 Besoin d'aide ? contact@mysteryforge.fr`;
+  alert(msg);
 }
-function closeModal(e) {
-  if(e.target.id === 'modal-overlay') closePayment();
-}
-document.addEventListener('keydown', e => { if(e.key==='Escape') closePayment(); });
 
-function tFaq(el) {
+// FAQ
+function toggleFaq(el) {
   const item = el.closest('.fq');
-  const was = item.classList.contains('open');
+  const wasOpen = item.classList.contains('open');
   document.querySelectorAll('.fq').forEach(f => f.classList.remove('open'));
-  if(!was) item.classList.add('open');
+  if (!wasOpen) item.classList.add('open');
 }
+
+// Reveal
+const obs = new IntersectionObserver(
+  entries => entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target);} }),
+  {threshold:.07}
+);
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+// Burger
+document.getElementById('burger')?.addEventListener('click', () => {
+  alert('Menu mobile — ajoutez votre navigation ici');
+});
 </script>
 </body>
 </html>
