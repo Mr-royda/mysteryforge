@@ -3,267 +3,274 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MysteryForge — Générateur de Murder Mystery</title>
-<meta name="description" content="Créez des soirées murder mystery uniques en 30 secondes. Personnages, indices, révélation — tout est prêt à jouer.">
+<title>MysteryForge — Organisez une soirée Murder Mystery en 2 minutes</title>
+<meta name="description" content="Créez votre soirée enquête criminelle unique en 2 minutes. Scénario complet, fiches personnages, indices à distribuer. Parfait pour anniversaires, team buildings, soirées entre amis.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;font-size:16px}
+html{scroll-behavior:smooth}
 :root{
-  --noir:#09080a;--encre:#0f0d12;--surface:#161320;--surface2:#1e1b27;
-  --or:#c9a84c;--or2:#e8d5a0;--rouge:#8b1c1c;--rouge2:#c42b2b;
-  --texte:#ddd6cc;--muted:#7a7068;--bordure:rgba(201,168,76,0.15);
-  --bordure2:rgba(201,168,76,0.4);
+  --noir:#08070a;--surface:#12101a;--surface2:#1a1825;
+  --or:#c9a84c;--or2:#e8d195;--rouge:#8b1c1c;--rouge2:#bf3333;
+  --texte:#ddd5c8;--muted:#7d7369;
+  --bord:rgba(201,168,76,.14);--bord2:rgba(201,168,76,.38);
   --serif:'Playfair Display',Georgia,serif;
   --sans:'Inter',system-ui,sans-serif;
 }
 body{background:var(--noir);color:var(--texte);font-family:var(--sans);line-height:1.7;overflow-x:hidden}
-a{color:inherit;text-decoration:none}
-img{display:block;max-width:100%}
-.container{max-width:1100px;margin:0 auto;padding:0 1.5rem}
-.narrow{max-width:720px;margin:0 auto;padding:0 1.5rem}
+a{text-decoration:none;color:inherit}
+.wrap{max-width:1080px;margin:0 auto;padding:0 1.5rem}
+.narrow{max-width:680px;margin:0 auto;padding:0 1.5rem}
 
-/* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:.9rem 0;
-  background:rgba(9,8,10,.92);border-bottom:1px solid var(--bordure);
-  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
-.nav-inner{display:flex;justify-content:space-between;align-items:center;max-width:1100px;margin:0 auto;padding:0 1.5rem}
-.logo{font-family:var(--serif);font-size:1.4rem;font-weight:900;color:#f0e8d5;letter-spacing:.04em}
-.logo span{color:var(--or)}
-.nav-links{display:flex;align-items:center;gap:2rem;list-style:none}
-.nav-links a{font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);transition:color .2s}
-.nav-links a:hover{color:var(--or)}
-.nav-cta{background:var(--or)!important;color:var(--noir)!important;padding:.5rem 1.3rem;font-weight:600;border-radius:0;transition:background .2s!important}
-.nav-cta:hover{background:var(--or2)!important}
-.nav-burger{display:none;background:none;border:none;color:var(--texte);font-size:1.4rem;cursor:pointer;padding:.2rem}
+/* ═══ NAV ═══ */
+nav{position:fixed;inset:0 0 auto;z-index:200;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:.85rem 2rem;
+  background:rgba(8,7,10,.9);border-bottom:1px solid var(--bord);
+  backdrop-filter:blur(16px)}
+.logo{font-family:var(--serif);font-size:1.35rem;font-weight:900;color:#ede5d5;letter-spacing:.03em}
+.logo b{color:var(--or);font-weight:900}
+.nav-links{list-style:none;display:flex;align-items:center;gap:2.2rem}
+.nav-links a{font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);transition:color .2s}
+.nav-links a:hover,.nav-links a.cur{color:var(--or)}
+.nav-cta{background:var(--or)!important;color:var(--noir)!important;
+  padding:.5rem 1.4rem;font-weight:600;letter-spacing:.1em;transition:background .2s!important}
+.nav-cta:hover{background:var(--or2)!important;color:var(--noir)!important}
+.burger{display:none;background:none;border:none;color:var(--texte);font-size:1.5rem;cursor:pointer;line-height:1}
 
-/* HERO */
-.hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;
-  text-align:center;padding:8rem 1.5rem 5rem;position:relative;overflow:hidden}
+/* ═══ HERO ═══ */
+.hero{min-height:100vh;display:grid;place-items:center;
+  padding:9rem 1.5rem 5rem;text-align:center;position:relative;overflow:hidden}
 .hero::before{content:'';position:absolute;inset:0;pointer-events:none;
-  background:radial-gradient(ellipse 80% 60% at 50% 0%,rgba(139,28,28,.18) 0%,transparent 65%),
-  radial-gradient(ellipse 40% 40% at 10% 90%,rgba(201,168,76,.07) 0%,transparent 60%)}
-.hero-badge{display:inline-block;border:1px solid rgba(201,168,76,.45);color:var(--or);
-  font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;padding:.4rem 1.6rem;margin-bottom:2rem;
-  animation:fadeUp .6s ease both}
-h1.hero-title{font-family:var(--serif);font-size:clamp(2.8rem,7vw,5.5rem);font-weight:900;
-  color:#f0e8d5;line-height:1.08;max-width:900px;margin:0 auto 1.5rem;
-  animation:fadeUp .6s ease .15s both}
-h1.hero-title em{font-style:italic;color:var(--or)}
-.hero-sub{font-size:1.1rem;color:var(--muted);max-width:540px;margin:0 auto 3rem;
-  animation:fadeUp .6s ease .3s both;line-height:1.8}
-.hero-cta-row{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;
-  animation:fadeUp .6s ease .45s both}
-.btn{display:inline-block;font-family:var(--sans);font-size:.82rem;font-weight:600;
-  letter-spacing:.1em;text-transform:uppercase;padding:.9rem 2rem;cursor:pointer;
-  border:none;transition:all .25s;text-align:center}
+  background:radial-gradient(ellipse 90% 65% at 50% -5%,rgba(139,28,28,.22) 0%,transparent 65%),
+  radial-gradient(ellipse 50% 40% at 80% 95%,rgba(201,168,76,.06) 0%,transparent 55%)}
+.hero-inner{position:relative;z-index:1}
+.h-chip{display:inline-flex;align-items:center;gap:.5rem;
+  border:1px solid rgba(201,168,76,.38);color:var(--or);
+  font-size:.68rem;letter-spacing:.28em;text-transform:uppercase;
+  padding:.38rem 1.4rem;margin-bottom:2.2rem;animation:up .6s ease both}
+.hero h1{font-family:var(--serif);font-size:clamp(2.8rem,7vw,5.8rem);font-weight:900;
+  color:#ede5d5;line-height:1.06;max-width:920px;margin:0 auto 1.6rem;
+  animation:up .6s ease .12s both}
+.hero h1 em{font-style:italic;color:var(--or)}
+.hero-sub{font-size:1.05rem;color:var(--muted);max-width:520px;margin:0 auto 2.8rem;
+  line-height:1.85;animation:up .6s ease .24s both}
+.cta-row{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;
+  animation:up .6s ease .36s both}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;
+  font-family:var(--sans);font-size:.8rem;font-weight:600;letter-spacing:.12em;
+  text-transform:uppercase;padding:.9rem 2rem;cursor:pointer;border:none;
+  transition:all .25s;white-space:nowrap}
 .btn-gold{background:var(--or);color:var(--noir)}
-.btn-gold:hover{background:var(--or2);transform:translateY(-2px);box-shadow:0 8px 28px rgba(201,168,76,.2)}
-.btn-outline{background:transparent;color:var(--texte);border:1px solid rgba(255,255,255,.15)}
+.btn-gold:hover{background:var(--or2);transform:translateY(-2px);box-shadow:0 8px 28px rgba(201,168,76,.22)}
+.btn-outline{background:transparent;color:var(--texte);border:1px solid rgba(255,255,255,.14)}
 .btn-outline:hover{border-color:var(--or);color:var(--or)}
-.btn-lg{padding:1.05rem 2.5rem;font-size:.88rem}
+.btn-lg{padding:1.05rem 2.6rem;font-size:.85rem}
+.btn-rouge{background:var(--rouge);color:#ede5d5}
+.btn-rouge:hover{background:var(--rouge2);transform:translateY(-1px)}
 
 /* STATS */
-.stats-row{display:flex;gap:3rem;flex-wrap:wrap;justify-content:center;
-  margin-top:4rem;padding-top:3rem;border-top:1px solid var(--bordure);
-  animation:fadeUp .6s ease .6s both}
-.stat-val{font-family:var(--serif);font-size:2.2rem;color:var(--or);display:block;line-height:1;margin-bottom:.3rem}
-.stat-lbl{font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+.stats{display:flex;gap:3.5rem;justify-content:center;flex-wrap:wrap;
+  margin-top:4rem;padding-top:3rem;border-top:1px solid var(--bord);
+  animation:up .6s ease .5s both}
+.stat-n{font-family:var(--serif);font-size:2.4rem;color:var(--or);display:block;line-height:1;margin-bottom:.3rem}
+.stat-l{font-size:.7rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
 
-/* SECTIONS COMMUNES */
-.section{padding:6rem 0}
-.section-dark{background:var(--encre);border-top:1px solid var(--bordure);border-bottom:1px solid var(--bordure)}
-.eyebrow{display:inline-block;color:var(--or);font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;margin-bottom:.9rem}
-h2.section-title{font-family:var(--serif);font-size:clamp(1.8rem,4vw,2.8rem);color:#f0e8d5;line-height:1.2;margin-bottom:1rem}
-.section-lead{font-size:1rem;color:var(--muted);max-width:520px;margin:0 auto;line-height:1.8}
-.stripe{height:1px;background:linear-gradient(to right,transparent,rgba(201,168,76,.3),transparent)}
+/* ═══ SECTIONS ═══ */
+.section{padding:7rem 0}
+.section-dark{background:var(--surface);border-top:1px solid var(--bord);border-bottom:1px solid var(--bord)}
+.eye{display:block;text-align:center;color:var(--or);font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;margin-bottom:.8rem}
+h2.st{font-family:var(--serif);font-size:clamp(1.9rem,4vw,3rem);color:#ede5d5;text-align:center;line-height:1.18;margin-bottom:1rem}
+.slead{font-size:.97rem;color:var(--muted);text-align:center;max-width:500px;margin:0 auto;line-height:1.85}
+.stripe{height:1px;background:linear-gradient(to right,transparent,rgba(201,168,76,.25),transparent)}
 
-/* FEATURES */
-.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:4rem}
-.feat{background:var(--surface);border:1px solid var(--bordure);padding:2rem;transition:border-color .3s}
-.feat:hover{border-color:var(--bordure2)}
-.feat-icon{font-size:1.8rem;margin-bottom:1rem;opacity:.85}
-.feat h3{font-family:var(--serif);font-size:1.05rem;color:#f0e8d5;margin-bottom:.6rem}
-.feat p{font-size:.9rem;color:var(--muted);line-height:1.75}
+/* ═══ EXPLAINER (C'est quoi ?) ═══ */
+.explainer-grid{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center;margin-top:4rem}
+.exp-visual{position:relative}
+.exp-card-stack{position:relative;height:320px}
+.exp-card{position:absolute;background:var(--surface2);border:1px solid var(--bord);padding:1.5rem;width:220px}
+.exp-card:nth-child(1){top:0;left:0;transform:rotate(-3deg);z-index:1}
+.exp-card:nth-child(2){top:40px;left:50px;transform:rotate(1deg);z-index:2;border-color:var(--bord2)}
+.exp-card:nth-child(3){top:80px;left:100px;transform:rotate(-1deg);z-index:3;background:var(--surface);border-color:rgba(139,28,28,.4)}
+.exp-card-title{font-family:var(--serif);font-size:.95rem;color:#ede5d5;margin-bottom:.3rem}
+.exp-card-role{font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--or);margin-bottom:.75rem}
+.exp-card-body{font-size:.78rem;color:var(--muted);line-height:1.6}
+.exp-card-secret{font-size:.73rem;color:#d46060;font-style:italic;margin-top:.6rem;padding-top:.6rem;border-top:1px solid rgba(139,28,28,.2)}
+.exp-text h3{font-family:var(--serif);font-size:1.7rem;color:#ede5d5;line-height:1.25;margin-bottom:1.2rem}
+.exp-text p{font-size:.95rem;color:var(--muted);line-height:1.85;margin-bottom:1rem}
+.exp-tags{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.5rem}
+.exp-tag{padding:.35rem 1rem;border:1px solid var(--bord);font-size:.75rem;color:var(--muted)}
 
-/* PROCESS */
-.process-wrap{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--bordure);margin-top:4rem}
-.step{padding:2.5rem 1.75rem;border-right:1px solid var(--bordure);text-align:center}
-.step:last-child{border-right:none}
-.step-n{font-family:var(--serif);font-size:3rem;color:rgba(201,168,76,.12);display:block;line-height:1;margin-bottom:1rem}
-.step h3{font-family:var(--serif);font-size:1rem;color:#f0e8d5;margin-bottom:.6rem}
-.step p{font-size:.85rem;color:var(--muted);line-height:1.7}
+/* ═══ HOW ═══ */
+.how-grid{display:grid;grid-template-columns:repeat(4,1fr);margin-top:4rem;border:1px solid var(--bord)}
+.how-step{padding:2.5rem 1.75rem;border-right:1px solid var(--bord);position:relative}
+.how-step:last-child{border-right:none}
+.how-n{font-family:var(--serif);font-size:3.5rem;color:rgba(201,168,76,.1);display:block;line-height:1;margin-bottom:1rem}
+.how-step h3{font-family:var(--serif);font-size:1rem;color:#ede5d5;margin-bottom:.6rem}
+.how-step p{font-size:.83rem;color:var(--muted);line-height:1.75}
+.how-step::after{content:attr(data-num);position:absolute;top:1.5rem;right:1.5rem;
+  font-size:.62rem;color:rgba(201,168,76,.35);letter-spacing:.1em}
 
-/* WHAT YOU GET */
-.get-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-top:4rem;align-items:center}
-.get-list{list-style:none;display:flex;flex-direction:column;gap:1rem}
-.get-list li{display:flex;gap:1rem;align-items:flex-start}
-.get-icon{width:28px;height:28px;min-width:28px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.3);
-  display:flex;align-items:center;justify-content:center;font-size:.8rem;color:var(--or);flex-shrink:0}
-.get-text{font-size:.92rem;color:var(--texte);line-height:1.6}
-.get-text strong{display:block;font-size:.82rem;font-weight:600;color:#f0e8d5;margin-bottom:.1rem}
-.preview-mock{background:var(--surface);border:1px solid var(--bordure);padding:2rem}
-.mock-title{font-family:var(--serif);font-size:1.3rem;color:#f0e8d5;margin-bottom:.3rem}
-.mock-lieu{font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--or);margin-bottom:1rem}
-.mock-tag-row{display:flex;gap:.4rem;flex-wrap:wrap;margin-bottom:1.2rem}
-.mock-tag{padding:.2rem .65rem;border:1px solid var(--bordure);font-size:.68rem;color:var(--muted);letter-spacing:.08em}
-.mock-grid{display:grid;grid-template-columns:1fr 1fr;gap:.5rem}
-.mock-item{background:var(--surface2);border:1px solid var(--bordure);padding:.75rem;font-size:.78rem;color:var(--muted);line-height:1.5}
-.mock-item strong{display:block;font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;color:var(--or);margin-bottom:.2rem}
+/* ═══ WHAT YOU GET ═══ */
+.get-grid{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:start;margin-top:4rem}
+.get-items{display:flex;flex-direction:column;gap:1.2rem}
+.get-item{display:flex;gap:1rem;align-items:flex-start}
+.get-icon{width:36px;height:36px;min-width:36px;background:rgba(201,168,76,.08);
+  border:1px solid rgba(201,168,76,.25);display:flex;align-items:center;justify-content:center;font-size:.95rem}
+.get-body strong{display:block;font-size:.88rem;color:#ede5d5;margin-bottom:.2rem;font-weight:600}
+.get-body span{font-size:.82rem;color:var(--muted);line-height:1.6}
+.preview{background:var(--surface2);border:1px solid var(--bord2);overflow:hidden}
+.prev-head{padding:1.2rem 1.5rem;border-bottom:1px solid var(--bord);background:rgba(201,168,76,.03)}
+.prev-lieu{font-size:.62rem;letter-spacing:.22em;text-transform:uppercase;color:var(--or);margin-bottom:.3rem}
+.prev-title{font-family:var(--serif);font-size:1.2rem;color:#ede5d5}
+.prev-tags{display:flex;gap:.4rem;margin-top:.7rem;flex-wrap:wrap}
+.prev-tag{font-size:.62rem;border:1px solid var(--bord);padding:.18rem .6rem;color:var(--muted);letter-spacing:.06em}
+.prev-body{padding:1.2rem 1.5rem;display:flex;flex-direction:column;gap:.65rem}
+.prev-row{background:rgba(0,0,0,.2);border:1px solid var(--bord);padding:.8rem 1rem;display:flex;gap:.75rem;align-items:flex-start}
+.prev-row-ico{font-size:1rem;flex-shrink:0}
+.prev-row-body strong{display:block;font-size:.62rem;text-transform:uppercase;letter-spacing:.12em;color:var(--or);margin-bottom:.2rem}
+.prev-row-body span{font-size:.8rem;color:var(--muted);line-height:1.5}
+.prev-foot{padding:.9rem 1.5rem;border-top:1px solid rgba(139,28,28,.25);
+  background:rgba(139,28,28,.06);font-size:.73rem;color:var(--muted);font-style:italic;text-align:center}
 
-/* TESTIMONIALS */
+/* ═══ FOR WHO ═══ */
+.who-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem;margin-top:3.5rem}
+.who{background:var(--surface2);border:1px solid var(--bord);padding:1.75rem;transition:border-color .3s}
+.who:hover{border-color:var(--bord2)}
+.who-ico{font-size:2rem;margin-bottom:1rem}
+.who h3{font-family:var(--serif);font-size:1rem;color:#ede5d5;margin-bottom:.5rem}
+.who p{font-size:.83rem;color:var(--muted);line-height:1.7}
+
+/* ═══ TESTIMONIALS ═══ */
 .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:4rem}
-.testi{background:var(--surface);border:1px solid var(--bordure);padding:2rem}
-.stars{color:var(--or);font-size:.8rem;letter-spacing:.2em;margin-bottom:.9rem}
-.testi blockquote{font-style:italic;color:var(--muted);font-size:.9rem;line-height:1.85;margin-bottom:1.2rem;font-family:'Palatino',serif}
-.testi-name{font-family:var(--serif);font-size:.9rem;color:#f0e8d5}
-.testi-role{font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em}
+.testi{background:var(--surface2);border:1px solid var(--bord);padding:2rem;transition:border-color .3s}
+.testi:hover{border-color:var(--bord2)}
+.stars{color:var(--or);font-size:.8rem;letter-spacing:.2em;margin-bottom:1rem}
+.testi blockquote{font-style:italic;color:var(--muted);font-size:.9rem;line-height:1.85;margin-bottom:1.3rem;font-family:'Palatino Linotype',serif}
+.testi-who{font-family:var(--serif);font-size:.88rem;color:#ede5d5}
+.testi-role{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.1em;margin-top:.2rem}
 
-/* CTA BAND */
-.cta-band{padding:6rem 0;text-align:center;
-  background:linear-gradient(135deg,rgba(139,28,28,.12) 0%,transparent 60%,rgba(201,168,76,.06) 100%);
-  border-top:1px solid var(--bordure)}
-.cta-band h2{font-family:var(--serif);font-size:clamp(1.8rem,4vw,2.8rem);color:#f0e8d5;margin-bottom:1rem}
-.cta-band p{color:var(--muted);margin-bottom:2.5rem}
+/* ═══ CTA FINAL ═══ */
+.cta-final{padding:7rem 0;text-align:center;
+  background:linear-gradient(to bottom,rgba(139,28,28,.12),rgba(8,7,10,0));
+  border-top:1px solid var(--bord)}
+.cta-final h2{font-family:var(--serif);font-size:clamp(2rem,4.5vw,3.2rem);color:#ede5d5;margin-bottom:1rem}
+.cta-final p{color:var(--muted);font-size:.97rem;margin-bottom:2.8rem}
+.trust-row{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;margin-top:2rem}
+.trust-item{font-size:.75rem;color:var(--muted);display:flex;align-items:center;gap:.4rem}
+.trust-item::before{content:'✓';color:var(--or)}
 
-/* FOOTER */
-footer{border-top:1px solid var(--bordure);padding:3rem 0;text-align:center}
-.footer-logo{font-family:var(--serif);font-size:1.3rem;color:#f0e8d5;display:block;margin-bottom:1.2rem}
-.footer-logo span{color:var(--or)}
-.footer-links{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.2rem}
-.footer-links a{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);transition:color .2s}
+/* ═══ FOOTER ═══ */
+footer{border-top:1px solid var(--bord);padding:3rem 0}
+.footer-inner{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1.5rem}
+.footer-logo{font-family:var(--serif);font-size:1.2rem;color:#ede5d5}
+.footer-logo b{color:var(--or)}
+.footer-links{display:flex;gap:2rem;flex-wrap:wrap}
+.footer-links a{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);transition:color .2s}
 .footer-links a:hover{color:var(--or)}
-.footer-copy{font-size:.8rem;color:var(--muted)}
+.footer-copy{font-size:.75rem;color:var(--muted);text-align:right}
 
-/* ANIMATIONS */
-@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes up{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
 
 /* RESPONSIVE */
 @media(max-width:900px){
   .nav-links{display:none}
-  .nav-links.open{display:flex;flex-direction:column;position:fixed;inset:0;top:58px;
-    background:rgba(9,8,10,.97);z-index:99;justify-content:center;align-items:center;gap:2.5rem}
-  .nav-burger{display:block}
-  .process-wrap{grid-template-columns:1fr 1fr}
-  .step{border-bottom:1px solid var(--bordure)}
-  .step:nth-child(2n){border-right:none}
-  .get-grid{grid-template-columns:1fr}
-  .testi-grid{grid-template-columns:1fr}
-  .stats-row{gap:2rem}
+  .nav-links.open{display:flex;flex-direction:column;position:fixed;inset:0;top:56px;
+    background:rgba(8,7,10,.97);z-index:190;justify-content:center;align-items:center;gap:2.8rem}
+  .burger{display:block}
+  .explainer-grid,.how-grid,.get-grid,.who-grid,.testi-grid{grid-template-columns:1fr}
+  .how-step{border-right:none;border-bottom:1px solid var(--bord)}
+  .how-step:last-child{border-bottom:none}
+  .exp-card-stack{height:250px}
+  .exp-card{width:190px}
+  .footer-inner{flex-direction:column;text-align:center}
+  .footer-copy{text-align:center}
 }
 @media(max-width:600px){
-  .section{padding:4rem 0}
-  .process-wrap{grid-template-columns:1fr}
-  .step{border-right:none}
-  .mock-grid{grid-template-columns:1fr}
+  .section{padding:5rem 0}
+  .stats{gap:2rem}
+  .cta-row{flex-direction:column;align-items:center}
 }
 </style>
 </head>
 <body>
 
-<nav>
-  <div class="nav-inner">
-    <a href="index.html" class="logo">Mystery<span>Forge</span></a>
-    <ul class="nav-links" id="nav-links">
-      <li><a href="#comment">Comment ça marche</a></li>
-      <li><a href="#inclus">Ce qui est inclus</a></li>
-      <li><a href="pricing.html">Tarifs</a></li>
-      <li><a href="generator.html" class="nav-cta">Essayer gratuitement</a></li>
-    </ul>
-    <button class="nav-burger" id="burger" aria-label="Menu">☰</button>
-  </div>
+<nav id="nav">
+  <a href="index.html" class="logo">Mystery<b>Forge</b></a>
+  <ul class="nav-links" id="nl">
+    <li><a href="#cest-quoi">C'est quoi ?</a></li>
+    <li><a href="#comment">Comment ça marche</a></li>
+    <li><a href="#inclus">Ce qui est inclus</a></li>
+    <li><a href="pricing.html">Tarifs</a></li>
+    <li><a href="generator.html" class="nav-cta">Essayer gratuitement</a></li>
+  </ul>
+  <button class="burger" id="burger" aria-label="Menu">☰</button>
 </nav>
 
-<!-- HERO -->
+<!-- ═══ HERO ═══ -->
 <section class="hero">
-  <div class="hero-badge">✦ 100% autonome · Aucune IA externe · Prêt en 30 secondes ✦</div>
-  <h1 class="hero-title">Votre soirée <em>Murder Mystery</em><br>en trente secondes</h1>
-  <p class="hero-sub">Scénarios complets et uniques générés instantanément. Personnages avec secrets, indices cohérents, chronologie, révélation finale — tout prêt à imprimer et jouer.</p>
-  <div class="hero-cta-row">
-    <a href="generator.html" class="btn btn-gold btn-lg">Créer mon scénario gratuit →</a>
-    <a href="#comment" class="btn btn-outline btn-lg">Comment ça marche</a>
-  </div>
-  <div class="stats-row">
-    <div class="stat-item"><span class="stat-val">∞</span><span class="stat-lbl">Combinaisons uniques</span></div>
-    <div class="stat-item"><span class="stat-val">11</span><span class="stat-lbl">Univers & époques</span></div>
-    <div class="stat-item"><span class="stat-val">4–12</span><span class="stat-lbl">Joueurs supportés</span></div>
-    <div class="stat-item"><span class="stat-val">4.9★</span><span class="stat-lbl">Note moyenne</span></div>
-  </div>
-</section>
-
-<div class="stripe"></div>
-
-<!-- FEATURES -->
-<section class="section">
-  <div class="container">
-    <div style="text-align:center">
-      <span class="eyebrow">✦ Pourquoi MysteryForge ✦</span>
-      <h2 class="section-title">Tout ce qu'il faut pour une soirée parfaite</h2>
+  <div class="hero-inner">
+    <div class="h-chip">🕵 Soirées Murder Mystery · Générateur instantané</div>
+    <h1>Organisez une soirée <em>enquête criminelle</em><br>inoubliable — en 2 minutes</h1>
+    <p class="hero-sub">MysteryForge crée pour vous un scénario complet unique : personnages à incarner, indices à découvrir, rebondissements, révélation finale. Vos invités mènent l'enquête — vous profitez de la soirée.</p>
+    <div class="cta-row">
+      <a href="generator.html" class="btn btn-gold btn-lg">Créer mon scénario gratuit →</a>
+      <a href="#cest-quoi" class="btn btn-outline btn-lg">Voir comment ça marche</a>
     </div>
-    <div class="features-grid">
-      <div class="feat"><div class="feat-icon">🎭</div><h3>Personnages vivants</h3><p>Chaque suspect a un portrait physique, une personnalité distincte, un mobile crédible, un alibi vérifiable et un secret personnel. Pas des silhouettes — de vrais personnages à incarner.</p></div>
-      <div class="feat"><div class="feat-icon">🔍</div><h3>Indices cohérents</h3><p>Des indices concrets placés dans des lieux précis, avec leur signification cachée pour le Maître de Jeu. Vraies pistes et fausses pistes soigneusement mêlées selon la difficulté choisie.</p></div>
-      <div class="feat"><div class="feat-icon">⏱</div><h3>Chronologie précise</h3><p>Une timeline complète de la soirée : qui était où, à quelle heure, avec quel alibi. Chaque moment est cohérent avec les autres pour une enquête logique et jouable.</p></div>
-      <div class="feat"><div class="feat-icon">📜</div><h3>Révélation logique</h3><p>La solution découle des indices. Le chemin de déduction est expliqué étape par étape pour que le Maître de Jeu puisse guider les joueurs vers la vérité.</p></div>
-      <div class="feat"><div class="feat-icon">🌍</div><h3>11 univers uniques</h3><p>Orient Express, manoir victorien, villa Art Déco, yacht méditerranéen, Hollywood des années 50, château médiéval… Chaque univers a son ambiance, ses lieux et ses codes narratifs.</p></div>
-      <div class="feat"><div class="feat-icon">⚡</div><h3>Instantané & autonome</h3><p>Aucune connexion externe requise. Le moteur de génération fonctionne entièrement dans votre navigateur. 30 secondes et votre scénario est prêt.</p></div>
+    <div class="stats">
+      <div class="stat-item"><span class="stat-n">∞</span><span class="stat-l">Scénarios uniques</span></div>
+      <div class="stat-item"><span class="stat-n">11</span><span class="stat-l">Univers & époques</span></div>
+      <div class="stat-item"><span class="stat-n">4–12</span><span class="stat-l">Joueurs</span></div>
+      <div class="stat-item"><span class="stat-n">2 min</span><span class="stat-l">Temps de préparation</span></div>
     </div>
   </div>
 </section>
 
 <div class="stripe"></div>
 
-<!-- COMMENT ÇA MARCHE -->
-<section class="section section-dark" id="comment">
-  <div class="container">
-    <div style="text-align:center">
-      <span class="eyebrow">✦ Le processus ✦</span>
-      <h2 class="section-title">Quatre étapes, une soirée inoubliable</h2>
-    </div>
-    <div class="process-wrap">
-      <div class="step"><span class="step-n">01</span><h3>Configurez</h3><p>Univers, nombre de joueurs, difficulté, durée, ton et options narratives. Chaque paramètre façonne une intrigue différente.</p></div>
-      <div class="step"><span class="step-n">02</span><h3>Générez</h3><p>Notre moteur crée instantanément un scénario unique : personnages, alibis, indices, chronologie et révélation finale — jamais le même.</p></div>
-      <div class="step"><span class="step-n">03</span><h3>Téléchargez</h3><p>Exportez le PDF complet avec fiches personnages format A5, cartes indices à découper et guide du Maître de Jeu. Prêt à imprimer.</p></div>
-      <div class="step"><span class="step-n">04</span><h3>Jouez</h3><p>Distribuez les rôles, plongez dans l'intrigue et laissez vos invités mener l'enquête jusqu'à la révélation finale.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- CE QUI EST INCLUS -->
-<section class="section" id="inclus">
-  <div class="container">
-    <div style="text-align:center;margin-bottom:0">
-      <span class="eyebrow">✦ Le contenu complet ✦</span>
-      <h2 class="section-title">Ce que vous recevez avec chaque scénario</h2>
-    </div>
-    <div class="get-grid">
-      <ul class="get-list">
-        <li><div class="get-icon">🎭</div><div class="get-text"><strong>Fiches personnages complètes</strong>Portrait, personnalité, mobile, alibi déclaré, secret personnel et objet distinctif — une fiche par joueur, format A5 imprimable.</div></li>
-        <li><div class="get-icon">🔍</div><div class="get-text"><strong>Cartes indices à découper</strong>Chaque indice sur une carte séparée avec son lieu de découverte. Les joueurs manipulent de vrais objets.</div></li>
-        <li><div class="get-icon">⏱</div><div class="get-text"><strong>Chronologie de la soirée</strong>Timeline complète pour le Maître de Jeu : qui était où, à quelle heure, avec la vérité derrière chaque alibi.</div></li>
-        <li><div class="get-icon">📋</div><div class="get-text"><strong>Guide du Maître de Jeu</strong>Révélation complète, chemin de déduction, conseils d'animation et scène d'aveu du coupable.</div></li>
-        <li><div class="get-icon">🎨</div><div class="get-text"><strong>Ambiance & synopsis narratif</strong>Texte d'introduction à lire aux joueurs pour poser l'atmosphère dès le début de la soirée.</div></li>
-        <li><div class="get-icon">🔀</div><div class="get-text"><strong>Sous-intrigues parallèles</strong>Des tensions secondaires entre personnages pour enrichir l'enquête et éviter les temps morts.</div></li>
-      </ul>
-      <div class="preview-mock">
-        <div class="mock-lieu">✦ Orient Express · Décembre 1934 ✦</div>
-        <div class="mock-title">"Le Testament des Ombres"</div>
-        <div class="mock-tag-row">
-          <span class="mock-tag">8 joueurs</span>
-          <span class="mock-tag">Expert</span>
-          <span class="mock-tag">3h de jeu</span>
-          <span class="mock-tag">Twist final</span>
+<!-- ═══ C'EST QUOI ═══ -->
+<section class="section" id="cest-quoi">
+  <div class="wrap">
+    <span class="eye">✦ Le concept ✦</span>
+    <h2 class="st">Une soirée murder mystery,<br>c'est quoi exactement ?</h2>
+    <p class="slead">Un jeu d'enquête en immersion totale où vos invités jouent des personnages — et doivent résoudre un vrai meurtre fictif.</p>
+    <div class="explainer-grid">
+      <div class="exp-visual">
+        <div class="exp-card-stack">
+          <div class="exp-card">
+            <div class="exp-card-title">Victor de Montaigne</div>
+            <div class="exp-card-role">Baron · 64 ans</div>
+            <div class="exp-card-body">Homme autoritaire, regard perçant. Associé de la victime depuis 15 ans, leurs affaires se sont mal terminées.</div>
+            <div class="exp-card-secret">⚠ Secret : criblé de dettes qu'il dissimule à sa famille...</div>
+          </div>
+          <div class="exp-card">
+            <div class="exp-card-title">Camille Delacroix</div>
+            <div class="exp-card-role">Actrice · 38 ans</div>
+            <div class="exp-card-body">Rousse flamboyante, ancienne amante de la victime. Son alibi est vague — elle "se promenait dans le jardin".</div>
+            <div class="exp-card-secret">⚠ Secret : entretient une liaison secrète...</div>
+          </div>
+          <div class="exp-card" style="background:rgba(139,28,28,.08)">
+            <div class="exp-card-title" style="color:var(--rouge2)">⚠ Dossier MJ confidentiel</div>
+            <div class="exp-card-role" style="color:var(--muted)">Révélation finale</div>
+            <div class="exp-card-body">Le coupable est <strong style="color:#ede5d5">Victor de Montaigne</strong>. Il a empoisonné le cognac à 21h45 pour récupérer le document compromettant...</div>
+          </div>
         </div>
-        <div class="mock-grid">
-          <div class="mock-item"><strong>Victime</strong>Édouard de Montaigne<br>Baron, 64 ans</div>
-          <div class="mock-item"><strong>Méthode</strong>Empoisonnement au cyanure dans le cognac du wagon-restaurant</div>
-          <div class="mock-item"><strong>Indices</strong>11 indices dont 3 fausses pistes soigneusement placés</div>
-          <div class="mock-item"><strong>Suspects</strong>7 personnages avec mobiles, secrets et alibis distincts</div>
-        </div>
-        <div style="margin-top:1rem;padding:.75rem;background:rgba(139,28,28,.08);border:1px solid rgba(139,28,28,.25);font-size:.8rem;color:var(--muted);font-style:italic">
-          ⚠ Dossier MJ confidentiel — Révélation et chemin de déduction inclus
+      </div>
+      <div class="exp-text">
+        <h3>Vos invités jouent des détectives — et des suspects</h3>
+        <p>Chaque joueur reçoit une <strong style="color:#ede5d5">fiche personnage</strong> : un nom, un rôle, une histoire, un alibi… et un secret personnel. Un crime a eu lieu. Tout le monde a potentiellement un mobile. La soirée, chacun enquête, interroge, accuse — et tente de découvrir le coupable avant la révélation finale.</p>
+        <p>C'est à la fois un <strong style="color:#ede5d5">jeu de rôle</strong>, une <strong style="color:#ede5d5">soirée costumée</strong> et un <strong style="color:#ede5d5">escape game humain</strong>. Pas besoin d'expérience — le scénario guide tout le monde.</p>
+        <div class="exp-tags">
+          <span class="exp-tag">🎂 Anniversaires</span>
+          <span class="exp-tag">🏢 Team building</span>
+          <span class="exp-tag">🎄 Soirées de Noël</span>
+          <span class="exp-tag">👫 Entre amis</span>
+          <span class="exp-tag">🎭 Escape games</span>
+          <span class="exp-tag">💒 EVJF / EVG</span>
         </div>
       </div>
     </div>
@@ -272,64 +279,245 @@ footer{border-top:1px solid var(--bordure);padding:3rem 0;text-align:center}
 
 <div class="stripe"></div>
 
-<!-- TÉMOIGNAGES -->
-<section class="section section-dark">
-  <div class="container">
-    <div style="text-align:center">
-      <span class="eyebrow">✦ Ils ont joué ✦</span>
-      <h2 class="section-title">Ce que disent nos détectives</h2>
-    </div>
-    <div class="testi-grid">
-      <div class="testi"><div class="stars">★★★★★</div><blockquote>Incroyable. En dix minutes j'avais un scénario complet pour 8 personnes. Nos invités ont joué pendant 3h, personne n'avait trouvé le coupable. La chronologie était parfaitement cohérente.</blockquote><div class="testi-name">Camille R.</div><div class="testi-role">Organisatrice d'événements · Lyon</div></div>
-      <div class="testi"><div class="stars">★★★★★</div><blockquote>On l'utilise pour nos team buildings. Chaque scénario est différent, les équipes adorent. Le niveau Expert pousse vraiment à la réflexion collective — c'est bluffant.</blockquote><div class="testi-name">Thomas M.</div><div class="testi-role">DRH · Entreprise tech · Paris</div></div>
-      <div class="testi"><div class="stars">★★★★☆</div><blockquote>Les personnages sont vraiment bien écrits. Leurs secrets et mobiles sont crédibles. Le scénario Orient Express était digne d'un vrai roman policier. On rejoue ce week-end !</blockquote><div class="testi-name">Sophie & Antoine</div><div class="testi-role">Passionnés de jeux de rôle · Bordeaux</div></div>
+<!-- ═══ HOW ═══ -->
+<section class="section section-dark" id="comment">
+  <div class="wrap">
+    <span class="eye">✦ Le processus ✦</span>
+    <h2 class="st">Prêt à jouer en quatre étapes</h2>
+    <div class="how-grid">
+      <div class="how-step">
+        <span class="how-n">01</span>
+        <h3>Configurez</h3>
+        <p>Choisissez l'univers (Orient Express, manoir anglais, Hollywood…), le nombre de joueurs (4 à 12), la difficulté et le ton. 2 minutes.</p>
+      </div>
+      <div class="how-step">
+        <span class="how-n">02</span>
+        <h3>Générez</h3>
+        <p>Notre moteur crée instantanément un scénario 100% unique. Personnages, alibis, indices, chronologie, révélation — jamais le même.</p>
+      </div>
+      <div class="how-step">
+        <span class="how-n">03</span>
+        <h3>Imprimez</h3>
+        <p>Téléchargez le PDF complet. Imprimez les fiches personnages, découpez les cartes indices. Tout est prêt à distribuer.</p>
+      </div>
+      <div class="how-step">
+        <span class="how-n">04</span>
+        <h3>Jouez !</h3>
+        <p>Distribuez les rôles, posez l'ambiance, lancez l'enquête. Vos invités s'y collent — vous jouez aussi !</p>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- CTA FINAL -->
-<section class="cta-band">
+<!-- ═══ WHAT YOU GET ═══ -->
+<section class="section" id="inclus">
+  <div class="wrap">
+    <span class="eye">✦ Le contenu ✦</span>
+    <h2 class="st">Tout ce que vous recevez</h2>
+    <p class="slead">Un scénario complet, immédiatement jouable. Rien à inventer, rien à préparer en dehors d'imprimer.</p>
+    <div class="get-grid">
+      <div class="get-items">
+        <div class="get-item">
+          <div class="get-icon">🎭</div>
+          <div class="get-body">
+            <strong>Fiches personnages format A5</strong>
+            <span>Portrait physique, personnalité, lien avec la victime, mobile apparent, alibi à défendre et secret personnel. Une fiche par joueur, prête à imprimer et plier.</span>
+          </div>
+        </div>
+        <div class="get-item">
+          <div class="get-icon">🔍</div>
+          <div class="get-body">
+            <strong>Cartes indices à découper</strong>
+            <span>Des indices concrets placés dans des lieux précis. Vraies pistes et fausses pistes mêlées selon la difficulté. Les joueurs les manipulent comme de vrais objets.</span>
+          </div>
+        </div>
+        <div class="get-item">
+          <div class="get-icon">⏱</div>
+          <div class="get-body">
+            <strong>Chronologie de la soirée</strong>
+            <span>Qui était où, à quelle heure. Chaque alibi est cohérent avec la timeline — le Maître de Jeu sait exactement qui ment et pourquoi.</span>
+          </div>
+        </div>
+        <div class="get-item">
+          <div class="get-icon">📋</div>
+          <div class="get-body">
+            <strong>Guide complet du Maître de Jeu</strong>
+            <span>Révélation finale, chemin de déduction étape par étape, conseils d'animation et scène d'aveu. Même si c'est votre première fois, vous êtes guidé.</span>
+          </div>
+        </div>
+        <div class="get-item">
+          <div class="get-icon">🎨</div>
+          <div class="get-body">
+            <strong>Texte d'introduction narratif</strong>
+            <span>Un texte immersif à lire aux joueurs pour poser l'ambiance dès le début. Cadre, époque, atmosphère — la soirée commence dès les premières lignes.</span>
+          </div>
+        </div>
+        <div class="get-item">
+          <div class="get-icon">🔀</div>
+          <div class="get-body">
+            <strong>Sous-intrigues parallèles</strong>
+            <span>Des tensions secondaires entre personnages pour enrichir l'enquête, créer des fausses pistes humaines et éviter les temps morts.</span>
+          </div>
+        </div>
+      </div>
+      <div class="preview">
+        <div class="prev-head">
+          <div class="prev-lieu">✦ Orient Express · Décembre 1934 ✦</div>
+          <div class="prev-title">"Le Testament des Ombres"</div>
+          <div class="prev-tags">
+            <span class="prev-tag">8 joueurs</span>
+            <span class="prev-tag">Expert</span>
+            <span class="prev-tag">3h de jeu</span>
+            <span class="prev-tag">Twist final</span>
+            <span class="prev-tag">Romance secrète</span>
+          </div>
+        </div>
+        <div class="prev-body">
+          <div class="prev-row">
+            <div class="prev-row-ico">⚰️</div>
+            <div class="prev-row-body">
+              <strong>Victime</strong>
+              <span>Édouard de Montaigne, Baron · Empoisonnement au cyanure dans le wagon-restaurant · 21h45</span>
+            </div>
+          </div>
+          <div class="prev-row">
+            <div class="prev-row-ico">🎭</div>
+            <div class="prev-row-body">
+              <strong>7 suspects</strong>
+              <span>Chacun a un mobile, un alibi et un secret. L'un d'eux ment depuis le début.</span>
+            </div>
+          </div>
+          <div class="prev-row">
+            <div class="prev-row-ico">🔍</div>
+            <div class="prev-row-body">
+              <strong>11 indices + 4 fausses pistes</strong>
+              <span>Répartis dans 6 lieux différents du train.</span>
+            </div>
+          </div>
+          <div class="prev-row">
+            <div class="prev-row-ico">📋</div>
+            <div class="prev-row-body">
+              <strong>Guide MJ complet</strong>
+              <span>Révélation, déduction en 5 étapes, conseils d'animation.</span>
+            </div>
+          </div>
+        </div>
+        <div class="prev-foot">⚠ Dossier confidentiel — Réservé au Maître de Jeu</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="stripe"></div>
+
+<!-- ═══ FOR WHO ═══ -->
+<section class="section section-dark">
+  <div class="wrap">
+    <span class="eye">✦ Pour qui ? ✦</span>
+    <h2 class="st">Parfait pour toutes les occasions</h2>
+    <div class="who-grid">
+      <div class="who">
+        <div class="who-ico">🎂</div>
+        <h3>Anniversaires & soirées privées</h3>
+        <p>Une animation originale qui sort des dîners ordinaires. Vos amis s'en souviennent encore des mois après — garantie.</p>
+      </div>
+      <div class="who">
+        <div class="who-ico">🏢</div>
+        <h3>Team buildings d'entreprise</h3>
+        <p>Fédère les équipes, brise les silos, crée des souvenirs partagés. Beaucoup plus engageant qu'un afterwork classique.</p>
+      </div>
+      <div class="who">
+        <div class="who-ico">🎭</div>
+        <h3>Organisateurs professionnels</h3>
+        <p>Escape games, restaurants thématiques, agences événementielles : scénarios en marque blanche, générations illimitées, API disponible.</p>
+      </div>
+      <div class="who">
+        <div class="who-ico">🎄</div>
+        <h3>Fêtes de fin d'année</h3>
+        <p>Noël, Saint-Sylvestre, Épiphanie… Un scénario d'époque transforme n'importe quel repas de fête en soirée mémorable.</p>
+      </div>
+      <div class="who">
+        <div class="who-ico">💒</div>
+        <h3>EVJF & EVG originaux</h3>
+        <p>Un concept qui sort des sentiers battus. Choisissez l'univers, glissez des détails personnels — le futur marié·e sera au centre.</p>
+      </div>
+      <div class="who">
+        <div class="who-ico">🎮</div>
+        <h3>Passionnés de jeux de rôle</h3>
+        <p>Un scénario clé en main quand vous n'avez pas le temps de tout créer. Concentrez-vous sur le jeu, pas sur la préparation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TÉMOIGNAGES ═══ -->
+<section class="section">
+  <div class="wrap">
+    <span class="eye">✦ Ils ont joué ✦</span>
+    <h2 class="st">Ce que disent nos organisateurs</h2>
+    <div class="testi-grid">
+      <div class="testi">
+        <div class="stars">★★★★★</div>
+        <blockquote>"J'ai organisé ça pour l'anniversaire de ma sœur. En 15 minutes j'avais un scénario complet pour 10 personnes. On a joué 3h30 — personne n'avait trouvé le coupable. Mes amis me réclament la prochaine soirée depuis."</blockquote>
+        <div class="testi-who">Camille R.</div>
+        <div class="testi-role">Anniversaire · Lyon · 10 joueurs</div>
+      </div>
+      <div class="testi">
+        <div class="stars">★★★★★</div>
+        <blockquote>"On l'utilise pour nos team buildings depuis 4 mois. Chaque scénario est différent, les équipes adorent. Le niveau Expert force vraiment à la coopération — bien plus efficace qu'un séminaire classique."</blockquote>
+        <div class="testi-who">Thomas M.</div>
+        <div class="testi-role">DRH · Paris · 12 joueurs récurrents</div>
+      </div>
+      <div class="testi">
+        <div class="stars">★★★★☆</div>
+        <blockquote>"Les personnages sont vraiment bien écrits — les secrets et les mobiles sont crédibles. Personne ne savait que c'était généré automatiquement. Le scénario Orient Express était digne d'un roman policier."</blockquote>
+        <div class="testi-who">Sophie & Antoine</div>
+        <div class="testi-role">Jeux de rôle · Bordeaux · 8 joueurs</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA FINAL ═══ -->
+<section class="cta-final">
   <div class="narrow" style="text-align:center">
-    <span class="eyebrow">✦ Commencez maintenant ✦</span>
-    <h2 class="section-title">Votre premier scénario est gratuit</h2>
-    <p style="color:var(--muted);margin-bottom:2.5rem">Aucune inscription. Aucune carte bancaire. Configurez, générez, jouez.</p>
-    <a href="generator.html" class="btn btn-gold btn-lg">Forger mon mystère →</a>
-    <p style="margin-top:1.5rem;font-size:.82rem;color:var(--muted)">Besoin de plus ? <a href="pricing.html" style="color:var(--or)">Voir les abonnements</a></p>
+    <span class="eye">✦ Commencez ce soir ✦</span>
+    <h2>Votre premier scénario est gratuit</h2>
+    <p>Aucune inscription. Aucune carte bancaire. Configurez et téléchargez en 2 minutes.</p>
+    <a href="generator.html" class="btn btn-gold btn-lg">Créer mon scénario →</a>
+    <div class="trust-row">
+      <span class="trust-item">Aucune IA externe</span>
+      <span class="trust-item">Génération instantanée</span>
+      <span class="trust-item">Scénario 100% unique</span>
+      <span class="trust-item">PDF prêt à imprimer</span>
+    </div>
+    <p style="margin-top:1.5rem;font-size:.82rem;color:var(--muted)">Besoin de plus d'une soirée ? <a href="pricing.html" style="color:var(--or)">Voir les abonnements →</a></p>
   </div>
 </section>
 
 <footer>
-  <div class="container">
-    <a href="index.html" class="footer-logo">Mystery<span>Forge</span></a>
-    <div class="footer-links">
-      <a href="index.html">Accueil</a>
-      <a href="generator.html">Générateur</a>
-      <a href="pricing.html">Tarifs</a>
-      <a href="#">Contact</a>
-      <a href="#">CGU</a>
-      <a href="#">Confidentialité</a>
+  <div class="wrap">
+    <div class="footer-inner">
+      <a href="index.html" class="footer-logo">Mystery<b>Forge</b></a>
+      <div class="footer-links">
+        <a href="index.html">Accueil</a>
+        <a href="generator.html">Générateur</a>
+        <a href="pricing.html">Tarifs</a>
+        <a href="mailto:contact@mysteryforge.fr">Contact</a>
+        <a href="#">CGU</a>
+      </div>
+      <p class="footer-copy">© 2025 MysteryForge<br>contact@mysteryforge.fr</p>
     </div>
-    <p class="footer-copy">© 2025 MysteryForge · Tous droits réservés · contact@mysteryforge.fr</p>
   </div>
 </footer>
 
 <script>
-const burger = document.getElementById('burger');
-const navLinks = document.getElementById('nav-links');
-burger.addEventListener('click', () => {
-  const open = navLinks.classList.toggle('open');
-  burger.textContent = open ? '✕' : '☰';
-});
-navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-  navLinks.classList.remove('open'); burger.textContent = '☰';
-}));
-// Reveal on scroll
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting) { e.target.style.animation='fadeUp .5s ease both'; observer.unobserve(e.target); } });
-}, {threshold:.1});
-document.querySelectorAll('.feat,.step,.testi,.get-list li,.mock-item').forEach(el => {
-  el.style.opacity='0'; observer.observe(el);
-});
+const burger=document.getElementById('burger'),nl=document.getElementById('nl');
+burger.addEventListener('click',()=>{const o=nl.classList.toggle('open');burger.textContent=o?'✕':'☰'});
+nl.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{nl.classList.remove('open');burger.textContent='☰'}));
+// scroll reveal
+const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){e.target.style.animation='up .5s ease both';io.unobserve(e.target)}})},{threshold:.08});
+document.querySelectorAll('.feat,.who,.testi,.get-item,.prev-row,.how-step').forEach(el=>{el.style.opacity='0';io.observe(el)});
 </script>
 </body>
 </html>
